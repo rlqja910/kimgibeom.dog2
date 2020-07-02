@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+	'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='kimgibeom.dog.review.dao.map.ReviewMap'>
+	<select id="getReviews" resultMap="reviewMap">
+		select review_num, title, content, reg_date, attach_name
+		from reviews
+		order by review_num DESC
+	</select>
+	
+	<select id="getReview" parameterType="int" resultMap="reviewMap">
+		select review_num, title, content, reg_date, attach_name
+		from reviews
+		where review_num = #{reviewNum}
+	</select>
+	
+	<resultMap id="reviewMap" type="review">
+		<id property="reviewNum" column="review_num"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="attachName" column="attach_name"/>
+	</resultMap>
+	
+	<insert id="addReview" parameterType="review">
+		insert into reviews(review_num, title, content, reg_date, attach_name)
+		values(review_num_seq.nextval, #{title}, #{content}, SYSDATE, #{attachName})
+	</insert>
+	
+	<update id="modifyReview" parameterType="review">
+		update reviews
+		set title = #{title}, content = #{content}, attach_name = #{attachName}
+		where review_num = #{reviewNum}
+	</update>
+
+	<delete id='delReview' parameterType='int'>
+		delete reviews
+		where review_num = #{reviewNum}
+	</delete>
+</mapper>	
