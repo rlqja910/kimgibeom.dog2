@@ -125,7 +125,6 @@ function mobile_menu(){
 	html {overflow-y:scroll;font:'nanum' !important;}
 	body{margin:0 auto; padding:0; max-width:100%;font-family:"맑은 고딕";}
 	html, h1, h2, h3, h4, h5, h6, form, fieldset, img {margin:0;padding:0;border:0}
-	h1, h2, h3, h4, h5, h6 {font-size:1em;font-weight:normal;}
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
 	ul{list-style:none;margin:0;padding:0}
 	a{text-decoration:none;color: inherit;display:block}

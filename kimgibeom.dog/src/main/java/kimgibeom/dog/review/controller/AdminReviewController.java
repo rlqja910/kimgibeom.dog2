@@ -72,7 +72,13 @@ public class AdminReviewController {
 	@RequestMapping("/reviewModify")
 	public String moveReviewModify(@ModelAttribute("review") Review review, Model model, 
 											@RequestParam("reviewNum") int reviewNum) {
-		model.addAttribute("reviewView", reviewService.readReview(reviewNum));
+		review = reviewService.readReview(reviewNum);
+		
+		String attachName = review.getAttachName();
+		String originalName = attachName.substring(37);
+		
+		model.addAttribute("originalName", originalName);		
+		model.addAttribute("reviewView", review);
 		return "admin/review/reviewModify";
 	}
 	
@@ -83,17 +89,24 @@ public class AdminReviewController {
 		String attachName = attachFile.getOriginalFilename();
 		int reviewNum = Integer.parseInt(reviewNumStr);
 		
-		UUID uuid = UUID.randomUUID();
-		String saveFileName = uuid.toString() + "_" + attachName;
-				
-		File saveFile = new File(dir + saveFileName);
-		save(attachFile, saveFile);
-		
-		review = new Review(title, content, saveFileName);
-		review.setReviewNum(reviewNum);
-		rttr.addAttribute("reviewNum", reviewNum);
-		reviewService.updateReview(review);
-		
+		if(attachFile.getOriginalFilename().equals("")) {
+			review = new Review(title, content);
+			review.setReviewNum(reviewNum);
+			rttr.addAttribute("reviewNum", reviewNum);
+			reviewService.updateReviewWithOutImg(review);
+		}else {
+			UUID uuid = UUID.randomUUID();
+			String saveFileName = uuid.toString() + "_" + attachName;
+					
+			File saveFile = new File(dir + saveFileName);
+			save(attachFile, saveFile);
+			
+			review = new Review(title, content, saveFileName);
+			review.setReviewNum(reviewNum);
+			rttr.addAttribute("reviewNum", reviewNum);
+			reviewService.updateReview(review);
+		}
+
 		return "redirect:reviewView";
 	}
 	

@@ -49,6 +49,12 @@
 		set title = #{title}, content = #{content}, attach_name = #{attachName}
 		where review_num = #{reviewNum}
 	</update>
+	
+	<update id="modifyReviewWithOutImg" parameterType="review">
+		update reviews
+		set title = #{title}, content = #{content}
+		where review_num = #{reviewNum}
+	</update>
 
 	<delete id='delReview' parameterType='int'>
 		delete reviews

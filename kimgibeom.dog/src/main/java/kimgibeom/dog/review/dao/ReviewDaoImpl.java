@@ -39,6 +39,11 @@ public class ReviewDaoImpl implements ReviewDao{
 	}
 	
 	@Override
+	public int modifyReviewWithOutImg(Review review) {
+		return reviewMap.modifyReviewWithOutImg(review);
+	}
+	
+	@Override
 	public int delReview(int reviewNum) {
 		return reviewMap.delReview(reviewNum);
 	}

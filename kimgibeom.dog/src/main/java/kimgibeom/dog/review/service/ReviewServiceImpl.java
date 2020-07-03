@@ -39,6 +39,11 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	@Override
+	public int updateReviewWithOutImg(Review review) {
+		return reviewDao.modifyReviewWithOutImg(review);
+	}
+	
+	@Override
 	public int removeReview(int reviewNum) {
 		return reviewDao.delReview(reviewNum);
 	}

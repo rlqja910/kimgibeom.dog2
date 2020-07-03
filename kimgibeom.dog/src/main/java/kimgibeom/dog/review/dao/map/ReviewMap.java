@@ -18,6 +18,8 @@ public interface ReviewMap {
 	
 	int modifyReview(Review review);
 	
+	int modifyReviewWithOutImg(Review review);
+	
 	int delReview(int reviewNum);
 	
 	int getUserReviewCnt();

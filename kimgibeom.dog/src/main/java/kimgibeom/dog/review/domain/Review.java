@@ -10,6 +10,11 @@ public class Review {
 	private String attachName;
 	
 	public Review() {}
+	
+	public Review(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 
 	public Review(String title, String content, String attachName) {
 		this.title = title;

@@ -16,8 +16,6 @@ function modifyReview(){
 		if(!$("#title").val().trim()){
 			$("#chkTitle").text("제목을 입력해주세요.");
 			$("#title").focus();
-		}else if(!$("#imgFile").val()){
-			$("#chkFile").html("첨부할 파일을 선택해주세요.");
 		}else if(!CKEDITOR.instances.description.getData()){
 			$("#chkContent").text("내용을 입력해주세요.");
 		}else {
@@ -185,6 +183,13 @@ textarea {
 	resize: none;
 	padding: 20px;
 }
+
+img {
+	width: 12%;
+	height: 7%;
+	margin-top: 1.5px;
+	margin-bottom: 5px;
+}
 </style>
 </head>
 <body>
@@ -224,9 +229,14 @@ textarea {
 							</tr>
 							<tr>
 								<th>이미지</th>
-								<td><input type='file' id="imgFile" name="attachFile"
-									onchange="fn_chkFile(this)" value="a.jpg" /> <span id="chkFile"
-									style="color: red"></span></td>
+								<td>
+									<div class="img">
+										<img src="<c:url value='/attach/review/${reviewView.attachName}'/>" />
+									</div>
+									<p>${originalName}</p>
+									<input type='file' id="imgFile" name="attachFile" onchange="fn_chkFile(this)" />
+									<span id="chkFile" style="color: red"></span>
+								</td>
 							</tr>
 							<tr>
 								<th>내용</th>

@@ -16,6 +16,8 @@ public interface ReviewService {
 	
 	int updateReview(Review review);
 	
+	int updateReviewWithOutImg(Review review);
+	
 	int removeReview(int reviewNum);
 	
 	int readUserReviewCnt();

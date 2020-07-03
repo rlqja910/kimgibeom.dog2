@@ -41,8 +41,7 @@ function modifyReview(){
 		let url = "reviewModify";
 		url = url + "?reviewNum=" + ${reviewView.reviewNum};
 		
-		//location.href = url;
-		location.href='#';
+		location.href = url;
 	});
 }
 
@@ -227,11 +226,10 @@ img {
 								<th>내용</th>
 								<td>
 									<div class='img'>
-										<img
-											src='<c:url value="/attach/review/${reviewView.attachName}"/>' />
+										<img src="<c:url value='/attach/review/${reviewView.attachName}'/>" />										
 									</div>
 									<br>
-									<div class="reviewViewcontent" style="width:1502px; overflow:hidden; word-wrap:break-word;">
+									<div style="width:1502px; overflow:hidden; word-wrap:break-word;">
 										${reviewView.content}
 									</div>
 								</td>
