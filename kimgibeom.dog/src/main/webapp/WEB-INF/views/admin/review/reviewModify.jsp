@@ -234,7 +234,7 @@ textarea {
 										name="content">${reviewView.content}</textarea> <span
 									id="chkContent" style="color: red"></span> <script>
 									CKEDITOR.replace("description", {
-										removePlugins: "image",
+										removePlugins: "image, blockquote, list",
 									});	
 									
 									CKEDITOR.instances.description.getData();

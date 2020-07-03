@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kimgibeom.dog.review.dao.ReviewDao;
+import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
 
 @Service
@@ -13,8 +14,13 @@ public class ReviewServiceImpl implements ReviewService{
 	@Autowired private ReviewDao reviewDao;
 	
 	@Override
-	public List<Review> readReviews(){
-		return reviewDao.getReviews();
+	public List<Review> readAdminReviews(){
+		return reviewDao.getAdminReviews();
+	}
+	
+	@Override
+	public List<Review> readUserReviews(Pagination pagination){
+		return reviewDao.getUserReviews(pagination);
 	}
 	
 	@Override
@@ -35,5 +41,10 @@ public class ReviewServiceImpl implements ReviewService{
 	@Override
 	public int removeReview(int reviewNum) {
 		return reviewDao.delReview(reviewNum);
+	}
+	
+	@Override
+	public int readUserReviewCnt() {
+		return reviewDao.getUserReviewCnt();
 	}
 }

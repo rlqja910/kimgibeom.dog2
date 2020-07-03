@@ -231,7 +231,9 @@ img {
 											src='<c:url value="/attach/review/${reviewView.attachName}"/>' />
 									</div>
 									<br>
-									<div>${reviewView.content}</div>
+									<div class="reviewViewcontent" style="width:1502px; overflow:hidden; word-wrap:break-word;">
+										${reviewView.content}
+									</div>
 								</td>
 							</tr>
 						</table>
@@ -261,7 +263,9 @@ img {
 									</span>
 									<button id="${replyList.replyNum}" type='button'
 										class='btn btn-danger delete'>삭제</button>
-									<div class='replyContent'>${replyList.content}</div>
+									<div class='replyContent' style="width:1502px; white-space:pre-line; word-wrap:break-word;">
+										${replyList.content}
+									</div>
 								</div>
 								<br>
 							</c:forEach>

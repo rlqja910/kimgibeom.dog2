@@ -33,7 +33,7 @@ public class AdminReviewController {
 	@RequestMapping("/reviewListView")
 	public String readReviews(Model model, String saveFileName) {
 		model.addAttribute("saveFileName", saveFileName);
-		model.addAttribute("reviewList", reviewService.readReviews());
+		model.addAttribute("reviewList", reviewService.readAdminReviews());
 		
 		return "admin/review/reviewListView";
 	}

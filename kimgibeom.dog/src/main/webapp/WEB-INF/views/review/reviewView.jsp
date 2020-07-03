@@ -64,17 +64,27 @@ function delReply(){
 	});
 }
 
+function chkContent(){
+	$("textarea[name='content']").keyup(function (e) {
+	    let content = $(this).val();
+	    $('.bytes').html(content.length + '/840');
+	});
+	$("textarea[name='content']").keyup();
+}
+
+function fn_reviewList(){
+	let url = "reviewListView";
+	url = url + "?page=" + ${page};
+	url = url + "&range=" + ${range};
+	
+	location.href = url;
+}
+
 $(() => {
 	addReply();
 	delButton();
 	delReply();
-	$('#reply').keyup(()=>{
-		if($('#reply').val().length==840){
-			$('#maxLengthReply').text('840글자까지 입력 가능합니다.');
-		}else{
-			$('#maxLengthReply').text('');
-		}
-	});
+	chkContent();
 });
 </script>
 <style>
@@ -333,18 +343,21 @@ p {
 						</tr>
 						<tr>
 							<td colspan='2'>
-								<div style="height: 250px; width: 100%;">
+								<div>
 									<img style="height: 250px; width: 370px;"
 										src="<c:url value='/attach/review/${reviewView.attachName}'/>" />
-								</div> <br> ${reviewView.content}
+								</div>
+								<br>
+								<div style="width:1320px; overflow:hidden; word-wrap:break-word;">
+									${reviewView.content}
+								</div>
 							</td>
 						</tr>
 					</table>
 
 					<!-- 목록 버튼 -->
 					<div class='button'>
-						<input type='button' value='목록'
-							onClick="location.href='reviewListView'" />
+						<input type='button' value='목록' onclick="fn_reviewList()" />
 					</div>
 
 					<!-- 답글 -->
@@ -353,9 +366,9 @@ p {
 						<br>
 						<div class='write'>
 							<div>
-								<textarea id="reply" placeholder="댓글을 입력하세요." maxlength="840"></textarea>
-								<span id='maxLengthReply' style='color: red;'></span>
+								<textarea id="reply" name="content" placeholder="댓글을 입력하세요." maxlength="839"></textarea>
 								<div>
+									<span class='bytes'></span>
 									<input id="addRepy" type='button' value='등록' />
 								</div>
 							</div>
@@ -368,13 +381,13 @@ p {
 								<c:when test="${!empty replyList}">
 									<c:forEach var="replyList" items="${replyList}">
 										<ul class="${replyList.userId}">
-											<li>${replyList.userId}<span>${replyList.regDate}</span>
+											<li>${replyList.userId}<span>&nbsp;${replyList.regDate}</span>
 												<span class='viewDel'> <input
 													id="${replyList.replyNum}" class="delButton" type='button'
 													value='삭제' />
 											</span>
 											</li>
-											<li>${replyList.content}</li>
+											<li style="style:100%; white-space:pre-wrap; word-wrap:break-word;">${replyList.content}</li>
 										</ul>
 									</c:forEach>
 								</c:when>

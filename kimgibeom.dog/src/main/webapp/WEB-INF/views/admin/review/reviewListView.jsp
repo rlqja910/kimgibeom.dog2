@@ -333,7 +333,6 @@ img {
 
 					<div id="pagination">
 						<ul class="pagination">
-
 						</ul>
 					</div>
 				</div>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kimgibeom.dog.review.dao.map.ReviewMap;
+import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
 
 @Repository
@@ -13,8 +14,13 @@ public class ReviewDaoImpl implements ReviewDao{
 	@Autowired private ReviewMap reviewMap;
 	
 	@Override
-	public List<Review> getReviews(){
-		return reviewMap.getReviews();
+	public List<Review> getAdminReviews(){
+		return reviewMap.getAdminReviews();
+	}
+	
+	@Override
+	public List<Review> getUserReviews(Pagination pagination){
+		return reviewMap.getUserReviews(pagination);
 	}
 	
 	@Override
@@ -35,5 +41,10 @@ public class ReviewDaoImpl implements ReviewDao{
 	@Override
 	public int delReview(int reviewNum) {
 		return reviewMap.delReview(reviewNum);
+	}
+	
+	@Override
+	public int getUserReviewCnt() {
+		return reviewMap.getUserReviewCnt();
 	}
 }

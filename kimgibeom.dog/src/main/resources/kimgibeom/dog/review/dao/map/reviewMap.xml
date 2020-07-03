@@ -2,10 +2,27 @@
 <!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
 	'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
 <mapper namespace='kimgibeom.dog.review.dao.map.ReviewMap'>
-	<select id="getReviews" resultMap="reviewMap">
+	<select id="getAdminReviews" resultMap="reviewMap">
 		select review_num, title, content, reg_date, attach_name
 		from reviews
 		order by review_num DESC
+	</select>
+	
+	<select id="getUserReviews" parameterType="pagination" resultMap="reviewMap">
+		<![CDATA[
+		select * from (
+			select rownum rnum, data.* from(
+				select review_num, title, content, reg_date, attach_name
+				from reviews
+				order by review_num DESC
+			)data where rownum <= #{pagination.listSize} * #{pagination.page}
+		)where rnum > #{pagination.startList}
+		]]>
+	</select>
+	
+	<select id="getUserReviewCnt" resultType="int">
+		select count(review_num) as listCnt
+		from reviews
 	</select>
 	
 	<select id="getReview" parameterType="int" resultMap="reviewMap">

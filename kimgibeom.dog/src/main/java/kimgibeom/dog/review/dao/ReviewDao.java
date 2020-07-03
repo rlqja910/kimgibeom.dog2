@@ -2,10 +2,13 @@ package kimgibeom.dog.review.dao;
 
 import java.util.List;
 
+import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
 
 public interface ReviewDao {
-	List<Review> getReviews();
+	List<Review> getAdminReviews();
+	
+	List<Review> getUserReviews(Pagination pagination);
 	
 	Review getReview(int reviewNum);
 	
@@ -14,4 +17,6 @@ public interface ReviewDao {
 	int modifyReview(Review review);
 	
 	int delReview(int reviewNum);
+	
+	int getUserReviewCnt();
 }

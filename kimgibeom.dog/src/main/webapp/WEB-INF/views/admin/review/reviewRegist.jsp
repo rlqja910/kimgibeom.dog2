@@ -231,7 +231,7 @@ textarea {
 										maxlength="1250"></textarea> <span id="chkContent"
 									style="color: red"></span> <script>
 									CKEDITOR.replace("description", {
-										removePlugins: "image, blockquote",
+										removePlugins: "image, blockquote, list",
 									});
 
 									CKEDITOR.instances.description.getData();

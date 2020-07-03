@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.ReviewReply;
 import kimgibeom.dog.review.service.ReviewReplyService;
 import kimgibeom.dog.review.service.ReviewService;
@@ -19,13 +20,26 @@ public class ReviewController {
 	@Autowired private ReviewReplyService reviewReplyService;
 	
 	@RequestMapping("/reviewListView")
-	public String reviewList(Model model) {
-		model.addAttribute("reviewList", reviewService.readReviews());
+	public String reviewList(Model model, 
+							 @RequestParam(required=false, defaultValue="1") int page,
+							 @RequestParam(required=false, defaultValue="1") int range) {
+		int listCnt = reviewService.readUserReviewCnt();
+		
+		Pagination pagination = new Pagination();
+		pagination.pageInfo(page, range, listCnt);
+		
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("reviewList", reviewService.readUserReviews(pagination));
 		return "review/reviewListView";
 	}
 	
 	@RequestMapping("/reviewView")
-	public String reviewView(Model model, @RequestParam("reviewNum") int reviewNum) {
+	public String reviewView(Model model, 
+							 @RequestParam("reviewNum") int reviewNum,
+							 @RequestParam("page") int page,
+							 @RequestParam("range") int range){
+		model.addAttribute("page", page);
+		model.addAttribute("range", range);
 		model.addAttribute("reviewView", reviewService.readReview(reviewNum));
 		model.addAttribute("replyList", reviewReplyService.readReviewReplies(reviewNum));
 		

@@ -2,10 +2,15 @@ package kimgibeom.dog.review.dao.map;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
 
 public interface ReviewMap {
-	List<Review> getReviews();
+	List<Review> getAdminReviews();
+	
+	List<Review> getUserReviews(@Param("pagination") Pagination pagination);
 	
 	Review getReview(int reviewNum);
 	
@@ -14,4 +19,6 @@ public interface ReviewMap {
 	int modifyReview(Review review);
 	
 	int delReview(int reviewNum);
+	
+	int getUserReviewCnt();
 }

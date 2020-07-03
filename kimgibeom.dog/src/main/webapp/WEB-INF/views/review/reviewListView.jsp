@@ -8,12 +8,54 @@
 <title>유기견 보호소</title>
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
-function fn_reviewView(reviewNum){
+function fn_reviewView(reviewNum, page, range){
 	let url = "reviewView";
 	url = url + "?reviewNum=" + reviewNum;
+	url = url + "&page=" + page;
+	url = url + "&range=" + range;
 	
 	location.href = url;
 }
+
+function fn_prev(page, range, rangeSize){
+	page = parseInt((range - 2) * rangeSize) + 1;
+	range = parseInt(range) - 1;
+	
+	let url = "reviewListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	
+	location.href = url;
+}
+
+function fn_pagination(page, range, rangeSize){
+	let url = "reviewListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	
+	location.href = url;
+}
+
+function fn_next(page, range, rangeSize){
+	page = parseInt((range * rangeSize)) + 1;
+	range = parseInt(range) + 1;
+	
+	let url = "reviewListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	
+	location.href = url;
+}
+
+$(function(){
+	$(".page").find("ul").find("li").each(function(){
+		$(this).click(function(){
+			$(this).css({'background-color':'#333', color:'#fff'});
+			//$(this).siblings().removeClass("selected");
+			//사용한 마우스 클릭시 클릭된것만 색상나타내기(나머지는 원래상태로 되돌아가기)
+		});
+	});
+});
 </script>
 <style>
 /* header */
@@ -90,7 +132,6 @@ function fn_reviewView(reviewNum){
 	color: #666;
 	font-size: 12px;
 	overflow: hidden;
-	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
@@ -101,6 +142,7 @@ function fn_reviewView(reviewNum){
 
 .review .reviewCont ul img {
 	width: 100%;
+	height: 100%;
 }
 
 /* 페이징 */
@@ -123,8 +165,18 @@ function fn_reviewView(reviewNum){
 	padding: 10px 15px;
 }
 
-.review .page ul li a:hover {
+.review .page ul li a:hover{
 	background-color: #333;
+	color: #fff;
+}
+
+.pagination > .active > a, 
+.pagination > .active > span, 
+.pagination > .active > a:hover, 
+.pagination > .active > span:hover, 
+.pagination > .active > a:focus, 
+.pagination > .active > span:focus {
+  	background-color: #333;
 	color: #fff;
 }
 
@@ -166,16 +218,11 @@ function fn_reviewView(reviewNum){
 	background-color: yellow;
 }
 
-p {
-	margin-top: 0;
-	margin-bottom: 0;
-	float: left;
-}
-
 h1, h2, h3, h4, h5, h6 {
 	font-size: 1em;
 	border-style: none;
 	font-weight: normal;
+	display: inline;
 }
 
 strong {
@@ -184,6 +231,53 @@ strong {
 
 big, small {
 	font-size: 1em;
+}
+
+.review .reviewCont .contents {
+	height:16px;
+}
+
+.review .reviewCont .contents br {
+	display:none;
+}
+
+.review .reviewCont .contents div {
+	display:inline;
+}
+
+.review .reviewCont .contents hr { 
+	display:none;
+}
+
+.review .reviewCont .contents table { 
+	display:none;
+}
+
+.review .reviewCont .contents ul {
+	height:16px; 
+	margin-top:0;
+}
+
+.review .reviewCont .contents ol {
+	width:95%; 
+	height:16px; 
+	margin-top:0;
+	padding-left:0;
+}
+
+.review .reviewCont .contents ul li { 
+	list-style:none;
+}
+
+.review .reviewCont .contents ol li { 
+	list-style:none;
+}
+
+.review .reviewCont .contents p {
+	margin-block-start: 0em; 
+	margin-block-end: 0em; 
+	display:inline; 
+	width:214px;
 }
 </style>
 </head>
@@ -212,16 +306,15 @@ big, small {
 						<c:when test="${!empty reviewList}">
 							<c:forEach var="reviewList" items="${reviewList}">
 								<a href='#'
-									onclick="fn_reviewView(<c:out value='${reviewList.reviewNum}'/>)">
+									onclick="fn_reviewView(<c:out value='${reviewList.reviewNum}'/>, '${pagination.page}','${pagination.range}')">
 									<ul>
 										<li>
-											<div style="height: 200px; width: 100%;">
-												<img style="height: 200px;"
-													src="<c:url value='/attach/review/${reviewList.attachName}'/>" />
+											<div style="height: 260px; width: 100%;">
+												<img src="<c:url value='/attach/review/${reviewList.attachName}'/>" />
 											</div>
 										</li>
 										<li>${reviewList.title}</li>
-										<li></li>
+										<li class="contents">${reviewList.content}</li>
 										<li>+더보기</li>
 									</ul>
 								</a>
@@ -232,8 +325,30 @@ big, small {
 
 				<!-- 페이징 -->
 				<div class='page'>
-					<ul>
-
+					<ul class="pagination">
+						<c:if test="${pagination.prev}">
+							<li>
+								<a href='#' onclick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">
+									&laquo;
+								</a>
+							</li>
+						</c:if>
+						
+						<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">		
+					    	<li class="<c:out value="${pagination.page == idx ? 'active' : ''}"/> ">
+					    		<a href="#" onclick="fn_pagination('${idx}', '${pagination.range}', '${pagination.rangeSize}')">
+					    			${idx}
+					    		</a>
+					    	</li>
+						</c:forEach>
+					    	
+					    <c:if test="${pagination.next}">
+					        <li>
+					        	<a href='#' onclick="fn_next('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">
+					        		&raquo;
+					        	</a>
+					        </li>
+					    </c:if>
 					</ul>
 				</div>
 			</div>
