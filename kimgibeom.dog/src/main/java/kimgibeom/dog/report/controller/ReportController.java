@@ -91,15 +91,7 @@ public class ReportController {
 
 		return "redirect:reportListView";
 	}
-
-	private void save(String destFile, MultipartFile attachFile) {
-		try { // 서버에 실제 파일을 저장한다.
-			attachFile.transferTo(new File(destFile)); // binary 데이터들을 새로운 파일 객체에 넣는다.
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	// 게시물 수정
 	@RequestMapping("/reportModify/{reportNum}")
 	public String modifyIn(@PathVariable String reportNum, Model model) {
@@ -109,11 +101,28 @@ public class ReportController {
 		return "report/reportModify";
 	}
 
-	@RequestMapping(value = "/reportModify", method = RequestMethod.POST)
-	public String modifyOut(Report report) {
+	@RequestMapping(value="/reportModify", method=RequestMethod.POST)
+	public String modifyOut(Report report, MultipartFile attachFile, HttpServletRequest request) {
+		attachSeq++;
+		String dir = request.getServletContext().getRealPath(reportAttachDir);
+		String fileName = attachSeq + attachFile.getOriginalFilename();
+		save(dir + "/" + fileName, attachFile);
+		
+		if (!attachFile.getOriginalFilename().equals("")) 
+			report.setAttachName(fileName);
+		
 		reportService.updateReport(report);
+		
 		int reportNum = report.getReportNum();
 		return "redirect:reportView/" + reportNum;
+	}
+	
+	private void save(String destFile, MultipartFile attachFile) {
+		try { // 서버에 실제 파일을 저장한다.
+			attachFile.transferTo(new File(destFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// 게시물 삭제

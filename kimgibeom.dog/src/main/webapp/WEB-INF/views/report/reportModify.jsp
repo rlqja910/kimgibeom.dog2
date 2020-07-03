@@ -10,7 +10,7 @@
 <script src="${path}/ckeditor/ckeditor.js"></script>
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
-function validateReport() {  // 등록 버튼 누르기 전 검증
+function validateReport() {  // 수정 버튼 누르기 전 검증
 	// 제목 글자수 검증
 	$('input[name="title"]').keydown(() => {
 		if($('input[name="title"]').val().length >= 30) {
@@ -35,11 +35,20 @@ function validateReport() {  // 등록 버튼 누르기 전 검증
 			$('#modify').removeAttr('disabled');
 		}
 	});
+	
+	// 이미지 파일 변경 시 기존 이미지명과 파일 제거
+	$('input[name="attachFile"]').click(() => {
+		$.ajax({
+			url: 'reportModify',
+			method: 'post',
+			error: () => {
+				$('img').parent().remove();
+			}
+		})
+	})
 }
 
 function modifyReport() {
-	$('input[name="reportNum"]').hide();
-	
 	$('#modify').click(() => {
 		let content = CKEDITOR.instances.description.getData();
 		let isSubmit = false;
@@ -50,7 +59,7 @@ function modifyReport() {
 				$('input[name="attachFile"]').val('');
 				$('font').eq(2).text('gif, png, jpg, jpeg 파일만 첨부할 수 있습니다.');
 		  	} else isSubmit = true;
-	    } else isSubmit = true;
+	    }  else isSubmit = false;
 		
 		if($('input[name="title"]').val().trim()) {
 			if (content && content.trim()) {
@@ -92,18 +101,19 @@ $(modifyReport);
 	.contTitle{font-size:32px; font-weight:bold; text-align:center;}
 
 	/* 유기견 신고 */
-	.review{width:80%;font-size:14px; margin:0 auto; margin-top:100px; margin-bottom:100px;}
-	.review .reportWrite{width:90%; margin:0 auto;}
-	.review .reportWrite table{width:100%; border-collapse: collapse;}
-	.review .reportWrite table tr{font-size:16px;}
-	.review .reportWrite table tr:nth-child(1){border-top:1px solid #333; border-bottom:1px solid #ccc;}
-	.review .reportWrite table tr:nth-child(2){border-bottom:1px solid #ccc;}
-	.review .reportWrite table tr:nth-child(3){border-bottom:1px solid #ccc;}
-	.review .reportWrite table tr th{background-color:#ccc; width:20%; padding:1% 0;}
-	.review .reportWrite table tr td{width:80%; padding:1% 0 1% 2%;}
-	.review .reportWrite table tr:nth-child(2) td{padding:1% 0 1% 2%;}
-	.review .reportWrite table tr:nth-child(1) input{width:70%; height:30px; border:1px solid #999;}
-	.review .reportWrite table tr:nth-child(2) textarea{width:95%; height:250px; border:1px solid #999;}
+	.report{width:80%;font-size:14px; margin:0 auto; margin-top:100px; margin-bottom:100px;}
+	.report .reportView{width:90%; margin:0 auto;}
+	.report .reportView table{width:100%; border-collapse: collapse;}
+	.report .reportView table tr{font-size:16px;}
+	.report .reportView table tr:nth-child(1){border-top:1px solid #333; border-bottom:1px solid #ccc;}
+	.report .reportView table tr:nth-child(2){border-bottom:1px solid #ccc;}
+	.report .reportView table tr:nth-child(3){border-bottom:1px solid #ccc;}
+	.report .reportView table tr th{background-color:#ccc; width:20%; padding:1% 0;}
+	.report .reportView table tr td{width:80%; padding:1% 0 1% 2%;}
+	.report .reportView table tr:nth-child(2) td{padding:1% 0 1% 2%;}
+	.report .reportView table tr:nth-child(1) input{width:70%; height:30px; border:1px solid #999;}
+	.report .reportView table tr:nth-child(2) textarea{width:95%; height:250px; border:1px solid #999;}
+	.report .reportView span{font-size:14px;}
 	
 	/* 등록, 취소버튼 */
 	.button{text-align:center;}
@@ -118,18 +128,18 @@ $(modifyReport);
 		.header .subTitle{font-size:36px; margin-top:0; padding-bottom:5%;}
 		.contTitle{font-size:28px;}
 		
-		.review{margin-top:10%; margin-bottom:10%;}
-		.review .reviewView{width:100%;}
-		.review .reviewView table tr{font-size:14px;}
-		.review .reviewView table tr th{background-color:#ccc; width:20%; padding:2% 0;}
+		.report{margin-top:10%; margin-bottom:10%;}
+		.report .reportView{width:100%;}
+		.report .reportView table tr{font-size:14px;}
+		.report .reportView table tr th{background-color:#ccc; width:20%; padding:2% 0;}
 
 		.button input{margin-top:5%;}
 		
 		/* 유기견 신고 */
-		.review .reportWrite table tr:nth-child(1) input{width:95%;}
-		.review .reportWrite table tr td{width:80%; padding:2% 0 2% 2%;}
-		.review .reportWrite table tr:nth-child(2) td{padding:2% 0 2% 2%;}
-		.review .reportWrite table tr:nth-child(2) textarea{width:95%; height:200px; border:1px solid #999;}
+		.review .reportView table tr:nth-child(1) input{width:95%;}
+		.review .reportView table tr td{width:80%; padding:2% 0 2% 2%;}
+		.review .reportView table tr:nth-child(2) td{padding:2% 0 2% 2%;}
+		.review .reportView table tr:nth-child(2) textarea{width:95%; height:200px; border:1px solid #999;}
 	}
 </style>
 </head>
@@ -147,11 +157,11 @@ $(modifyReport);
 		
 		<!-- 유기견 신고 -->
 		<div class="content">
-			<div class="review">
+			<div class="report">
 				<div class='contTitle'>유기견 신고</div>
 				<hr class='contHr'>
-				<div class='reportWrite'>
-					<form action='../reportModify' method='post'>
+				<div class='reportView'>
+					<form action='../reportModify' method='post' enctype='multipart/form-data'>
 						<table>
 							<tr>
 								<th>제목</th>
@@ -165,12 +175,21 @@ $(modifyReport);
 								<td>
 									<textarea name='content' id="description" required>${report.content}</textarea>
 									<font color='red'></font> 
-									<input type='number' name='reportNum' value='${report.reportNum}'/>
+									<input type='hidden' name='reportNum' value='${report.reportNum}'/>
 								</td>
 							</tr>
 							<tr>
 								<th>이미지</th>
-								<td><input type='file'/></td>
+								<td>
+									<input type='file' name='attachFile'/>
+									<input type='hidden' name='attachName' value='${report.attachName}'/>
+									<div>
+										<br>
+										<img src='<c:url value="/attach/report/${report.attachName}"/>' width='10%' height='10%'/>
+										<span>${report.attachName}</span>
+									</div>	
+									<font color='red'></font>
+								</td>
 							</tr>
 						</table>
 					
