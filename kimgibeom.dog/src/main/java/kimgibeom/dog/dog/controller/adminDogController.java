@@ -47,18 +47,21 @@ public class adminDogController {
 		String fileName = (int) (Math.random() * 100000000) + attachFile.getOriginalFilename(); // 파일명 중복방지
 		int dogNum = Integer.parseInt(dogNumber);
 		System.out.println(dogNumber);
+		int urlDogNum = 0;
 
 		if (attachFile.getOriginalFilename().equals("")) {
 			Dog dog = new Dog(dogNum, dogTitle, dogName, dogAge, dogKind, dogWeight, dogGender, "", dogEntranceDate,
 					dogContent, "");
 			System.out.println("이미지없음");
 			dogService.changeDogInfoWithoutImg(dog);
+			urlDogNum = dog.getDogNum();
 		} else {
 			try {
 				Dog dog = new Dog(dogNum, dogTitle, dogName, dogAge, dogKind, dogWeight, dogGender, "", dogEntranceDate,
 						dogContent, fileName);
 				System.out.println("이미지있음");
 				dogService.changeDogInfo(dog); // dog 추가
+				urlDogNum = dog.getDogNum();
 
 				String dir = request.getServletContext().getRealPath(attachDir);
 
@@ -66,9 +69,9 @@ public class adminDogController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} 
-
-		return "redirect:dogView/" + dogNum;
+		}
+		System.out.println("----------------------" + urlDogNum + "----------------------");
+		return "redirect:../dogView/" + urlDogNum;
 	}
 
 	@RequestMapping("/dogView/{dogNumber}")
