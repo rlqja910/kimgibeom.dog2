@@ -1,24 +1,114 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib prefix='c'
+	uri='http://java.sun.com/jsp/jstl/core'%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset='UTF-8'>
 <title>Dog Modify</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="${path}/ckeditor/ckeditor.js"></script>
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
-function modify(){
-	let count = 0;
+$(()=>{
+	textEditer();
 	
-	$('#modify').click(() => { 
-		count++;	
-		if(count == 1)
-			$('.button').prepend('<font color="red">유기견 정보 수정이 완료되었습니다.</font>')
+	onTypying();
+	
+	limitContent();
+	
+	if('${dog.dogGender}'==='암컷'){ 
+		$('#female').attr('checked',true);
+	}else{
+		$('#male').attr('checked',true);
+	}
+	
+	$('#modifyBtn').click(()=>{
+		let dogTitle=$('#dogTitle').val();
+		let dogName=$('#dogName').val();
+		let dogKind=$('#dogKind').val();
+		let dogWeight=$('#dogWeight').val();
+		let dogAge=$('#dogAge').val();
+		let dogEntranceDate=$('#dogEntranceDate').val();
+		let dogGender=$('input[name="dogGender"]:checked').val();
+		let dogContent = CKEDITOR.instances.description.getData();
+		
+		
+		if(dogTitle===''){
+			$('#modifyTitleMsg').text('제목을 입력해 주세요');
+			return false;
+		}else if(dogName===''){
+			$('#modifyNameMsg').text('이름을 입력해 주세요');
+			return false;
+		}else if(dogKind===''){
+			$('#modifyKindMsg').text('품종을 입력해 주세요');
+			return false;
+		}else if(dogWeight===''){
+			$('#modifyWeightMsg').text('체중을 입력해 주세요');
+			return false;
+		}else if(dogAge===''){
+			$('#modifyAgeMsg').text('나이를 입력해 주세요');
+			return false;
+		}else if(dogEntranceDate===''){
+			$('#modifyEntranceDateMsg').text('입소날짜를 선택해 주세요');
+			return false;
+		}else if(dogContent===''){
+			$('#modifyContentMsg').text('내용을 입력해 주세요');
+			return false;
+		}else if(dogContent!=''){
+			$('#modifyContentMsg').text('');
+			
+			if($("#attachFile").val() != ""){
+				let ext = $('#attachFile').val().split('.').pop().toLowerCase(); //확장자만 추출
+				
+				if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) { //확장자확인
+					$('#modifyAttachMsg').text('gif, png, jpg, jpeg 파일만 첨부할 수 있습니다');
+					return false;
+				}
+			}
+		}
 	});
+});
+
+function onTypying(){
+	$('#dogTitle').keyup(()=>{$('#modifyTitleMsg').text(''); });
+	$('#dogName').keyup(()=>{$('#modifyNameMsg').text(''); });
+	$('#dogKind').keyup(()=>{$('#modifyKindMsg').text(''); });
+	$('#dogWeight').keyup(()=>{$('#modifyWeightMsg').text(''); });
+	$('#dogWeight').change(()=>{$('#modifyWeightMsg').text(''); });
+	$('#dogAge').keyup(()=>{$('#modifyAgeMsg').text(''); });
+	$('#dogEntranceDate').change(()=>{$('#modifyEntranceDateMsg').text(''); });
+	$('input[name="dogGender"]').change(()=>{$('#modifyGenderMsg').text(''); });
+	$('#attachFile').change(()=>{$('#modifyAttachMsg').text(''); });
 }
 
-$(modify);
+function limitContent(){
+	 let editor = CKEDITOR.instances.description;
+		editor.on('key', function(e) {
+			 content = this;
+			    text = content.getData();
+			    if(text.length > 1250) {
+					$("#modifyContentMsg").text("내용은 1250자까지 입력 가능합니다.");
+					$("#modifyBtn").attr("disabled", true);
+				}else{
+					$("#modifyContentMsg").text("");
+					$("#modifyBtn").attr("disabled", false);
+				}
+		});
+}
+
+function maxLengthCheck(object){ //숫자 max값 초과시 제한
+    if (object.value.length > object.maxLength){
+      object.value = object.value.slice(0, object.maxLength);
+    }    
+ }
+
+function textEditer(){
+	CKEDITOR.replace('description', {
+		removePlugins : 'image'
+	});
+}
 </script>
 <style>
 * {
@@ -29,6 +119,11 @@ $(modify);
 
 body {
 	background: #f3f5f9;
+}
+
+img {
+	width: 300px;
+	height: auto;
 }
 
 #leftNav {
@@ -150,51 +245,74 @@ textarea {
 						<span class='glyphicon glyphicon-heart'></span><strong>
 							유기견 관리 > 수정</strong>
 					</h3>
-					<br>
-					<br>
+					<br> <br>
 
-					<form>
+					<form id='form1' method='post' enctype='multipart/form-data'>
 						<table class='table'>
 							<tr>
 								<th class='th'>제목</th>
 								<td colspan='3'><input type='text' style='width: 400px;'
-									value='비글 오렌지 책임분양' /></td>
+									id='dogTitle' name='dogTitle' maxlength=30
+									value='${dog.dogTitle}' /><span id='modifyTitleMsg'
+									style='color: red'></span></td>
 							</tr>
 							<tr>
 								<th class='th'>이름</th>
-								<td><input type='text' value='오렌지' /></td>
+								<td><input type='text' id='dogName' name='dogName'
+									maxlength=15 value='${dog.dogName}' /><span id='modifyNameMsg'
+									style='color: red'></span></td>
 								<th class='th'>품종</th>
-								<td><input type='text' value='비글' /></td>
+								<td><input type='text' id='dogKind' name='dogKind'
+									maxlength=15 value='${dog.dogKind}' /><span id='modifyKindMsg'
+									style='color: red'></span></td>
 							</tr>
 							<tr>
 								<th class='th'>체중</th>
 								<td><input type='number' style='width: 70px;'
-									placeholder='2' /> (kg)</td>
+									id='dogWeight' name='dogWeight' min=0 maxlength=3
+									oninput="maxLengthCheck(this)" value='${dog.dogWeight}' />
+									(kg)<span id='modifyWeightMsg' style='color: red'></span></td>
 								<th class='th'>나이</th>
-								<td><input type='number' value='5' /></td>
+								<td><input type='number' id='dogAge' name='dogAge' min=0
+									maxlength=2 oninput="maxLengthCheck(this)"
+									value='${dog.dogAge}' /><span id='modifyAgeMsg'
+									style='color: red'></span></td>
 							</tr>
 							<tr>
 								<th class='th'>입소날짜</th>
-								<td colspan='3'><input type='date' name='enterDate' /></td>
+								<td colspan='3'><input type='date' name='dogEntranceDate'
+									id='dogEntranceDate' value='${dog.dogEntranceDate}' /><span
+									id='modifyEntranceDateMsg' style='color: red'></span></td>
 							</tr>
 							<tr>
 								<th class='th'>성별</th>
-								<td colspan='3'><input type='radio' name='gender' checked />수컷
-									&nbsp;&nbsp; <input type='radio' name='gender' />암컷</td>
+								<td colspan='3'><input type='radio' name='dogGender'
+									id='male' value='수컷' />수컷 &nbsp;&nbsp; <input type='radio'
+									name='dogGender' id='female' value='암컷' />암컷<span
+									id='modifyGenderMsg' style='color: red'></span></td>
 							</tr>
 							<tr>
 								<th class='th'>내용</th>
-								<td colspan='3'><textarea id='description'> 오늘도 많은 아이들이 각자의 안타까운 사연을 가지고 있습니다. 입양 시 소정의 책임비가 발생되니 참고 부탁드립니다. 이 때 발생되는 책임비는 또 다른 유기견들의 관리 비용에 사용되고 있습니다. 아이들의 평생을 결정하는 선택, 신중히 생각 해보신 후에 연락 주세요.
-								</textarea></td>
+								<td colspan='3'><textarea id='description'
+										name='dogContent'>${dog.dogContent}</textarea><span
+									id='modifyContentMsg' style='color: red'></span></td>
 							</tr>
 							<tr>
 								<th class='th'>이미지</th>
-								<td colspan='3'><input type='file' /></td>
+								<td colspan='3'><input type='file' id='attachFile'
+									name='attachFile' /><span id='modifyAttachMsg'
+									style='color: red'></span></td>
+							</tr>
+							<tr>
+								<th class='th'>이전 이미지</th>
+								<td colspan='3'><img
+									src='../../../attach/dog/${dog.attachName}' /></td>
+
 							</tr>
 						</table>
 
 						<div class='button' style='text-align: right;'>
-							<button type='button' class='btn btn-primary' id='modify'>수정</button>
+							<button type='submit' class='btn btn-primary' id='modifyBtn'>수정</button>
 							<button type='button' class='btn btn-default' id='cancel'
 								onClick="location.href='03.html'">취소</button>
 						</div>

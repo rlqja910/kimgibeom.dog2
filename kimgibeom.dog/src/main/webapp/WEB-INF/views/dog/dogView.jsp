@@ -220,6 +220,11 @@ $(()=>{
 	padding: 5% 0;
 }
 
+#dogImg {
+	width: 300px;
+	height: auto;
+}
+
 /* 모바일 스타일 */
 @media screen and (max-width:768px) {
 	.subHr {
@@ -316,7 +321,7 @@ $(()=>{
 						<tr>
 							<td colspan='4' align="center">
 								<div>
-									<img src='../../attach/dog/${dog.attachName}' />
+									<img id='dogImg' src='../../attach/dog/${dog.attachName}' />
 								</div> <br> <br> ${dog.dogContent}
 							</td>
 						</tr>

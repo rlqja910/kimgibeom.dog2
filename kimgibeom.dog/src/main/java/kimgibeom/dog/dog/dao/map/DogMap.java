@@ -26,4 +26,8 @@ public interface DogMap {
 	int getTotalAbandonDogsCnt();
 
 	int getAfterAdoptDogCnt();
+
+	int modifyDogInfo(Dog dog);
+
+	int modifyDogInfoWithoutImg(Dog dog);
 }

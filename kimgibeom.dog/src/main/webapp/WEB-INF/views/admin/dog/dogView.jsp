@@ -7,6 +7,13 @@
 <title>Dog Detail</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <%@ include file="../common/scriptImport.jsp"%>
+<script>
+$(()=>{
+	$('#dogModifyBtn').click(()=>{
+		location.href='../dogModify/'+${dog.dogNum};
+	});
+});
+</script>
 <style>
 * {
 	margin: 0;
@@ -138,9 +145,9 @@ td {
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<a href='../../common/logoRegist'>로고관리</a>&nbsp;|&nbsp;
-					<a href='../../common/bannerRegist'>배너관리</a>&nbsp;|&nbsp;
-					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
+					<a href='../../common/logoRegist'>로고관리</a>&nbsp;|&nbsp; <a
+						href='../../common/bannerRegist'>배너관리</a>&nbsp;|&nbsp; <a
+						href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
 						href='../../../user/logout'>로그아웃</a>
 				</div>
 			</div>
@@ -191,8 +198,7 @@ td {
 					<hr style='border: 1px solid #a0a0a0;'>
 
 					<div style='text-align: right;'>
-						<button type='button' class='btn btn-primary'
-							onClick="location.href='#'">수정</button>
+						<button type='button' class='btn btn-primary' id='dogModifyBtn'>수정</button>
 						<button type='button' class='btn btn-default'
 							onClick="location.href='../dogListView'">목록</button>
 					</div>

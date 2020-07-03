@@ -24,4 +24,8 @@ public interface DogDao {
 	int getTotalAbandonDogsCnt();
 
 	int getAfterAdoptDogCnt();
+
+	int modifyDogInfo(Dog dog);
+
+	int modifyDogInfoWithoutImg(Dog dog);
 }

@@ -40,7 +40,7 @@ function reportSearch(){
 let totalPageCnt=${totalPageCnt};
 let isOnePage=${isOnePage};
 let lastPageDataCnt=${lastPageDataCnt};
-let dogsData=null;
+let sdogData=null;
 let dogsCnt=${dogsCnt};
 	$(()=>{
 		dogList();

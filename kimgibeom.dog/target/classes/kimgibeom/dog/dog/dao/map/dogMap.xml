@@ -85,4 +85,33 @@
 		from dogs
 		where adoption_status='입양완료'
 	</select>
+	
+	<update id='modifyDogInfoWithoutImg' parameterType="dog">
+		update dogs
+		set
+		title=#{dogTitle},
+		name=#{dogName},
+		age=#{dogAge},
+		kind=#{dogKind},
+		weight=#{dogWeight},
+		gender=#{dogGender},
+		entrance_date=#{dogEntranceDate},
+		content=#{dogContent}
+		where dog_num=#{dogNum}
+	</update>
+	
+	<update id='modifyDogInfo' parameterType="dog">
+		update dogs
+		set
+		title=#{dogTitle},
+		name=#{dogName},
+		age=#{dogAge},
+		kind=#{dogKind},
+		weight=#{dogWeight},
+		gender=#{dogGender},
+		entrance_date=#{dogEntranceDate},
+		content=#{dogContent},
+		attach_Name=#{attachName}
+		where dog_num=#{dogNum}
+	</update>
 </mapper>

@@ -24,4 +24,8 @@ public interface DogService {
 	int readTotalAbandonDogsCnt();
 
 	int readAfterAdoptDogCnt();
+
+	int changeDogInfo(Dog dog);
+
+	int changeDogInfoWithoutImg(Dog dog);
 }

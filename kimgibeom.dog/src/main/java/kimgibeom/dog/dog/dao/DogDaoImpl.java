@@ -63,4 +63,14 @@ public class DogDaoImpl implements DogDao {
 		return dogMap.getAfterAdoptDogCnt();
 	}
 
+	@Override
+	public int modifyDogInfo(Dog dog) {
+		return dogMap.modifyDogInfo(dog);
+	}
+
+	@Override
+	public int modifyDogInfoWithoutImg(Dog dog) {
+		return dogMap.modifyDogInfoWithoutImg(dog);
+	}
+
 }

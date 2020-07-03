@@ -30,6 +30,47 @@ public class adminDogController {
 	@Value("${dogAttachDir}")
 	private String attachDir;
 
+	@RequestMapping("/dogModify/{dogNumber}")
+	public String dogModify(@PathVariable String dogNumber, Model model) {
+		int dogNum = Integer.parseInt(dogNumber);
+		Dog dog = dogService.findDog(dogNum);
+
+		model.addAttribute("dog", dog);
+
+		return "admin/dog/dogModify";
+	}
+
+	@RequestMapping(value = "/dogModify/{dogNumber}", method = RequestMethod.POST)
+	public String dogModifyProc(@PathVariable String dogNumber, String dogTitle, String dogName, String dogKind,
+			int dogWeight, int dogAge, String dogEntranceDate, String dogGender, String dogContent,
+			MultipartFile attachFile, HttpServletRequest request) {
+		String fileName = (int) (Math.random() * 100000000) + attachFile.getOriginalFilename(); // 파일명 중복방지
+		int dogNum = Integer.parseInt(dogNumber);
+		System.out.println(dogNumber);
+
+		if (attachFile.getOriginalFilename().equals("")) {
+			Dog dog = new Dog(dogNum, dogTitle, dogName, dogAge, dogKind, dogWeight, dogGender, "", dogEntranceDate,
+					dogContent, "");
+			System.out.println("이미지없음");
+			dogService.changeDogInfoWithoutImg(dog);
+		} else {
+			try {
+				Dog dog = new Dog(dogNum, dogTitle, dogName, dogAge, dogKind, dogWeight, dogGender, "", dogEntranceDate,
+						dogContent, fileName);
+				System.out.println("이미지있음");
+				dogService.changeDogInfo(dog); // dog 추가
+
+				String dir = request.getServletContext().getRealPath(attachDir);
+
+				save(dir + "/" + fileName, attachFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return "redirect:dogView/" + dogNum;
+	}
+
 	@RequestMapping("/dogView/{dogNumber}")
 	public String readDogInfo(@PathVariable String dogNumber, Model model) {
 		int dogNum = Integer.parseInt(dogNumber);
@@ -110,7 +151,7 @@ public class adminDogController {
 		model.addAttribute("lastPageDataCnt", lastPageDataCnt);
 		if (dogsCnt > 0 && dogsCnt <= 8) { // 데이터가 8개 이하면 페이지가 1페이지밖에 없으므로 기억해둔다.
 			model.addAttribute("isOnePage", "true");// 데이터가 8개 이하인지 boolean값 model
-													
+
 			model.addAttribute("onlyOnePageData", jsonDogArray.fromObject(dogs));// 데이터가 8개 이하면 dog값들 model
 			// 저장-------------------------
 		} else if (dogsCnt == 0) {

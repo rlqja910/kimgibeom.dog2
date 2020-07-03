@@ -63,4 +63,14 @@ public class DogServiceImpl implements DogService {
 		return dogDao.getAfterAdoptDogCnt();
 	}
 
+	@Override
+	public int changeDogInfo(Dog dog) {
+		return dogDao.modifyDogInfo(dog);
+	}
+
+	@Override
+	public int changeDogInfoWithoutImg(Dog dog) {
+		return dogDao.modifyDogInfoWithoutImg(dog);
+	}
+
 }
