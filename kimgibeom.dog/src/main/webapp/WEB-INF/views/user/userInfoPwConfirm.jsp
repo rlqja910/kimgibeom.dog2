@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>유기견 보호소</title>
 <%@ include file="../common/scriptImport.jsp"%>
-
+ 
 <style>
 /* header */
 .header {
