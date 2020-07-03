@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset='UTF-8'>
 <title>ADMIN PAGE</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<%@ include file="../common/scriptImport.jsp" %>
+<%@ include file="../common/scriptImport.jsp"%>
 <script src="../res/adminNavSub.js"></script>
 <script>
 function delReply() {
@@ -41,7 +41,8 @@ function modifyReview(){
 		let url = "reviewModify";
 		url = url + "?reviewNum=" + ${reviewView.reviewNum};
 		
-		location.href = url;
+		//location.href = url;
+		location.href='#';
 	});
 }
 
@@ -188,7 +189,7 @@ img {
 	margin-top: 3px;
 }
 
-.marker{
+.marker {
 	background-color: yellow;
 }
 </style>
@@ -202,10 +203,10 @@ img {
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<a href="<c:url value='/admin/logo/logoRegist'/>">로고관리</a>&nbsp;|&nbsp;
-					<a href="<c:url value='/admin/banner/bannerRegist'/>">배너관리</a>&nbsp;|&nbsp; 
-					<a href="<c:url value='/'/>">홈페이지 돌아가기</a>&nbsp;|&nbsp; 
-					<a href="<c:url value='/user/logout'/>">로그아웃</a>
+					<a href='<c:url value='../common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
+						href='<c:url value='../../user/logout'/>'>로그아웃</a>
 				</div>
 			</div>
 			<div class='info'>
@@ -226,8 +227,10 @@ img {
 								<th>내용</th>
 								<td>
 									<div class='img'>
-										<img src='<c:url value="/attach/review/${reviewView.attachName}"/>'/>
-									</div><br>
+										<img
+											src='<c:url value="/attach/review/${reviewView.attachName}"/>' />
+									</div>
+									<br>
 									<div>${reviewView.content}</div>
 								</td>
 							</tr>
@@ -253,11 +256,11 @@ img {
 						<c:when test="${!empty replyList}">
 							<c:forEach var="replyList" items="${replyList}">
 								<div class='replyBox' style='background-color: #eeeeee;'>
-									<span>
-										<strong>${replyList.userId}</strong>
+									<span> <strong>${replyList.userId}</strong>
 										&nbsp;&nbsp;${replyList.regDate}
 									</span>
-									<button id="${replyList.replyNum}" type='button' class='btn btn-danger delete'>삭제</button>
+									<button id="${replyList.replyNum}" type='button'
+										class='btn btn-danger delete'>삭제</button>
 									<div class='replyContent'>${replyList.content}</div>
 								</div>
 								<br>

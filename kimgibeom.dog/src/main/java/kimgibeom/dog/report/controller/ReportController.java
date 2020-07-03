@@ -31,19 +31,19 @@ public class ReportController {
 	private ReportService reportService;
 	@Autowired
 	private ReportReplyService reportReplyService;
-	@Value("${reportAttachDir}") 
+	@Value("${reportAttachDir}")
 	private String reportAttachDir;
 	private int attachSeq;
-	
-	// 게시물 목록 
+
+	// 게시물 목록
 	@RequestMapping("/reportListView")
 	public void readReports(Model model, Criteria cri) {
 		model.addAttribute("reports", reportService.readReports(cri));
-		
+
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(reportService.readListCnt());
-		
+
 		model.addAttribute("pageMaker", pageMaker);
 	}
 
@@ -57,7 +57,7 @@ public class ReportController {
 
 		// 조회수 갱신
 		reportService.updateViewCnt(reportNo);
-		
+
 		// 댓글 조회
 		List<ReportReply> replies = reportReplyService.readReportReplies();
 		List<ReportReply> repliesOfReport = new ArrayList<ReportReply>();
@@ -71,35 +71,35 @@ public class ReportController {
 
 		return "report/reportView";
 	}
-	
+
 	// 게시물 등록
 	@RequestMapping("/reportRegister")
 	public String reportIn() {
 		return "report/reportRegister";
 	}
-	
-	@RequestMapping(value="/reportRegister", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/reportRegister", method = RequestMethod.POST)
 	public String reportOut(Report report, MultipartFile attachFile, HttpServletRequest request) {
 		String dir = request.getServletContext().getRealPath(reportAttachDir);
-		
+
 		attachSeq++;
 		String fileName = attachSeq + attachFile.getOriginalFilename(); // 첨부 파일명 중복 방지
 		save(dir + "/" + fileName, attachFile);
 
 		report.setAttachName(fileName);
 		reportService.writeReport(report);
-		
+
 		return "redirect:reportListView";
 	}
-	
+
 	private void save(String destFile, MultipartFile attachFile) {
 		try { // 서버에 실제 파일을 저장한다.
 			attachFile.transferTo(new File(destFile)); // binary 데이터들을 새로운 파일 객체에 넣는다.
-		}catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// 게시물 수정
 	@RequestMapping("/reportModify/{reportNum}")
 	public String modifyIn(@PathVariable String reportNum, Model model) {
@@ -108,14 +108,14 @@ public class ReportController {
 		model.addAttribute("report", report);
 		return "report/reportModify";
 	}
-	
-	@RequestMapping(value="/reportModify", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/reportModify", method = RequestMethod.POST)
 	public String modifyOut(Report report) {
 		reportService.updateReport(report);
 		int reportNum = report.getReportNum();
 		return "redirect:reportView/" + reportNum;
 	}
-	
+
 	// 게시물 삭제
 	@ResponseBody
 	@RequestMapping("/remove")
@@ -123,14 +123,14 @@ public class ReportController {
 		int reportNo = Integer.parseInt(reportNum);
 		return reportService.removeReport(reportNo);
 	}
-	
+
 	// 댓글 등록
 	@ResponseBody
 	@RequestMapping("/replyView")
 	public void registerReply(ReportReply reply) {
 		reportReplyService.writeReportReply(reply);
 	}
-	
+
 	// 댓글 삭제
 	@ResponseBody
 	@RequestMapping("/removeReply")

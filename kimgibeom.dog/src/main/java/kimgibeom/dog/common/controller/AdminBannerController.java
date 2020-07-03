@@ -1,4 +1,4 @@
-package kimgibeom.dog.banner.controller;
+package kimgibeom.dog.common.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/admin/banner")
+@RequestMapping("/admin/common")
 public class AdminBannerController {
 	@Value("${bannerAttachDir}")
 	private String bannerAttachDir;
@@ -22,7 +22,7 @@ public class AdminBannerController {
 	public void bannerRegister() {
 	}
 
-	@RequestMapping(value = "/registProc", method = RequestMethod.POST)
+	@RequestMapping(value = "/bannerRegistProc", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean bannerRegistProc(MultipartFile attachFile, HttpServletRequest request) {
 

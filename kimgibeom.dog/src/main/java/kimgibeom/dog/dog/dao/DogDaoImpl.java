@@ -48,4 +48,19 @@ public class DogDaoImpl implements DogDao {
 		return dogMap.searchDog(dogNum);
 	}
 
+	@Override
+	public int getTodayFindDogsCnt(String entranceDate) {
+		return dogMap.getTodayFindDogsCnt(entranceDate);
+	}
+
+	@Override
+	public int getTotalAbandonDogsCnt() {
+		return dogMap.getTotalAbandonDogsCnt();
+	}
+
+	@Override
+	public int getAfterAdoptDogCnt() {
+		return dogMap.getAfterAdoptDogCnt();
+	}
+
 }

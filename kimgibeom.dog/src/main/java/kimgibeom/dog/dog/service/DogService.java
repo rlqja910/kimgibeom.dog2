@@ -18,4 +18,10 @@ public interface DogService {
 	int writeDog(Dog dog);
 
 	Dog findDog(int dogNum);
+
+	int readTodayFindDogsCnt(String entranceDate);
+
+	int readTotalAbandonDogsCnt();
+
+	int readAfterAdoptDogCnt();
 }

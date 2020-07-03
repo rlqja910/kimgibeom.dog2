@@ -127,6 +127,14 @@ function checkAuthority() {
 		if (isFinite($(this).attr('src').split('/').pop()))
 			$(this).remove();
 	})
+	
+	// 댓글 bytes 세기
+    $('textarea[name="content"]').keyup(function (e) {
+        var content = $(this).val();
+        $(this).height(((content.split('\n').length + 1) * 1.5) + 'em');
+        $('.bytes').html(content.length + '/840');
+    });
+	$('textarea[name="content"]').keyup();
 }
 
 $(delReport);
@@ -155,7 +163,7 @@ $(checkAuthority);
 	.review .reportView table tr th{background-color:#ccc; width:20%; padding:1% 0;}
 	.review .reportView table tr:nth-child(1) td{width:80%; padding:1% 0 1% 2%;}
 	.review .reportView table tr:nth-child(2) td{width:5%; padding:1% 0 1% 2%;}
-	.review .reportView table tr:nth-child(3) td{padding:2% 0 2% 2%;}
+	.review .reportView table tr:nth-child(3) td{padding:2% 0 2% 2%; word-break:break-word;}
 	.review .reportView .reportInfo{text-align:right;}
 	.review .reportView .marker{background-color:yellow;}
 	
@@ -177,7 +185,7 @@ $(checkAuthority);
 	.writeCont .write div div input{background-color:#f5bf25; width:70px; height:40px; border:0px; color:#fff;}
 
 	.writeCont .view{margin-top:5%; font-size:16px;}
-	.writeCont .view ul{border-bottom:1px solid #ccc; padding:2% 0;}
+	.writeCont .view ul{border-bottom:1px solid #ccc; padding:2% 0; word-break:break-word;}
 	.writeCont .view ul li:nth-child(1){margin-bottom:1%; overflow:hidden;}
 	.writeCont .view ul li .replyDel{float:right;}
 	.writeCont .view ul li .replyDel input{background-color:#fff; border:1px solid #ccc; color:#666; padding:5px 10px;}
@@ -247,7 +255,8 @@ $(checkAuthority);
 						<input type='button' value='목록' onClick='location.href="../reportListView"'/>
 						<input type='button' value='삭제' id='reportDel'/>
 						<input type='button' value='수정' id='reportUpdate' 
-							onClick="location.href='../reportModify/${report.reportNum}'"/>
+						onClick='#'/>
+							<!--  onClick="location.href='../reportModify/${report.reportNum}'"/> -->
 					</div>
 					
 					<!-- 답글 -->
@@ -255,8 +264,9 @@ $(checkAuthority);
 						<p>댓글</p>
 						<div class='write'>
 							<div>
-								<textarea name='content' placeholder='댓글을 입력하세요.' maxlength='840'></textarea>
+								<textarea name='content' placeholder='댓글을 입력하세요.' maxlength='839'></textarea>
 								<div>
+									<span class='bytes'></span>
 									<input type='button' id='replyRegister' value='등록'/>
 								</div>
 							</div>

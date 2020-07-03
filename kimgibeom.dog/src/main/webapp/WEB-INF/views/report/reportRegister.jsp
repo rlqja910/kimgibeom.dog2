@@ -38,8 +38,8 @@ function validateReport() { // 등록 버튼 누르기 전 검증
 }
 
 function registReport() {
-	$('input[name="userId"]').hide();
 	$('input[name="userId"]').val(`${userId}`);
+	$('font').eq(2).text()
 	
 	$('#register').click(() => {
 		let content = CKEDITOR.instances.description.getData();
@@ -51,8 +51,11 @@ function registReport() {
 				$('input[name="attachFile"]').val('');
 				$('font').eq(2).text('gif, png, jpg, jpeg 파일만 첨부할 수 있습니다.');
 		  	} else isSubmit = true;
-	    } else isSubmit = true;
-		
+	    }  else {
+	    	isSubmit = false;
+	    	swal('', '이미지 파일을 첨부해야 합니다.', 'warning');
+	    }
+	    
 		if ($('input[name="title"]').val().trim()) {
 			if (content && content.trim()) {
 			    if (isSubmit) {
@@ -298,7 +301,7 @@ textarea {
 							<tr>
 								<th>내용</th>
 								<td>
-									<input type='text' name='userId'/>
+									<input type='hidden' name='userId'/>
 									<textarea name='content' id='description' required></textarea>
 									<font color='red'></font>
 								</td>

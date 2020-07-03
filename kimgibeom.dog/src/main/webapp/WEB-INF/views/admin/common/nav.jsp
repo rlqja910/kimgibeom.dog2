@@ -48,13 +48,13 @@
 	 <li><a href='<c:url value='/admin'/>'> <span
          class='glyphicon glyphicon-home'></span>메인
    </a></li>
-   <li><a href='<c:url value='/admin/user/userListView'/>'> <span
+   <li><a href='#'> <span
          class='glyphicon glyphicon-user'></span>회원관리
    </a></li>
    <li><a href='<c:url value='/admin/dog/dogListView'/>'> <span
          class='glyphicon glyphicon-heart'></span>유기견관리
    </a></li>
-   <li><a href='<c:url value='/admin/adopt/adoptListView'/>'> <span
+   <li><a href='#'> <span
          class='glyphicon glyphicon-calendar'></span>입양관리
    </a></li>
    <li><a href='<c:url value='/admin/review/reviewListView'/>'> <span
@@ -63,7 +63,7 @@
    <li><a href='<c:url value='/admin/report/reportListView'/>'> <span
          class='glyphicon glyphicon-bullhorn'></span>신고관리
    </a></li>
-   <li><a href='<c:url value='/admin/donation/donationListView'/>'> <span
+   <li><a href='#'> <span
          class='glyphicon glyphicon-piggy-bank'></span>후원금 관리
    </a></li>
 

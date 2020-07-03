@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset='UTF-8'>
 <title>ADMIN PAGE</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<%@ include file="../common/scriptImport.jsp" %>
+<%@ include file="../common/scriptImport.jsp"%>
 <script src="https://code.jquery.com/jquery-1.10.1.js"
 	integrity="sha256-663tSdtipgBgyqJXfypOwf9ocmvECGG8Zdl3q+tk+n0="
 	crossorigin="anonymous"></script>
@@ -126,6 +126,7 @@ body {
 #leftNav .main_content {
 	width: 100%;
 	margin-left: 200px;
+	overflow: hidden;
 }
 
 #leftNav .main_content .header {
@@ -162,23 +163,22 @@ body {
 }
 
 #content {
-   float: left;
-   margin-left: 10px;
-   width: 400px;
-   display: inline;
+	float: left;
+	margin-left: 10px;
+	width: 400px;
+	display: inline;
 }
 
 #search {
-   background: #4b4276;
+	background: #4b4276;
 }
 
 #spanSearch {
-   color: #fff;
+	color: #fff;
 }
 
 #moneyItem {
-	margin-top: -15px;
-	margin-left: 450px;
+	margin: 0 auto;
 }
 
 #totalPrice, #todayPrice {
@@ -208,13 +208,12 @@ body {
 	font-weight: bold;
 }
 
-tr > th {
+tr>th {
 	background: #dbd9e3;
 }
 
 th, td {
 	text-align: center;
-	
 }
 
 th {
@@ -236,22 +235,23 @@ th {
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<a href='logo/logoRegist'>로고관리</a>&nbsp;|&nbsp;
-					<a href='banner/bannerRegist'>배너관리</a>&nbsp;|&nbsp; 
-					<a href='../../dog'>홈페이지 돌아가기</a>&nbsp;|&nbsp; 
-					<a href='user/logout'>로그아웃</a>
+					<a href='<c:url value='../common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
+						href='<c:url value='../../user/logout'/>'>로그아웃</a>
 				</div>
 			</div>
-			
+
 			<div class='info'>
 				<div class='content'>
-	            	<h3>
-	            		<span class='glyphicon glyphicon-bank'></span>
-	            		<strong>  <span class='glyphicon glyphicon-piggy-bank'></span> 후원금관리</strong>
-	            	</h3>
-	           		<hr style='border: 1px solid #a0a0a0;'>
-	           		
-	           		<div class='item' id='moneyItem'>
+					<h3>
+						<span class='glyphicon glyphicon-bank'></span> <strong> <span
+							class='glyphicon glyphicon-piggy-bank'></span> 후원금관리
+						</strong>
+					</h3>
+					<hr style='border: 1px solid #a0a0a0;'>
+
+					<div class='item' id='moneyItem'>
 						<div class='money'>
 							<div class='price' id='totalPrice'>
 								<p class='totalPrice'>총 누적 후원금액</p>
@@ -263,24 +263,28 @@ th {
 							</div>
 						</div>
 					</div>
-	            	<br><br><br><br>
-		            <form>
-		               <div>
-		                  <button class='form-control' style='width: 100px; height: 35px; float:left;'>
-		                    	 후원자 명
-		                  </button>
-		                  <div class='form-group' id='content'>
-		                     <input type='text' id='searchContent' class='form-control' placeholder='검색어를 입력해주세요.'/>
-		                  </div>               
-		                  <div class='form-group'>
-		                     <button type='button' class='btn btn-default' id='search'>
-		                        <span id='spanSearch'>검색</span>
-		                     </button>
-		                  </div>
-		               </div>
-		               <br>
-		            </form>  
-					
+					<br>
+					<br>
+					<br>
+					<br>
+					<form>
+						<div>
+							<button class='form-control'
+								style='width: 100px; height: 35px; float: left;'>후원자 명
+							</button>
+							<div class='form-group' id='content'>
+								<input type='text' id='searchContent' class='form-control'
+									placeholder='검색어를 입력해주세요.' />
+							</div>
+							<div class='form-group'>
+								<button type='button' class='btn btn-default' id='search'>
+									<span id='spanSearch'>검색</span>
+								</button>
+							</div>
+						</div>
+						<br>
+					</form>
+
 					<table class="table table-hover">
 						<tr>
 							<th>후원번호</th>
@@ -289,7 +293,7 @@ th {
 							<th>후원금액</th>
 							<th>전화번호</th>
 						</tr>
-						
+
 						<c:forEach var='sponsor' items='${sponsors}'>
 							<tr>
 								<td>${sponsor.donationNum}</td>
@@ -300,19 +304,19 @@ th {
 							</tr>
 						</c:forEach>
 					</table>
-		
+
 					<div id="pagination">
 						<ul class="pagination">
-						    <li><a href="#">&laquo;</a></li>
-						    <li><a href="#">1</a></li>
-						    <li><a href="#">2</a></li>
-						    <li><a href="#">3</a></li>
-						    <li><a href="#">4</a></li>
-						    <li><a href="#">5</a></li>
-						    <li><a href="#">&raquo;</a></li>
+							<li><a href="#">&laquo;</a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">&raquo;</a></li>
 						</ul>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>

@@ -68,4 +68,21 @@
 		from dogs
 		where dog_num = #{dogNum}
 	</select>
+	
+	<select id='getTodayFindDogsCnt' resultType="int" parameterType="String">
+		select count(name)
+		from dogs
+		where entrance_date=#{entranceDate}
+	</select>
+	
+	<select id='getTotalAbandonDogsCnt' resultType="int">
+		select count(name)
+		from dogs
+	</select>
+	
+	<select id='getAfterAdoptDogCnt' resultType="int">
+		select count(name)
+		from dogs
+		where adoption_status='입양완료'
+	</select>
 </mapper>

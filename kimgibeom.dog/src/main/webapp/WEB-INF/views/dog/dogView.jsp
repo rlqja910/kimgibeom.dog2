@@ -324,7 +324,7 @@ $(()=>{
 
 					<!-- 목록 버튼 -->
 					<div class='button'>
-						<input type='button' value='입양신청' data-target='#myModal'
+						<input type='button' value='입양신청' data-target='#myModal1'
 							data-toggle='modal' /> <input type='button' value='목록'
 							onClick="location.href='../../dog/dogListView'" />
 					</div>

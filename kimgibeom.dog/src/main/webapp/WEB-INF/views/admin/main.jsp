@@ -6,7 +6,7 @@
 <meta charset='UTF-8'>
 <title>ADMIN PAGE</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<%@ include file="common/scriptImport.jsp" %>
+<%@ include file="common/scriptImport.jsp"%>
 <script src="https://code.jquery.com/jquery-1.10.1.js"
 	integrity="sha256-663tSdtipgBgyqJXfypOwf9ocmvECGG8Zdl3q+tk+n0="
 	crossorigin="anonymous"></script>
@@ -113,10 +113,10 @@ body {
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<a href='<c:url value='/admin/logo/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
-					<a href='<c:url value='/admin/banner/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp; 
-					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; 
-					<a href='<c:url value='/user/logout'/>'>로그아웃</a>
+					<a href='<c:url value='admin/common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp; 
+					<a href='<c:url value='admin/common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
+						href='<c:url value='user/logout'/>'>로그아웃</a>
 				</div>
 			</div>
 			<div class='info'>
@@ -131,36 +131,7 @@ body {
 					<hr style='border: 1px solid black; margin-top: 8px;'>
 					<table class='table table-hover'>
 						<tr>
-							<td>진돗개 까미 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>치와와치치 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>포메라니안 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>달마시안 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>슈나우저 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>말티즈 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>비글 분양합니다</td>
-							<td>2020-06-10</td>
-						</tr>
-						<tr>
-							<td>시바견 분양합니다</td>
-							<td>2020-06-10</td>
+							<td colspan=2 align=center>등록된 유기견이 없습니다.</td>
 						</tr>
 
 					</table>
@@ -168,37 +139,15 @@ body {
 
 				<div class='item'>
 					<div style='overflow: hidden;'>
-						<strong class='border'>신고 접수</strong> <a href='admin/reportListView'
-							class='plus'><span class='glyphicon glyphicon-plus'></span>
-							더보기</a>
+						<strong class='border'>신고 접수</strong> <a
+							href='admin/reportListView' class='plus'><span
+							class='glyphicon glyphicon-plus'></span> 더보기</a>
 					</div>
 					<hr style='border: 1px solid black; margin-top: 8px;'>
 					<table class='table table-hover'>
 						<tr>
-							<td>쌍북에 유기견이 있습니다</td>
-							<td>jessy777</td>
-							<td>2020-06-10</td>
-						<tr>
-						<tr>
-							<td>홍대역 1번출구에 유기견이 있습니다</td>
-							<td>Jyp0423</td>
-							<td>2020-06-10</td>
-						<tr>
-						<tr>
-							<td>강남역 4번출구에 유기견이 있습니다</td>
-							<td>bts3434</td>
-							<td>2020-06-10</td>
-						<tr>
-						<tr>
-							<td>영등포역 편의점에 유기견이 있습니다</td>
-							<td>abcd123</td>
-							<td>2020-06-10</td>
-						<tr>
-						<tr>
-							<td>쌍북교육센터 앞에 유기견이 있습니다</td>
-							<td>bob9999</td>
-							<td>2020-06-10</td>
-						<tr>
+							<td colspan=2 align=center>등록된 신고 게시물이 없습니다.</td>
+						</tr>
 					</table>
 				</div>
 
@@ -212,23 +161,8 @@ body {
 					<hr style='border: 1px solid black; margin-top: 8px;'>
 					<table class='table table-hover'>
 						<tr>
-							<td>abcd123님이 30,000원을 후원하였습니다</td>
-							<td>2020-06-10</td>
-						<tr>
-						<tr>
-							<td>bum1993님이 50,000원을 후원하였습니다</td>
-							<td>2020-06-10</td>
-						<tr>
-						<tr>
-							<td>poo323님이 70,000원을 후원하였습니다</td>
-							<td>2020-06-10</td>
-						<tr>
-							<td>GGANG님이 10,000원을 후원하였습니다</td>
-							<td>2020-06-10</td>
-						<tr>
-							<td>Rinda님이 30,000원을 후원하였습니다</td>
-							<td>2020-06-10</td>
-						<tr>
+							<td colspan=2 align=center>결제된 후원금이 없습니다.</td>
+						</tr>
 					</table>
 				</div>
 				<div class='item' id='moneyItem'>
@@ -298,4 +232,4 @@ body {
 		animateCount2(454000);
 	});
 </script>
-</html> 
+</html>

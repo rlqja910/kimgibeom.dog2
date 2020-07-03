@@ -30,7 +30,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/userWithdraw")
-	public String userWithdraw() { 
+	public String userWithdraw() {
 		return "user/userWithdraw";
 	}
 
@@ -118,16 +118,19 @@ public class UserController {
 		try {
 			message.addRecipient(RecipientType.TO, new InternetAddress(userEmail));
 			message.setSubject("BEFF - 유기견 보호소 인증번호 발송");
-			message.setText("<h2>안녕하세요. BEFF 입니다</h2>" + 
-					"<p>BEFF 비밀번호 찾기 인증번호는 다음과 같습니다</p><br>" + 
-					"<p style='color:red;'>인증번호 6자리를 진행 중인 화면에 입력해 주세요</p>" + 
-					"<div style='border: 1px solid black; width:400px; margin: 20px 0px 100px 0px; padding:30px; border-raius:3px; box-shadow: 3px 3px 3px 3px #999;'>" + 
-					"	<ul>" + 
-					"		<li><p style='font-size:large;font-weight:bold;'>인증번호: <span style=\"color:blue; font-weight:bold;\">"+ code +"</span></p></li>" + 
-					"	</ul>" + 
-					"</div>" + 
-					"<h4><strong>감사합니다</strong></h4>","utf-8", "html");
+			message.setText("<div style='background-color:#efefef; width:500px; padding: 20px;'>"
+					+ "<div style='background-color:#fff; =padding:20px 0'>"
+					+ "<h3 style='text-align:center;font-weight:bold;'><span style='color:#f5bf25; font-size:48px;'>♥</span><br><br> <span style='font-size:25px;color:#1bb1bb'>안녕하세요. BEFF 입니다</span></h3>"
+					+ "<p style='text-align:center; margin-top:-5px;'>BEFF 비밀번호 찾기 인증번호는 다음과 같습니다</p>" +
+
+					"<div style='margin: 50px 0px 30px 0px; text-align:center;'>" +
+
+					"<ul  style='width: 260px; padding:15px 0px 15px 0px; border:1px solid #1bb1bb; border-radius:30px; margin:0 auto;'>"
+					+ "<li style='list-style:none;'><p style='font-size:large; margin:0; font-weight:bold;'>인증번호:"
+					+ "<span style='color:red; font-weight:bold;'>123456</span></p></li>" + "</ul>" + "</div>"
+					+ "</div>" + "</div>", "utf-8", "html");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		// 사용자email과 입력email이 같으면 메일 전송

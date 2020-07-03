@@ -8,6 +8,7 @@
 <title>Dog Manage</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <%@ include file="../common/scriptImport.jsp"%>
+
 <script>
 function dogDel() {
 	$('#delete').click(() => {
@@ -84,7 +85,7 @@ let dogsCnt=${dogsCnt};
 					}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 						if(dogsCnt==0){ //아예 데이터가 없을때
 							$('.pagination').empty();
-							$('#dogPost').append('<div>등록된 데이터가 없습니다.</div>');
+							$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
 						}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 							let onlyOnePageData=data.onlyOnePageData;
 							for(let i=1;i<=lastPageDataCnt;i++){ //데이터 출력
@@ -194,7 +195,7 @@ let dogsCnt=${dogsCnt};
 					}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 						if(dogsCnt==0){ //아예 데이터가 없을때
 							$('.pagination').empty();
-							$('#dogPost').append('<div>등록된 데이터가 없습니다.</div>');
+							$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
 						}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 							let onlyOnePageData=data.onlyOnePageData;
 							
@@ -311,7 +312,7 @@ let dogsCnt=${dogsCnt};
 							}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 								if(dogsCnt==0){ //아예 데이터가 없을때
 									$('.pagination').empty();
-									$('#dogPost').append('<div>등록된 데이터가 없습니다.</div>');
+									$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
 								}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 									let onlyOnePageData=data.onlyOnePageData;
 									
@@ -406,7 +407,7 @@ let dogsCnt=${dogsCnt};
 		}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 			if(dogsCnt==0){ //아예 데이터가 없을때
 				$('.pagination').empty();
-				$('#dogPost').append('<div>등록된 데이터가 없습니다.</div>');
+				$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
 			}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 				let onlyOnePageData=${onlyOnePageData};
 				
@@ -473,6 +474,39 @@ let dogsCnt=${dogsCnt};
 	}
 </script>
 <style>
+#leftNav #sidebar {
+	position: fixed;
+	width: 200px;
+	height: 100%;
+	background: #4b4276;
+	padding: 20px 0;
+}
+
+#leftNav #sidebar ul li {
+	padding: 15px;
+	list-style: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	border-top: 1px solid rgba(225, 225, 225, 0.05);
+}
+
+#leftNav #sidebar ul li a {
+	color: #bdb8d7;
+	display: black;
+}
+
+#leftNav #sidebar ul li a span {
+	width: 25px;
+}
+
+#leftNav #sidebar ul li:hover {
+	background: #594f8d;
+}
+
+#leftNav #sidebar ul li:hover a {
+	color: #fff;
+	text-decoration: none;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -503,6 +537,13 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 1em;
 	border-style: none;
 	font-weight: normal;
+}
+
+#title {
+	color: #fff;
+	text-align: center;
+	margin-bottom: 30px;
+	font-size: 30px;
 }
 
 strong {
@@ -727,16 +768,40 @@ body {
 <body>
 	<div class='wrapper' id='leftNav'>
 		<div class='sidebar' id='sidebar'>
-			<%@ include file="../common/nav.jsp"%>
+			<h2 id='title'>
+				<b>DOG SHELTER</b>
+			</h2>
+			<ul>
+				<li><a href='<c:url value='/admin'/>'> <span
+						class='glyphicon glyphicon-home'></span>메인
+				</a></li>
+				<li><a href='#'> <span class='glyphicon glyphicon-user'></span>회원관리
+				</a></li>
+				<li><a href='<c:url value='/admin/dog/dogListView'/>'> <span
+						class='glyphicon glyphicon-heart'></span>유기견관리
+				</a></li>
+				<li><a href='#'> <span class='glyphicon glyphicon-calendar'></span>입양관리
+				</a></li>
+				<li><a href='<c:url value='/admin/review/reviewListView'/>'>
+						<span class='glyphicon glyphicon-list'></span>후기관리
+				</a></li>
+				<li><a href='<c:url value='/admin/report/reportListView'/>'>
+						<span class='glyphicon glyphicon-bullhorn'></span>신고관리
+				</a></li>
+				<li><a href='#'> <span
+						class='glyphicon glyphicon-piggy-bank'></span>후원금 관리
+				</a></li>
+
+			</ul>
 		</div>
 		<div class='main_content'>
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<a href='<c:url value='/admin/logo/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
-					<a href='<c:url value='/admin/banner/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='../../common/logoRegist'>로고관리</a>&nbsp;|&nbsp; <a
+						href='<c:url value='../../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
 					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
-						href='<c:url value='/user/logout'/>'>로그아웃</a>
+						href='<c:url value='../../../user/logout'/>'>로그아웃</a>
 				</div>
 			</div>
 			<div class='info'>

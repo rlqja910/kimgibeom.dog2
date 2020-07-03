@@ -20,4 +20,10 @@ public interface DogMap {
 	int addDog(Dog dog);
 
 	Dog searchDog(int dogNum);
+
+	int getTodayFindDogsCnt(String entranceDate);
+
+	int getTotalAbandonDogsCnt();
+
+	int getAfterAdoptDogCnt();
 }

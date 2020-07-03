@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset='UTF-8'>
 <title>ADMIN PAGE</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<%@ include file="../common/scriptImport.jsp" %>
+<%@ include file="../common/scriptImport.jsp"%>
 <script>
 function userUpdate(){
 	$('#modify').on('click', () => {
@@ -50,8 +50,8 @@ body {
 #leftNav #sidebar ul li {
 	padding: 15px;
 	list-style: none;
-	border-bottom: 1px solid rgba(0,0,0,0.05);
-	border-top: 1px solid rgba(225,225,225,0.05);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	border-top: 1px solid rgba(225, 225, 225, 0.05);
 }
 
 #leftNav #sidebar ul li a {
@@ -84,7 +84,7 @@ body {
 	border-bottom: 1px solid #e0e4e8;
 }
 
-#leftNav .main_content .header .border{
+#leftNav .main_content .header .border {
 	font-size: 19px;
 }
 
@@ -95,7 +95,7 @@ body {
 	float: right;
 }
 
-#leftNav .main_content .header #topButton a{
+#leftNav .main_content .header #topButton a {
 	text-decoration: none;
 }
 
@@ -111,8 +111,8 @@ body {
 	display: inline;
 }
 
-th{
-	background-color:#EFEFEF;
+th {
+	background-color: #EFEFEF;
 	text-align: center;
 	width: 150px;
 }
@@ -125,70 +125,69 @@ p {
 </style>
 </head>
 <body>
-<div class='wrapper' id='leftNav'>
-	<div class='sidebar' id='sidebar'>
-		<%@ include file="../common/nav.jsp"%>
-	</div>
-	<div class='main_content'>
-		<div class='header'>
-			<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
-			<div id='topButton'>
-					<a href='<c:url value='/admin/logo/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
-					<a href='<c:url value='/admin/banner/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp; 
-					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; 
-					<a href='<c:url value='/user/logout'/>'>로그아웃</a>
+	<div class='wrapper' id='leftNav'>
+		<div class='sidebar' id='sidebar'>
+			<%@ include file="../common/nav.jsp"%>
+		</div>
+		<div class='main_content'>
+			<div class='header'>
+				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
+				<div id='topButton'>
+					<a href='<c:url value='../common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
+						href='<c:url value='../../user/logout'/>'>로그아웃</a>
+				</div>
+			</div>
+			<div class='info'>
+				<div class='content'>
+					<h3>
+						<span class='glyphicon glyphicon-list'></span> <strong>
+							회원관리 > 수정</strong>
+					</h3>
+					<hr style='border: 1px solid #a0a0a0;'>
+
+					<form>
+						<table class='table'>
+							<tr>
+								<th>아이디</th>
+								<td>rlqja910</td>
+							</tr>
+							<tr>
+								<th>비밀번호</th>
+								<td><input type='text' value='abcd1234!' />
+									<p>* * 8자리 이상 16자리 이하, 영소문자, 숫자, 특수문자 각 최소 1개 이상 가능(공백 불가)
+									</p></td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td><input type='text' value='김소현' /></td>
+							</tr>
+							<tr>
+								<th>전화번호</th>
+								<td><input type='text' style='width: 80px;' value='010' /><strong>&nbsp;
+										- &nbsp;</strong> <input type='text' style='width: 120px;' value='1234' /><strong>&nbsp;
+										- &nbsp;</strong> <input type='text' style='width: 120px;' value='1234' />
+								</td>
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td><input type='email' style='width: 370px;'
+									value='sohyun2@google.com'></td>
+							</tr>
+						</table>
+
+						<div class='button' style='text-align: right;'>
+							<span id='modifypMsg' style='color: red'></span>
+							<button type='button' class='btn btn-primary' id='modify'>수정</button>
+							&nbsp;
+							<button type='button' class='btn btn-default'
+								onClick="location.href='01.html'">취소</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-		<div class='info'>
-			<div class='content'>
-				<h3>
-					<span class='glyphicon glyphicon-list'></span>
-					<strong> 회원관리 > 수정</strong>
-				</h3>
-				<hr style='border: 1px solid #a0a0a0;'>
-			
-				<form>
-					<table class='table'>
-						<tr>
-							<th>아이디</th>
-							<td>
-								rlqja910
-							</td>
-						</tr>
-						<tr>
-							<th>비밀번호</th>
-							<td>
-								<input type='text' value='abcd1234!'/>
-								<p>* * 8자리 이상 16자리 이하, 영소문자, 숫자, 특수문자 각 최소 1개 이상 가능(공백 불가) </p>
-							</td>
-						</tr>
-						<tr>
-							<th>이름</th>
-							<td><input type='text' value='김소현'/></td>
-						</tr>
-						<tr>
-							<th>전화번호</th>
-							<td>
-								<input type='text' style='width:80px;' value='010'/><strong>&nbsp; - &nbsp;</strong>
-								<input type='text' style='width:120px;' value='1234'/><strong>&nbsp; - &nbsp;</strong>
-								<input type='text' style='width:120px;' value='1234'/>
-							</td>
-						</tr>
-						<tr>
-							<th>이메일</th>
-							<td><input type='email' style='width:370px;' value='sohyun2@google.com'></td>
-						</tr>
-					</table>
-					
-					<div class='button' style='text-align:right;'>
-						<span id='modifypMsg' style='color:red'></span>
-						<button type='button' class='btn btn-primary' id='modify'>수정</button>&nbsp;
-						<button type='button' class='btn btn-default' onClick="location.href='01.html'">취소</button>
-					</div>
-				</form>	
-			</div>	
-		</div>
 	</div>
-</div>
 </body>
 </html>

@@ -48,4 +48,19 @@ public class DogServiceImpl implements DogService {
 		return dogDao.searchDog(dogNum);
 	}
 
+	@Override
+	public int readTodayFindDogsCnt(String entranceDate) {
+		return dogDao.getTodayFindDogsCnt(entranceDate);
+	}
+
+	@Override
+	public int readTotalAbandonDogsCnt() {
+		return dogDao.getTotalAbandonDogsCnt();
+	}
+
+	@Override
+	public int readAfterAdoptDogCnt() {
+		return dogDao.getAfterAdoptDogCnt();
+	}
+
 }

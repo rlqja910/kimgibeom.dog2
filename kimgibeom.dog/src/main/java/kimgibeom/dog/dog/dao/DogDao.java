@@ -18,4 +18,10 @@ public interface DogDao {
 	int addDog(Dog dog);
 
 	Dog searchDog(int dogNum);
+
+	int getTodayFindDogsCnt(String entranceDate);
+
+	int getTotalAbandonDogsCnt();
+
+	int getAfterAdoptDogCnt();
 }

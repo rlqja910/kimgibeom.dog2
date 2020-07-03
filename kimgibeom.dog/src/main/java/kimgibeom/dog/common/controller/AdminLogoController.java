@@ -1,4 +1,4 @@
-package kimgibeom.dog.logo.controller;
+package kimgibeom.dog.common.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/admin/logo")
+@RequestMapping("/admin/common")
 public class AdminLogoController {
 	@Value("${logoAttachDir}")
 	private String logoAttachDir;
@@ -22,7 +22,7 @@ public class AdminLogoController {
 	public void logoRegister() {
 	}
 
-	@RequestMapping(value = "/registProc", method = RequestMethod.POST)
+	@RequestMapping(value = "/logoRegistProc", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean logoRegistProc(MultipartFile attachFile, HttpServletRequest request) {
 

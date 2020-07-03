@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset='UTF-8'>
-<title>ADMIN PAGE</title> 
+<title>ADMIN PAGE</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<%@ include file="../common/scriptImport.jsp" %>
+<%@ include file="../common/scriptImport.jsp"%>
 <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script src="${path}/ckeditor/ckeditor.js"></script>
 <script>
@@ -109,8 +109,8 @@ body {
 #leftNav #sidebar ul li {
 	padding: 15px;
 	list-style: none;
-	border-bottom: 1px solid rgba(0,0,0,0.05);
-	border-top: 1px solid rgba(225,225,225,0.05);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	border-top: 1px solid rgba(225, 225, 225, 0.05);
 }
 
 #leftNav #sidebar ul li a {
@@ -143,7 +143,7 @@ body {
 	border-bottom: 1px solid #e0e4e8;
 }
 
-#leftNav .main_content .header .border{
+#leftNav .main_content .header .border {
 	font-size: 19px;
 }
 
@@ -154,7 +154,7 @@ body {
 	float: right;
 }
 
-#leftNav .main_content .header #topButton a{
+#leftNav .main_content .header #topButton a {
 	text-decoration: none;
 }
 
@@ -169,17 +169,17 @@ body {
 	display: inline;
 }
 
-th{
-	background-color:#EFEFEF;
+th {
+	background-color: #EFEFEF;
 	text-align: center;
 	width: 150px;
 }
 
-.contentTd{
+.contentTd {
 	height: 350px;
 }
 
-textarea{
+textarea {
 	width: 1300px;
 	height: 300px;
 	resize: none;
@@ -188,50 +188,48 @@ textarea{
 </style>
 </head>
 <body>
-<div class='wrapper' id='leftNav'>
-	<div class='sidebar' id='sidebar'>
-		<%@ include file="../common/nav.jsp"%>
-	</div>
-	<div class='main_content'>
-		<div class='header'>
-			<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
-			<div id='topButton'>
-				<a href="<c:url value='/admin/logo/logoRegist'/>">로고관리</a>&nbsp;|&nbsp;
-				<a href="<c:url value='/admin/banner/bannerRegist'/>">배너관리</a>&nbsp;|&nbsp; 
-				<a href="<c:url value='/'/>">홈페이지 돌아가기</a>&nbsp;|&nbsp; 
-				<a href="<c:url value='/user/logout'/>">로그아웃</a>
-			</div>
+	<div class='wrapper' id='leftNav'>
+		<div class='sidebar' id='sidebar'>
+			<%@ include file="../common/nav.jsp"%>
 		</div>
-		<div class='info'>
-			<div class='content'>
-				<h3>
-					<span class='glyphicon glyphicon-list'></span>
-					<strong> 후기관리 > 등록</strong>
-				</h3>
-				<hr style='border: 1px solid #a0a0a0;'>
-			
-				<form id="reviewForm" action="addReview" method="post" enctype="multipart/form-data">
-					<table class='table'>
-						<tr>
-							<th>제목</th>
-							<td>
-								<input type='text' style='width:500px;' id="title" name="title" onkeyup="fn_chkByteTitle(this);"/>
-								<span id="chkTitle" style="color:red"></span>
-							</td>
-						</tr>
-						<tr>
-							<th>이미지</th>
-							<td>
-								<input type='file' id="imgFile" name="attachFile" onchange="fn_chkFile(this)"/>
-								<span id="chkFile" style="color:red"></span>
-							</td>
-						</tr>
-						<tr class="contentTd">
-							<th>내용</th>
-							<td>
-								<textarea id="description" name="content" maxlength="1250"></textarea>
-								<span id="chkContent" style="color:red"></span>
-								<script>
+		<div class='main_content'>
+			<div class='header'>
+				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
+				<div id='topButton'>
+					<a href='<c:url value='../common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
+						href='<c:url value='../../user/logout'/>'>로그아웃</a>
+				</div>
+			</div>
+			<div class='info'>
+				<div class='content'>
+					<h3>
+						<span class='glyphicon glyphicon-list'></span> <strong>
+							후기관리 > 등록</strong>
+					</h3>
+					<hr style='border: 1px solid #a0a0a0;'>
+
+					<form id="reviewForm" action="addReview" method="post"
+						enctype="multipart/form-data">
+						<table class='table'>
+							<tr>
+								<th>제목</th>
+								<td><input type='text' style='width: 500px;' id="title"
+									name="title" onkeyup="fn_chkByteTitle(this);" /> <span
+									id="chkTitle" style="color: red"></span></td>
+							</tr>
+							<tr>
+								<th>이미지</th>
+								<td><input type='file' id="imgFile" name="attachFile"
+									onchange="fn_chkFile(this)" /> <span id="chkFile"
+									style="color: red"></span></td>
+							</tr>
+							<tr class="contentTd">
+								<th>내용</th>
+								<td><textarea id="description" name="content"
+										maxlength="1250"></textarea> <span id="chkContent"
+									style="color: red"></span> <script>
 									CKEDITOR.replace("description", {
 										removePlugins: "image, blockquote",
 									});
@@ -251,20 +249,20 @@ textarea{
 											$("#addReview").attr("disabled", false);
 										}
 									});
-								</script>
-							</td>
-						</tr>
-					</table>
-					
-					<div class='button' style='text-align:right;'>
-						<span id="chkAdd"></span>
-						<button type='button' class='btn btn-primary' id="addReview">등록</button>&nbsp;
-						<button type='button' class='btn btn-default' id="cancelAdd">취소</button>
-					</div>
-				</form>	
-			</div>	
+								</script></td>
+							</tr>
+						</table>
+
+						<div class='button' style='text-align: right;'>
+							<span id="chkAdd"></span>
+							<button type='button' class='btn btn-primary' id="addReview">등록</button>
+							&nbsp;
+							<button type='button' class='btn btn-default' id="cancelAdd">취소</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>
