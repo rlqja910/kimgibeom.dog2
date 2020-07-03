@@ -151,7 +151,7 @@ $(modifyReport);
 				<div class='contTitle'>유기견 신고</div>
 				<hr class='contHr'>
 				<div class='reportWrite'>
-					<form action='../reportModify' method='post'>
+					<form action='../reportModify' method='post' enctype='multipart/form-data'>
 						<table>
 							<tr>
 								<th>제목</th>
@@ -165,12 +165,21 @@ $(modifyReport);
 								<td>
 									<textarea name='content' id="description" required>${report.content}</textarea>
 									<font color='red'></font> 
-									<input type='number' name='reportNum' value='${report.reportNum}'/>
+									<input type='hidden' name='reportNum' value='${report.reportNum}'/>
 								</td>
 							</tr>
 							<tr>
 								<th>이미지</th>
-								<td><input type='file'/></td>
+								<td>
+									<input type='file' name='attachFile'/>
+									<input type='hidden' name='attachName' value='${report.attachName}'/>
+									<div>
+										<br>
+										<img src='<c:url value="/attach/report/${report.attachName}"/>' width='10%' height='10%'/>
+										<span>${report.attachName}</span>
+									</div>	
+									<font color='red'></font>
+								</td>
 							</tr>
 						</table>
 					

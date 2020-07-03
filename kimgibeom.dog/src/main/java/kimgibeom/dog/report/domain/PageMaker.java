@@ -9,7 +9,6 @@ public class PageMaker {
 	private int endPage;
 	private int prev;
 	private int next;
-	private int displayPageNum = 8;
 	private Criteria cri;
 	
 	public void setCri(Criteria cri) {
@@ -33,22 +32,13 @@ public class PageMaker {
 		return endPage;
 	}
 	
-	public int getDisplayPageNum() {
-		return displayPageNum;
-	}
-	
 	public Criteria getCri() {
 		return cri;
 	}
 	 
 	private void calcData() {
-		endPage = (int) (Math.ceil(cri.getPage() / (double)displayPageNum) * displayPageNum);
-		startPage = (endPage - displayPageNum) + 1;
-	  
-		int tempEndPage = (int) (Math.ceil(totalCount / (double)cri.getPerPageNum()));
-		if (endPage > tempEndPage) {
-			endPage = tempEndPage;
-		}
+		endPage = (int) (Math.ceil(totalCount / (double)cri.getPerPageNum()));
+		startPage = 1;
 		
 		prev = cri.getPage() - 1;
 		next = cri.getPage() + 1;

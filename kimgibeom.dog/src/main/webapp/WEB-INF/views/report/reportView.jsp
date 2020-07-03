@@ -67,7 +67,7 @@ function readReply() {
 							<input id='${reply.replyNum}' type='button' value='삭제'/>
 						</span>
 					</li>
-					<li>${reply.content}</li>
+					<li style="white-space:pre-wrap;">${reply.content}</li>
 				</ul>
 			</c:forEach>`
 		);
@@ -255,11 +255,10 @@ $(checkAuthority);
 						<input type='button' value='목록' onClick='location.href="../reportListView"'/>
 						<input type='button' value='삭제' id='reportDel'/>
 						<input type='button' value='수정' id='reportUpdate' 
-						onClick='#'/>
-							<!--  onClick="location.href='../reportModify/${report.reportNum}'"/> -->
+						onClick='location.href="../reportModify/${report.reportNum}"'/>
 					</div>
 					
-					<!-- 답글 -->
+					<!-- 댓글 -->
 					<div class='writeCont'>
 						<p>댓글</p>
 						<div class='write'>

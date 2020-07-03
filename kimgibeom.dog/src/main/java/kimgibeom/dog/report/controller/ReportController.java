@@ -109,9 +109,18 @@ public class ReportController {
 		return "report/reportModify";
 	}
 
-	@RequestMapping(value = "/reportModify", method = RequestMethod.POST)
-	public String modifyOut(Report report) {
+	@RequestMapping(value="/reportModify", method=RequestMethod.POST)
+	public String modifyOut(Report report, MultipartFile attachFile, HttpServletRequest request) {
+		attachSeq++;
+		String dir = request.getServletContext().getRealPath(reportAttachDir);
+		String fileName = attachSeq + attachFile.getOriginalFilename();
+		save(dir + "/" + fileName, attachFile);
+		
+		if (!attachFile.getOriginalFilename().equals("")) 
+			report.setAttachName(fileName);
+		
 		reportService.updateReport(report);
+		
 		int reportNum = report.getReportNum();
 		return "redirect:reportView/" + reportNum;
 	}

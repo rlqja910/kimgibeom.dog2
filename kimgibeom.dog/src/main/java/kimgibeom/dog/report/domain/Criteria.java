@@ -19,20 +19,8 @@ public class Criteria {
 		this.page = page;
 	}
 	
-	public void setPerPageNum(int perPageNum) {
-		if (perPageNum <= 0 || perPageNum > 100) {
-			this.perPageNum = 8;
-			return;
-		}
-		this.perPageNum = perPageNum;
-	}
-	
 	public int getPage() {
 		return page;
-	}
-	
-	public int getPageStart() {
-		return (this.page - 1) * perPageNum;
 	}
 	
 	public int getPerPageNum() {
@@ -47,11 +35,5 @@ public class Criteria {
 	public int getRowEnd() {
 		rowEnd = rowStart + perPageNum - 1;
 		return rowEnd;
-	}
-
-	@Override
-	public String toString() {
-		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", rowStart=" + rowStart + ", rowEnd=" + rowEnd
-				+ "]";
 	}
 }
