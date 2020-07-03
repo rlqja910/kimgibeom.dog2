@@ -1,5 +1,7 @@
 package kimgibeom.dog.user.controller;
 
+import java.sql.Date;
+
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -62,6 +65,26 @@ public class UserController {
 	@ResponseBody
 	public void userJoinProc(User user) {
 		userService.writeUser(user);
+	}
+	
+	@RequestMapping("/userInfoModify") // 회원정보 수정
+	public void userInfoModify(HttpServletRequest request, Model model) {
+		String userId = (String) request.getSession().getAttribute("userId");
+		User user = userService.findUser(userId);
+
+		model.addAttribute("user", user);
+	}
+
+	@RequestMapping("/userModify") // 입력한 사용자 내용 수정
+	public void userModify(String userId, String userPw, String userName, String userPhone, String userEmail) {
+		System.out.println("=-=-=-=-=-=-=-=-=" + userPw + "=-=-=-=-=-=-=-=-=");
+		System.out.println("=-=-=-=-=-=-=-=-=" + userName + "=-=-=-=-=-=-=-=-=");
+		System.out.println("=-=-=-=-=-=-=-=-=" + userPhone + "=-=-=-=-=-=-=-=-=");
+		System.out.println("=-=-=-=-=-=-=-=-=" + userEmail + "=-=-=-=-=-=-=-=-=");
+
+		Date data = new Date(1111, 11, 11);
+		User user = new User(userId, userPw, userName, userPhone, userEmail, data);
+		userService.modUser(user);
 	}
 
 	@RequestMapping("/idCheck") // 회원가입시 중복확인
@@ -159,6 +182,19 @@ public class UserController {
 			userService.withdrawUser(userId);
 			request.getSession().invalidate();
 
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// 회원 수정(회원 비밀번호 체크)
+	@RequestMapping(value = "/pwConfirm", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean pwConfirm(String userId, String userPw) {
+		String pw = userService.readuserPw(userId);
+
+		if (pw.equals(userPw)) {
 			return true;
 		} else {
 			return false;

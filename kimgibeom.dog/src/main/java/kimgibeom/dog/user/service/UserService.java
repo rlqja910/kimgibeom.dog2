@@ -20,4 +20,8 @@ public interface UserService {
 	boolean modPw(String userId, String userPw);
 
 	boolean withdrawUser(String userId);
+	
+	User findUser(String userId);
+	
+	int modUser(User user);
 }

@@ -41,4 +41,17 @@
 		delete users
 		where user_id = #{userId}
 	</delete>
+		
+	<!-- user 1명 -->
+	<select id='getUser' resultType='user'>
+		select user_id userId, password userPw, name userName, phone_number userPhone, e_mail userEmail
+		from users
+		where user_id = #{userId}
+	</select>
+	
+	<update id='updateUser' parameterType="user" >
+		update users
+		set password = #{userPw}, name = #{userName}, phone_number = #{userPhone}, e_mail = #{userEmail}
+		where user_id= #{userId}
+	</update>
 </mapper>

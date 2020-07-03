@@ -61,4 +61,14 @@ public class UserServiceImpl implements UserService {
 	public boolean withdrawUser(String userId) {
 		return userDao.delUser(userId) > 0;
 	}
+	
+	@Override
+	public User findUser(String userId) {
+		return userDao.getUser(userId);
+	}
+	
+	@Override
+	public int modUser(User user) {
+		return userDao.updateUser(user);
+	}
 }
