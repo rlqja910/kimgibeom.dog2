@@ -13,19 +13,15 @@
 <link rel='stylesheet'
 	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
 <script>
-
 $(()=>{
-	$('#adoptReserve').click(()=>{
-		$.ajax({
-			success: () =>{
-				swal({
-					title:'',
-					text:'입양신청이 완료되었습니다.',
-					type:'success', 
-				},
-				)}
-			});
-		});
+	let dogAdoptionStatus = '${dog.dogAdoptionStatus}';
+	console.log(dogAdoptionStatus); 
+	if(dogAdoptionStatus==='입양미완료'){
+		$('#reservationAndGoList').append('<input type=button value="입양신청" data-target="#myModal1" data-toggle="modal" /> <input type="button" value="목록" onClick="location.href="../../dog/dogListView"" />');
+	}
+	else if(dogAdoptionStatus==='입양완료'){
+		$('#reservationAndGoList').append('<br><br><div style="font-size:20px; color:red; font-weight:bold;">새로운 가족이 생긴 유기견입니다.</div><br><input type="button" value="목록" onClick="location.href="../../dog/dogListView"" />');
+	}
 });
 </script>
 <!-- modal -->
@@ -92,6 +88,10 @@ $(()=>{
 	margin: 0 auto;
 	margin-top: 100px;
 	margin-bottom: 100px;
+}
+
+.marker {
+	background-color: yellow;
 }
 
 .review .dogView {
@@ -328,11 +328,7 @@ $(()=>{
 					</table>
 
 					<!-- 목록 버튼 -->
-					<div class='button'>
-						<input type='button' value='입양신청' data-target='#myModal1'
-							data-toggle='modal' /> <input type='button' value='목록'
-							onClick="location.href='../../dog/dogListView'" />
-					</div>
+					<div class='button' id='reservationAndGoList'></div>
 				</div>
 
 				<!-- modal -->

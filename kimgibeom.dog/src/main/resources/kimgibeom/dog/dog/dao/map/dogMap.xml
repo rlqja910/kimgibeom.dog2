@@ -19,7 +19,7 @@
 		dogEntranceDate,content dogContent,attach_name attachName
 		from dogs
 		where kind like '%'||#{dogKind}||'%'
-		and entrance_date>=#{dogEntDate}
+		and entrance_date>#{dogEntDate}
 		order by 1 desc
 	</select>
 	
