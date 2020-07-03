@@ -66,7 +66,7 @@ public class adminDogController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		} 
 
 		return "redirect:dogView/" + dogNum;
 	}
