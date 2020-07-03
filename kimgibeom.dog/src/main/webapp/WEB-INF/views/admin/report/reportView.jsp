@@ -193,10 +193,10 @@ body {
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<<a href='<c:url value='../common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
-					<a href='<c:url value='../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
-					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
-						href='<c:url value='../../user/logout'/>'>로그아웃</a>
+					<a href='<c:url value='../../common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='../../common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
+					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; 
+					<a href='<c:url value='../../../user/logout'/>'>로그아웃</a>
 				</div>
 			</div>
 			<div class='info'>
@@ -231,9 +231,9 @@ body {
 						<div class='replyBox'>
 							<span><strong>${reply.userId}</strong>&nbsp;&nbsp;${reply.regDate}</span>
 							<button id='${reply.replyNum}' type='button'
-								class='btn btn-danger replyDel'>삭제</button>
+								class='btn btn-danger replyDel'>삭제</button><br><br>
 							<div class='replyContent'>
-								${reply.content}<br>&nbsp;
+								${reply.content}
 							</div>
 						</div>
 					</div>

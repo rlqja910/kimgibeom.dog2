@@ -153,19 +153,19 @@ $(checkAuthority);
 	.contHr{width:45px; margin-top:20px; margin-bottom:60px; border:1px solid #f5bf25;}
 	.contTitle{font-size:32px; font-weight:bold; text-align:center;}
 
-	/* 입양후기 */
-	.review{width:80%;font-size:14px; margin:0 auto; margin-top:100px; margin-bottom:100px;}
-	.review .reportView{width:90%; margin:0 auto;}
-	.review .reportView table{width:100%; border-collapse: collapse;}
-	.review .reportView table tr{font-size:16px;}
-	.review .reportView table tr:nth-child(1){border-top:1px solid #333; border-bottom:1px solid #ccc;}
-	.review .reportView table tr{border-bottom:1px solid #ccc;}
-	.review .reportView table tr th{background-color:#ccc; width:20%; padding:1% 0;}
-	.review .reportView table tr:nth-child(1) td{width:80%; padding:1% 0 1% 2%;}
-	.review .reportView table tr:nth-child(2) td{width:5%; padding:1% 0 1% 2%;}
-	.review .reportView table tr:nth-child(3) td{padding:2% 0 2% 2%; word-break:break-word;}
-	.review .reportView .reportInfo{text-align:right;}
-	.review .reportView .marker{background-color:yellow;}
+	/* 유기견 신고  */
+	.report{width:80%;font-size:14px; margin:0 auto; margin-top:100px; margin-bottom:100px;}
+	.report .reportView{width:90%; margin:0 auto;}
+	.report .reportView table{width:100%; border-collapse: collapse;}
+	.report .reportView table tr{font-size:16px;}
+	.report .reportView table tr:nth-child(1){border-top:1px solid #333; border-bottom:1px solid #ccc;}
+	.report .reportView table tr{border-bottom:1px solid #ccc;}
+	.report .reportView table tr th{background-color:#ccc; width:20%; padding:1% 0;}
+	.report .reportView table tr:nth-child(1) td{width:80%; padding:1% 0 1% 2%;}
+	.report .reportView table tr:nth-child(2) td{width:5%; padding:1% 0 1% 2%;}
+	.report .reportView table tr:nth-child(3) td{padding:2% 0 2% 2%; word-break:break-word;}
+	.report .reportView .reportInfo{text-align:right;}
+	.report .reportView .marker{background-color:yellow;}
 	
 	/* 목록 버튼 */
 	.button{text-align:center; overflow:hidden;}
@@ -200,10 +200,10 @@ $(checkAuthority);
 		.header .subTitle{font-size:36px; margin-top:0; padding-bottom:5%;}
 		.contTitle{font-size:28px;}
 		
-		.review{margin-top:10%; margin-bottom:10%;}
-		.review .reviewView{width:100%;}
-		.review .reviewView table tr{font-size:14px;}
-		.review .reviewView table tr th{background-color:#ccc; width:20%; padding:2% 0;}
+		.report{margin-top:10%; margin-bottom:10%;}
+		.report .reportView{width:100%;}
+		.report .reportView table tr{font-size:14px;}
+		.report .reportView table tr th{background-color:#ccc; width:20%; padding:2% 0;}
 
 		.button input{margin-top:5%;}
 
@@ -227,7 +227,7 @@ $(checkAuthority);
 		
 		<!-- 유기견 신고 -->
 		<div class="content">
-			<div class="review">
+			<div class="report">
 				<div class='contTitle'>유기견 신고</div>
 				<hr class='contHr'>
 				<div class='reportView'>
@@ -255,11 +255,10 @@ $(checkAuthority);
 						<input type='button' value='목록' onClick='location.href="../reportListView"'/>
 						<input type='button' value='삭제' id='reportDel'/>
 						<input type='button' value='수정' id='reportUpdate' 
-						onClick='#'/>
-							<!--  onClick="location.href='../reportModify/${report.reportNum}'"/> -->
+						onClick='location.href="../reportModify/${report.reportNum}"'/>
 					</div>
 					
-					<!-- 답글 -->
+					<!-- 댓글 -->
 					<div class='writeCont'>
 						<p>댓글</p>
 						<div class='write'>
