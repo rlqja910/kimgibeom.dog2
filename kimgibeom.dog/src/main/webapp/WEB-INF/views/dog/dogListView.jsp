@@ -76,7 +76,7 @@ let dogsCnt=${dogsCnt};
 							}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 								if(dogsCnt==0){ //아예 데이터가 없을때
 									$('#pagingUl').empty();
-									$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
+									$('#dogPost').append('<div>검색된 유기견이 없습니다.</div>');
 								}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 									let onlyOnePageData=data.onlyOnePageData;
 									
@@ -180,7 +180,6 @@ let dogsCnt=${dogsCnt};
 				}
 			}
 		}
-		console.log("끝");
 		
 		$('#firstViewBtn').click(()=>{
 			$('#1page').trigger('click');

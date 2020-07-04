@@ -15,12 +15,11 @@
 <script>
 $(()=>{
 	let dogAdoptionStatus = '${dog.dogAdoptionStatus}';
-	console.log(dogAdoptionStatus); 
 	if(dogAdoptionStatus==='입양미완료'){
-		$('#reservationAndGoList').append('<input type=button value="입양신청" data-target="#myModal1" data-toggle="modal" /> <input type="button" value="목록" onClick="location.href="../../dog/dogListView"" />');
+		$('#reservationAndGoList').append('<input type=button value="입양신청" data-target="#myModal1" data-toggle="modal" /> <input type="button" value="목록" onClick=location.href="../../dog/dogListView" />');
 	}
 	else if(dogAdoptionStatus==='입양완료'){
-		$('#reservationAndGoList').append('<br><br><div style="font-size:20px; color:red; font-weight:bold;">새로운 가족이 생긴 유기견입니다.</div><br><input type="button" value="목록" onClick="location.href="../../dog/dogListView"" />');
+		$('#reservationAndGoList').append('<br><br><div style="font-size:20px; color:red; font-weight:bold;">분양완료된 유기견입니다.</div><br><input type="button" value="목록" onClick=location.href="../../dog/dogListView" />');
 	}
 });
 </script>

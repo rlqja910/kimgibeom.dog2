@@ -30,6 +30,10 @@ body {
 	position: relative;
 }
 
+.marker {
+	background-color: yellow;
+}
+
 #leftNav #sidebar {
 	position: fixed;
 	width: 200px;

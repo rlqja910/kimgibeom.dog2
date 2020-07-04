@@ -18,7 +18,6 @@ function dogDel() {
 			
 			for(let i=0;i<delDogs.length;i++){
 				delDogsArray.push(delDogs[i].value);
-				console.log(delDogsArray);
 			}
 			
 		   swal({
@@ -79,6 +78,9 @@ let dogsCnt=${dogsCnt};
 		dogList();
 		
 		$('#beforeAdoptBtn').click(()=>{
+			$('#afterAdoptBtn').removeAttr("style","background-color");
+			$('#beforeAdoptBtn').attr("style","background-color: silver;");
+			
 			let dogTitle = $('#dogTitle').val();
 			
 			$.ajax({
@@ -118,7 +120,7 @@ let dogsCnt=${dogsCnt};
 					}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 						if(dogsCnt==0){ //아예 데이터가 없을때
 							$('.pagination').empty();
-							$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
+							$('#dogPost').append('<div>검색된 유기견이 없습니다.</div>');
 						}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 							let onlyOnePageData=data.onlyOnePageData;
 							for(let i=1;i<=lastPageDataCnt;i++){ //데이터 출력
@@ -145,7 +147,6 @@ let dogsCnt=${dogsCnt};
 							}
 							$('#'+i+'page').attr("style","font-weight:bold;"); //클릭한 페이지 번호 글씨체를 굵게 한다.
 							
-							console.log(i);
 							$('#dogPost').empty(); //리스트를 완전히 다 없앤다.
 							
 							if(isOnePage){ //페이지가 만약 1페이지밖에 없다면 진입
@@ -159,7 +160,7 @@ let dogsCnt=${dogsCnt};
 								}
 							}else if(i==totalPageCnt){ //만약에 마지막 페이지를 클릭했을 경우
 								dogsData=data.pageData; //그리고 Controller에서 불러온 데이터를 준비한다.
-								console.log(dogsData);
+								
 								
 								let cnt=0;
 								for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
@@ -170,7 +171,7 @@ let dogsCnt=${dogsCnt};
 								
 							}else{ //마지막 페이지가 아닌 다른 페이지번호를 클릭했을경우
 								dogsData=data.pageData; //그리고 Controller에서 불러온 데이터를 준비한다.
-								console.log(dogsData);
+								
 								
 								let cnt=0;
 								for(let j=1;j<=8;j++){ //1페이지당 8개의 게시물이므로 8번 반복해서 데이터를 출력
@@ -188,6 +189,9 @@ let dogsCnt=${dogsCnt};
 		});
 		
 		$('#afterAdoptBtn').click(()=>{
+			$('#beforeAdoptBtn').removeAttr("style","background-color");
+			$('#afterAdoptBtn').attr("style","background-color: silver;");
+			
 			let dogTitle = $('#dogTitle').val();
 			
 			$.ajax({
@@ -227,7 +231,7 @@ let dogsCnt=${dogsCnt};
 					}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 						if(dogsCnt==0){ //아예 데이터가 없을때
 							$('.pagination').empty();
-							$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
+							$('#dogPost').append('<div>검색된 유기견이 없습니다.</div>');
 						}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 							let onlyOnePageData=data.onlyOnePageData;
 							
@@ -295,6 +299,9 @@ let dogsCnt=${dogsCnt};
 		});
 		
 		$('#searchDogBtn').click(()=>{
+				$('#afterAdoptBtn').removeAttr("style","background-color");
+				$('#beforeAdoptBtn').removeAttr("style","background-color");
+			
 				let dogTitle = $('#dogTitle').val();
 				
 				if(dogTitle===''){ //아무것도 입력안하면 리스트 전체 출력
@@ -344,7 +351,7 @@ let dogsCnt=${dogsCnt};
 							}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
 								if(dogsCnt==0){ //아예 데이터가 없을때
 									$('.pagination').empty();
-									$('#dogPost').append('<div>등록된 유기견이 없습니다.</div>');
+									$('#dogPost').append('<div>검색된 유기견이 없습니다.</div>');
 								}else{ //아예 데이터가 없는게 아니라 단 하나라도 있을때
 									let onlyOnePageData=data.onlyOnePageData;
 									
@@ -707,6 +714,11 @@ body {
 	display: inline;
 }
 
+#h3Title {
+	font-size: 24px;
+	font-weight: bolder;
+}
+
 #searchDogBtn {
 	background: #4b4276;
 }
@@ -826,7 +838,7 @@ body {
 		</div>
 		<div class='main_content'>
 			<div class='header'>
-				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
+				<strong style='font-weight: bolder'>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
 					<a href='../common/logoRegist'>로고관리</a>&nbsp;|&nbsp; <a
 						href='../common/bannerRegist'>배너관리</a>&nbsp;|&nbsp; <a
@@ -836,9 +848,8 @@ body {
 			</div>
 			<div class='info'>
 				<div class='content'>
-					<h3>
-						<span class='glyphicon glyphicon-heart'></span><strong>
-							유기견 관리</strong>
+					<h3 id='h3Title'>
+						<span class='glyphicon glyphicon-heart'></span> 유기견 관리
 					</h3>
 					<hr style='border: 1px solid #a0a0a0;'>
 					<form>
