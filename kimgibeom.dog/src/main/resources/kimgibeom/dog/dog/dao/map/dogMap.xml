@@ -114,4 +114,9 @@
 		attach_Name=#{attachName}
 		where dog_num=#{dogNum}
 	</update>
+	
+	<delete id='delDog' parameterType="int">
+		delete from dogs
+		where dog_num=#{dogNum}
+	</delete>
 </mapper>

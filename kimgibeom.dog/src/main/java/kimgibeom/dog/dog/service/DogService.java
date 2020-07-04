@@ -28,4 +28,6 @@ public interface DogService {
 	int changeDogInfo(Dog dog);
 
 	int changeDogInfoWithoutImg(Dog dog);
+
+	int removeDog(int dogNum);
 }

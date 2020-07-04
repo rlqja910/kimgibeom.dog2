@@ -73,4 +73,9 @@ public class DogServiceImpl implements DogService {
 		return dogDao.modifyDogInfoWithoutImg(dog);
 	}
 
+	@Override
+	public int removeDog(int dogNum) {
+		return dogDao.delDog(dogNum);
+	}
+
 }

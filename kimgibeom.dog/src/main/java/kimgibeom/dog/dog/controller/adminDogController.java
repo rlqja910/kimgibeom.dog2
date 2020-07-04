@@ -30,6 +30,19 @@ public class adminDogController {
 	@Value("${dogAttachDir}")
 	private String attachDir;
 
+	@RequestMapping("/dogDelProc")
+	public String dogDel(String delDogsNum) {
+		System.out.println("dogDel 접근");
+		List<String> delDogsNumList = JSONArray.fromObject(delDogsNum);
+
+		for (int i = 0; i < delDogsNumList.size(); i++) {
+			int dogNum = Integer.parseInt(delDogsNumList.get(i));
+			dogService.removeDog(dogNum);
+		}
+
+		return "admin/dog/dogListView";
+	}
+
 	@RequestMapping("/dogModify/{dogNumber}")
 	public String dogModify(@PathVariable String dogNumber, Model model) {
 		int dogNum = Integer.parseInt(dogNumber);
@@ -52,14 +65,12 @@ public class adminDogController {
 		if (attachFile.getOriginalFilename().equals("")) {
 			Dog dog = new Dog(dogNum, dogTitle, dogName, dogAge, dogKind, dogWeight, dogGender, "", dogEntranceDate,
 					dogContent, "");
-			System.out.println("이미지없음");
 			dogService.changeDogInfoWithoutImg(dog);
 			urlDogNum = dog.getDogNum();
 		} else {
 			try {
 				Dog dog = new Dog(dogNum, dogTitle, dogName, dogAge, dogKind, dogWeight, dogGender, "", dogEntranceDate,
 						dogContent, fileName);
-				System.out.println("이미지있음");
 				dogService.changeDogInfo(dog); // dog 추가
 				urlDogNum = dog.getDogNum();
 

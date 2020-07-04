@@ -30,4 +30,6 @@ public interface DogMap {
 	int modifyDogInfo(Dog dog);
 
 	int modifyDogInfoWithoutImg(Dog dog);
+
+	int delDog(int dogNum);
 }

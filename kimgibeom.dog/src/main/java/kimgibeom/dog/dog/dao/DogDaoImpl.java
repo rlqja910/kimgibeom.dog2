@@ -73,4 +73,9 @@ public class DogDaoImpl implements DogDao {
 		return dogMap.modifyDogInfoWithoutImg(dog);
 	}
 
+	@Override
+	public int delDog(int dogNum) {
+		return dogMap.delDog(dogNum);
+	}
+
 }

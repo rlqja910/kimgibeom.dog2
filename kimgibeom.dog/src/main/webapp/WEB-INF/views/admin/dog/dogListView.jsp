@@ -13,6 +13,14 @@
 function dogDel() {
 	$('#delete').click(() => {
 		if($('input:checkbox').is(':checked')) {
+			let delDogs = $('input[name=dogCheckBox]:checked');
+			let delDogsArray=[];
+			
+			for(let i=0;i<delDogs.length;i++){
+				delDogsArray.push(delDogs[i].value);
+				console.log(delDogsArray);
+			}
+			
 		   swal({
 		      title: '',
 		      text: '유기견 정보를 정말 삭제하시겠습니까?',
@@ -24,9 +32,33 @@ function dogDel() {
 		      closeOnCancel: true
 		   },
 		   function(isConfirm){
-		      if(isConfirm) swal('','유기견 정보가 삭제되었습니다.','success');
-		      else('취소','','error');
+		      if(isConfirm){
+		    	  $.ajax({
+						url:'dogDelProc',
+						data:{
+							delDogsNum:JSON.stringify(delDogsArray),
+						},
+						success:()=>{
+							swal({	  title: '',
+								      text: '유기견 정보가 삭제되었습니다',
+								      type: 'success',
+								      showCancelButton: false,
+								      confirmButtonText: '확인',
+								      closeOnConfirm: false,
+								      },function(isConfirm){
+								    	  location.href='dogListView';
+								      }
+								);
+						},
+						error:()=>{
+						}
+					});
+		      }else{
+		    	  ('취소','','error');
+		      }
 		   });	
+		}else{
+			swal('','항목을 선택해주세요','warning');
 		}
 	});
 }
@@ -43,6 +75,7 @@ let lastPageDataCnt=${lastPageDataCnt};
 let sdogData=null;
 let dogsCnt=${dogsCnt};
 	$(()=>{
+		dogDel();
 		dogList();
 		
 		$('#beforeAdoptBtn').click(()=>{
@@ -79,7 +112,7 @@ let dogsCnt=${dogsCnt};
 						
 						for(let i=1;i<=8;i++){ //한페이지당 8개의 게시물이 있으므로 8번 반복한다.
 							let contentStr=dogsData[i-1].dogContent.replace(/<p>/gi,' ');
-							$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" value=""/></li></ul></a>');
+							$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[i-1].dogNum+'"/></li></ul></a>');
 						}
 						
 					}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
@@ -90,11 +123,10 @@ let dogsCnt=${dogsCnt};
 							let onlyOnePageData=data.onlyOnePageData;
 							for(let i=1;i<=lastPageDataCnt;i++){ //데이터 출력
 								let contentStr=onlyOnePageData[i-1].dogContent.replace(/<p>/gi,' ');
-								$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+								$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+onlyOnePageData[i-1].dogNum+'"/></li></ul></a>');
 							}
 						}
 					}
-					console.log("끝");
 					
 					$('#firstViewBtn').click(()=>{
 						$('#1page').trigger('click');
@@ -122,7 +154,7 @@ let dogsCnt=${dogsCnt};
 								let cnt=0;
 								for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 									let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 									cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 								}
 							}else if(i==totalPageCnt){ //만약에 마지막 페이지를 클릭했을 경우
@@ -132,7 +164,7 @@ let dogsCnt=${dogsCnt};
 								let cnt=0;
 								for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 									let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 									cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 								}
 								
@@ -143,7 +175,7 @@ let dogsCnt=${dogsCnt};
 								let cnt=0;
 								for(let j=1;j<=8;j++){ //1페이지당 8개의 게시물이므로 8번 반복해서 데이터를 출력
 									let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 									cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 								}
 							}
@@ -189,7 +221,7 @@ let dogsCnt=${dogsCnt};
 						
 						for(let i=1;i<=8;i++){ //한페이지당 8개의 게시물이 있으므로 8번 반복한다.
 							let contentStr=dogsData[i-1].dogContent.replace(/<p>/gi,' ');
-							$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+							$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[i-1].dogNum+'"/></li></ul></a>');
 						}
 						
 					}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
@@ -201,7 +233,7 @@ let dogsCnt=${dogsCnt};
 							
 							for(let i=1;i<=lastPageDataCnt;i++){ //데이터 출력
 								let contentStr=onlyOnePageData[i-1].dogContent.replace(/<p>/gi,' ');
-								$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+								$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+onlyOnePageData[i-1].dogNum+'"/></li></ul></a>');
 							}
 						}
 					}
@@ -231,7 +263,7 @@ let dogsCnt=${dogsCnt};
 								let cnt=0;
 								for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 									let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 									cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 								}
 							}else if(i==totalPageCnt){ //만약에 마지막 페이지를 클릭했을 경우
@@ -240,7 +272,7 @@ let dogsCnt=${dogsCnt};
 								let cnt=0;
 								for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 									let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 									cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 								}
 								
@@ -250,7 +282,7 @@ let dogsCnt=${dogsCnt};
 								let cnt=0;
 								for(let j=1;j<=8;j++){ //1페이지당 8개의 게시물이므로 8번 반복해서 데이터를 출력
 									let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 									cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 								}
 							}
@@ -306,7 +338,7 @@ let dogsCnt=${dogsCnt};
 								
 								for(let i=1;i<=8;i++){ //한페이지당 8개의 게시물이 있으므로 8번 반복한다.
 									let contentStr=dogsData[i-1].dogContent.replace(/<p>/gi,' ');
-									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+									$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[i-1].dogNum+'"/></li></ul></a>');
 								}
 								
 							}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
@@ -318,11 +350,10 @@ let dogsCnt=${dogsCnt};
 									
 									for(let i=1;i<=lastPageDataCnt;i++){ //데이터 출력
 										let contentStr=onlyOnePageData[i-1].dogContent.replace(/<p>/gi,' ');
-										$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+										$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+onlyOnePageData[i-1].dogNum+'"/></li></ul></a>');
 									}
 								}
 							}
-							console.log("끝");
 							
 							$('#firstViewBtn').click(()=>{
 								$('#1page').trigger('click');
@@ -349,7 +380,7 @@ let dogsCnt=${dogsCnt};
 										let cnt=0;
 										for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 											let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-											$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+											$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 											cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 										}
 									}else if(i==totalPageCnt){ //만약에 마지막 페이지를 클릭했을 경우
@@ -358,7 +389,7 @@ let dogsCnt=${dogsCnt};
 										let cnt=0;
 										for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 											let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-											$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+											$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 											cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 										}
 										
@@ -368,7 +399,7 @@ let dogsCnt=${dogsCnt};
 										let cnt=0;
 										for(let j=1;j<=8;j++){ //1페이지당 8개의 게시물이므로 8번 반복해서 데이터를 출력
 											let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-											$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+											$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 											cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 										}
 									}
@@ -401,7 +432,7 @@ let dogsCnt=${dogsCnt};
 			
 			for(let i=1;i<=8;i++){ //한페이지당 8개의 게시물이 있으므로 8번 반복한다.
 				let contentStr=dogsData[i-1].dogContent.replace(/<p>/gi,' ');
-				$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+				$('#dogPost').append('<a href="../dog/dogView/'+dogsData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[i-1].attachName+'" />" /></li><li>'+dogsData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[i-1].dogNum+'"/></li></ul></a>');
 			}
 			
 		}else if(isOnePage){ //1페이지만 있을때 (데이터가 아예 없는 경우에도 여기로 진입한다)
@@ -413,11 +444,10 @@ let dogsCnt=${dogsCnt};
 				
 				for(let i=1;i<=lastPageDataCnt;i++){ //데이터 출력
 					let contentStr=onlyOnePageData[i-1].dogContent.replace(/<p>/gi,' ');
-					$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+					$('#dogPost').append('<a href="../dog/dogView/'+onlyOnePageData[i-1].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+onlyOnePageData[i-1].attachName+'" />" /></li><li>'+onlyOnePageData[i-1].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+onlyOnePageData[i-1].dogNum+'"/></li></ul></a>');
 				}
 			}
 		}
-		console.log("끝");
 		
 		$('#firstViewBtn').click(()=>{
 			$('#1page').trigger('click');
@@ -444,7 +474,7 @@ let dogsCnt=${dogsCnt};
 					let cnt=0;
 					for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 						let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-						$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+						$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 						cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 					}
 				}else if(i==totalPageCnt){ //만약에 마지막 페이지를 클릭했을 경우
@@ -453,7 +483,7 @@ let dogsCnt=${dogsCnt};
 					let cnt=0;
 					for(let j=1;j<=lastPageDataCnt;j++){ //마지막 페이지의 data 개수만큼 for를 작동
 						let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-						$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+						$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 						cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 					}
 					
@@ -463,7 +493,7 @@ let dogsCnt=${dogsCnt};
 					let cnt=0;
 					for(let j=1;j<=8;j++){ //1페이지당 8개의 게시물이므로 8번 반복해서 데이터를 출력
 						let contentStr=dogsData[(i-1)*8+cnt].dogContent.replace(/<p>/gi,' ');
-						$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox"/></li></ul></a>');
+						$('#dogPost').append('<a href="../dog/dogView/'+dogsData[(i-1)*8+cnt].dogNum+'"><ul><li><img src="<c:url value="/attach/dog/'+dogsData[(i-1)*8+cnt].attachName+'" />" /></li><li>'+dogsData[(i-1)*8+cnt].dogTitle+'</li><li>'+contentStr+'</li><li>+더보기</li><li class="checkB"><input type="checkbox" name="dogCheckBox" value="'+dogsData[(i-1)*8+cnt].dogNum+'"/></li></ul></a>');
 						cnt++; //하나씩 넣고 cnt를 올려주어 계단식 저장
 					}
 				}
