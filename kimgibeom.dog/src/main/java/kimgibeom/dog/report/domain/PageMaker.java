@@ -7,13 +7,11 @@ public class PageMaker {
 	private int totalCount;
 	private int startPage;
 	private int endPage;
+	private int tempEndPage;
 	private int prev;
 	private int next;
+	private int displayPageNum = 5;
 	private Criteria cri;
-	
-	public void setCri(Criteria cri) {
-		this.cri = cri;
-	}
 	
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
@@ -32,16 +30,32 @@ public class PageMaker {
 		return endPage;
 	}
 	
+	public int getTempEndPage() {
+		return tempEndPage;
+	}
+	
 	public Criteria getCri() {
 		return cri;
 	}
 	 
 	private void calcData() {
-		endPage = (int) (Math.ceil(totalCount / (double)cri.getPerPageNum()));
-		startPage = 1;
+		endPage = (int) (Math.ceil(cri.getPage() / (double)displayPageNum) * displayPageNum);
+		
+		if (endPage <= displayPageNum) {
+			startPage = 1;
+		} else startPage = (endPage - displayPageNum) + 1;
+	
+		tempEndPage = (int) (Math.ceil(totalCount / (double)cri.getPerPageNum()));
+		if (endPage > tempEndPage) {
+			endPage = tempEndPage;
+		}
 		
 		prev = cri.getPage() - 1;
 		next = cri.getPage() + 1;
+	}
+	
+	public void setCri(Criteria cri) {
+		this.cri = cri;
 	}
 	
 	public String makeQuery(int page) {

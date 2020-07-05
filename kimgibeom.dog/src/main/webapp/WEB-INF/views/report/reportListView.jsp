@@ -34,9 +34,10 @@ function managePaging() {
     	if ($('.page').find('a').length == 3) // 첫 페이지가 마지막 페이지인 경우 
     		$('.page').find('a').last().removeAttr('href');
     } else {
-    	$('.page').find('a').eq(params.page).css({'background-color':'#333', color:'#fff'});
+    	$('.page').find('a').eq(params.page - (Math.ceil(${pageMaker.endPage} / 5) - 1) * 5)
+    		.css({'background-color':'#333', color:'#fff'});
  
-    	if (params.page == ${pageMaker.endPage}) // 마지막 페이지
+    	if (params.page == ${pageMaker.tempEndPage}) // 마지막 페이지
         	$('.page').find('a').last().removeAttr('href');
     }
     
@@ -58,7 +59,7 @@ function managePaging() {
     	
     	if (typeof params.page == 'undefined' && isNext) { // 게시판 첫 진입 시 2페이지로 이동
     		$(this).attr('href', 'reportListView?page=2');
-    	} else if (params.page != ${pageMaker.endPage} && isNext) { // 다음 페이지로 이동
+    	} else if (params.page != ${pageMaker.tempEndPage} && isNext) { // 다음 페이지로 이동
     		$(this).attr('href', 'reportListView?page=' + next);
     	}
     })
