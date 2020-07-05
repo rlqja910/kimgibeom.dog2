@@ -16,6 +16,10 @@ public class Dog {
 	public Dog() {
 	}
 
+	public Dog(int dogNum) {
+		this.dogNum = dogNum;
+	}
+
 	public Dog(int dogNum, String dogTitle, String dogName, int dogAge, String dogKind, int dogWeight, String dogGender,
 			String dogAdoptionStatus, String dogEntranceDate, String dogContent, String attachName) {
 		this.dogNum = dogNum;

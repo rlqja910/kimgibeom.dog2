@@ -66,7 +66,7 @@ public class UserController {
 	public void userJoinProc(User user) {
 		userService.writeUser(user);
 	}
-	
+
 	@RequestMapping("/userInfoModify") // 회원정보 수정
 	public void userInfoModify(HttpServletRequest request, Model model) {
 		String userId = (String) request.getSession().getAttribute("userId");
@@ -187,7 +187,7 @@ public class UserController {
 			return false;
 		}
 	}
-	
+
 	// 회원 수정(회원 비밀번호 체크)
 	@RequestMapping(value = "/pwConfirm", method = RequestMethod.POST)
 	@ResponseBody
@@ -200,4 +200,5 @@ public class UserController {
 			return false;
 		}
 	}
+
 }

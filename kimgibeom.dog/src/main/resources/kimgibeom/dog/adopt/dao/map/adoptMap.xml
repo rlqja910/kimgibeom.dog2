@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+	'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='kimgibeom.dog.adopt.dao.map.AdoptMap'>
+	<select id='getUserPw' resultType="String"
+		parameterType="String">
+		select password
+		from users
+		where user_id = #{userId}
+	</select>
+
+	<insert id='addReservation' parameterType="adopt">
+		insert into adopts
+		values(adopt_num_seq.nextval,#{user.userId},sysdate,${dog.dogNum})
+	</insert>
+
+	<select id='getReservationUsersForDogNum' parameterType="int"
+		resultType="adopt">
+		select user_id userId
+		from adopts
+		where dog_num=#{dogNum}
+	</select>
+</mapper>

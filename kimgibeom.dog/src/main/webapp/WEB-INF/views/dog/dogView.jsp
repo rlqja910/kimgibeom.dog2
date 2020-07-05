@@ -12,17 +12,75 @@
 	src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <link rel='stylesheet'
 	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+
 <script>
 $(()=>{
 	let dogAdoptionStatus = '${dog.dogAdoptionStatus}';
 	if(dogAdoptionStatus==='입양미완료'){
-		$('#reservationAndGoList').append('<input type=button value="입양신청" data-target="#myModal1" data-toggle="modal" /> <input type="button" value="목록" onClick=location.href="../../dog/dogListView" />');
+		$('#reservationAndGoList').append('<input type=button value="입양신청" data-target="#myModal" data-toggle="modal" /> <input type="button" value="목록" onClick=location.href="../../dog/dogListView" />');
 	}
 	else if(dogAdoptionStatus==='입양완료'){
 		$('#reservationAndGoList').append('<br><br><div style="font-size:20px; color:red; font-weight:bold;">분양완료된 유기견입니다.</div><br><input type="button" value="목록" onClick=location.href="../../dog/dogListView" />');
 	}
+	
+	if(dogAdoptionStatus==='입양미완료' && '${userId}'===''){
+		$('#reservationAndGoList').attr("onClick",'location.href="../../user/login"');
+	}
+	
+	$('#adoptReservation').click(()=>{
+		if($('#pwInput').val()===''){
+			$('#pwMsg').text('암호를 입력해주세요');
+		}else{
+			$.ajax({
+				url:'../../adopt/userPwConfirm',
+				data:{
+					userPw : $('#pwInput').val(),
+				},
+				success:(result)=>{
+					if(result===true){
+						$('#pwMsg').text('');
+						
+						$.ajax({
+							url:'../../adopt/reservation',
+							data:{
+								dogNum:${dog.dogNum},
+							},
+							success:(result)=>{
+								if(result==true){
+									swal({
+										 title: '',
+									     text: '입양신청이 완료되었습니다',
+									     type: 'success',
+									     showCancelButton: false,
+									     confirmButtonText: '확인',
+									     closeOnConfirm: false,
+									     },function(isConfirm){
+									      location.href=${dog.dogNum};
+									     });
+								}else{
+									swal({
+										 title: '',
+									     text: '이미 신청되었습니다',
+									     type: 'warning',
+									     showCancelButton: false,
+									     confirmButtonText: '확인',
+									     closeOnConfirm: false,
+									     },function(isConfirm){
+									      location.href=${dog.dogNum};
+									     });
+								}
+							},
+						});
+					}else{
+						$('#pwMsg').text('암호가 일치하지 않습니다');
+					}
+				},
+			});
+		}
+	});
 });
 </script>
+
 <!-- modal -->
 <style>
 /* madal을 사용할 때 padding을 0으로 맞춰줘야 한다.*/
@@ -183,31 +241,15 @@ $(()=>{
 	border: 0;
 }
 
-.modal-body table tr input {
+#pwInput {
 	border: 1px solid #999;
 	height: 40px;
-}
-
-.modal-body table tr th {
-	width: 25%;
-	text-align: center;
-}
-
-.modal-body table tr td {
-	width: 75%;
-}
-
-.modal-body table .name td input {
-	width: 80%;
+	width: 40%;
 	margin-bottom: 20px;
 }
 
-.modal-body table .name th {
+.modal-body table .pw strong {
 	padding-bottom: 20px;
-}
-
-.modal-body table .tall td input {
-	width: 24%;
 }
 
 .modal-body p {
@@ -340,21 +382,21 @@ $(()=>{
 							</div>
 							<div class='modal-body'>
 								<table>
-									<tr class='name'>
-										<th>이름</th>
-										<td><input type='text' /></td>
-									</tr>
-									<tr class='tall'>
-										<th>전화번호</th>
-										<td><input type='number' /> - <input type='number' /> -
-											<input type='number' /></td>
+									<tr class='pw'>
+										<div align="center" id=pwDiv>
+											<strong>암호&nbsp&nbsp</strong><input type='password'
+												id=pwInput /><br> <span style='color: red;' id='pwMsg'></span>
+										</div>
 									</tr>
 								</table>
-								<p>예약이 완료되면 카카오톡으로 안내가 됩니다.</p>
+								<p>
+									암호를 입력하면 입양신청이 완료됩니다.<br>회원정보의 전화번호로 상담원의 안내를 기다려주세요.(1~2일
+									이내)
+
+								</p>
 							</div>
 							<div class='modal-footer'>
-								<button class='btn btn-default' data-dismiss='modal'
-									id='adoptReserve'>신청하기</button>
+								<button class='btn btn-default' id='adoptReservation'>신청하기</button>
 								<button class='btn btn-default' data-dismiss='modal'>취소</button>
 							</div>
 						</div>
