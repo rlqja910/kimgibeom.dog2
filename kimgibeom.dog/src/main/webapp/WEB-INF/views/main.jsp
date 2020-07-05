@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <html lang="ko">
 <head>
@@ -12,6 +13,15 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+
+<script>
+	$(()=>{
+		if(${fn:length(mainDogList)}===0){
+			$('#abandonDogListUl').append('<hr><div align=center>등록된 유기견이 없습니다.</div>');
+		}
+	});
+</script>
+
 <style>
 /* header */
 .header {
@@ -206,7 +216,7 @@
 	position: relative;
 	border: 1px solid #ccc;
 	height: auto;
-	padding: 10% 0;
+	padding: 4px 0;
 }
 
 .content .animal ul li div {
@@ -530,47 +540,16 @@
 					<span><span>P</span>rotective <span>A</span>nimal</span><br>보호하고
 					있는 유기견을 소개합니다.
 				</div>
-				<ul>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
-					<li><a href='dog/02.html'>
-							<div>
-								<span>코리안 숏헤어 책임분양<br> <span>view</span></span>
-							</div> 데이터없음 <!-- <img src='./dog.jpg'> -->
-					</a></li>
+				<ul id='abandonDogListUl'>
+					<c:forEach items="${mainDogList}" var="dog" end="7">
+						<li><a href='dog/dogView/${dog.dogNum}'>
+								<div>
+									<span>${dog.dogTitle}<br> <span>view</span></span>
+								</div> <img style='width: 260px' height="240px"
+								src='<c:url value="attach/dog/${dog.attachName}" />' />
+						</a></li>
+					</c:forEach>
+
 				</ul>
 				<div class='animalBtn'>
 					<a href='dog/dogListView'>유기견 더보기</a>

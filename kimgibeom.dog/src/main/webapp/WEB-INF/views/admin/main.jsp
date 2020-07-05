@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +13,14 @@
 <script src="https://code.jquery.com/jquery-1.10.1.js"
 	integrity="sha256-663tSdtipgBgyqJXfypOwf9ocmvECGG8Zdl3q+tk+n0="
 	crossorigin="anonymous"></script>
+
+<script>
+$(()=>{
+	if(${fn:length(abandonDogList)}===0){
+		$('#dogTable').append('<tr><td colspan=2 align=center>등록된 유기견이 없습니다.</td></tr>');
+	}
+});
+</script>
 
 <style>
 * {
@@ -113,7 +124,7 @@ body {
 			<div class='header'>
 				<strong>&nbsp;&nbsp;ADMINSTRATOR</strong>
 				<div id='topButton'>
-					<a href='<c:url value='admin/common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp; 
+					<a href='<c:url value='admin/common/logoRegist'/>'>로고관리</a>&nbsp;|&nbsp;
 					<a href='<c:url value='admin/common/bannerRegist'/>'>배너관리</a>&nbsp;|&nbsp;
 					<a href='<c:url value='/'/>'>홈페이지 돌아가기</a>&nbsp;|&nbsp; <a
 						href='<c:url value='user/logout'/>'>로그아웃</a>
@@ -129,11 +140,13 @@ body {
 						</a>
 					</div>
 					<hr style='border: 1px solid black; margin-top: 8px;'>
-					<table class='table table-hover'>
-						<tr>
-							<td colspan=2 align=center>등록된 유기견이 없습니다.</td>
-						</tr>
-
+					<table class='table table-hover' id='dogTable'>
+						<c:forEach items="${abandonDogList}" var="dog" end="9">
+							<tr>
+								<td>${dog.dogTitle}</td>
+								<td>${dog.dogEntranceDate}</td>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 

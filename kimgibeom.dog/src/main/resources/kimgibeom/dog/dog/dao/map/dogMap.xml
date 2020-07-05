@@ -57,7 +57,7 @@
 	
 	<insert id='addDog' parameterType="dog">
 		insert into dogs
-		values(dog_num_seq.nextval,#{dogTitle},#{dogName},#{dogAge},#{dogKind},#{dogWeight},#{dogGender},'입양미완료',#{dogEntranceDate},#{dogContent},#{attachName})
+		values(dog_num_seq.nextval,#{dogTitle},#{dogName},#{dogAge},#{dogKind},#{dogWeight},#{dogGender},'입양미완료',sysdate,#{dogContent},#{attachName})
 	</insert>
 	
 	<select id='searchDog' resultType="dog" parameterType="int">

@@ -32,7 +32,6 @@ public class adminDogController {
 
 	@RequestMapping("/dogDelProc")
 	public String dogDel(String delDogsNum) {
-		System.out.println("dogDel 접근");
 		List<String> delDogsNumList = JSONArray.fromObject(delDogsNum);
 
 		for (int i = 0; i < delDogsNumList.size(); i++) {
@@ -59,7 +58,6 @@ public class adminDogController {
 			MultipartFile attachFile, HttpServletRequest request) {
 		String fileName = (int) (Math.random() * 100000000) + attachFile.getOriginalFilename(); // 파일명 중복방지
 		int dogNum = Integer.parseInt(dogNumber);
-		System.out.println(dogNumber);
 		int urlDogNum = 0;
 
 		if (attachFile.getOriginalFilename().equals("")) {
@@ -81,7 +79,6 @@ public class adminDogController {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("----------------------" + urlDogNum + "----------------------");
 		return "redirect:../dogView/" + urlDogNum;
 	}
 
@@ -235,7 +232,6 @@ public class adminDogController {
 			for (int i = 1; i <= pageCnt; i++) { // 모든페이지 데이터를 저장한다.
 				if (i == pageCnt) { // 마지막 페이지 저장할때
 					int cnt = 0;
-					System.out.println("for접근:마지막페이지-" + i + "페이지--admin");
 					for (int j = 1; j <= lastPageDataCnt; j++) {
 						dogList.add(dogs.get((i - 1) * 8 + cnt++));
 					}
