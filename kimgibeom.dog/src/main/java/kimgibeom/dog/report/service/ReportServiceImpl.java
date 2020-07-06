@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kimgibeom.dog.report.dao.ReportDao;
 import kimgibeom.dog.report.domain.Criteria;
 import kimgibeom.dog.report.domain.Report;
+import kimgibeom.dog.report.domain.SearchCriteria;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -15,13 +16,13 @@ public class ReportServiceImpl implements ReportService {
 	private ReportDao reportDao;
 
 	@Override
-	public List<Report> readReports(Criteria cri) {
-		return reportDao.getReports(cri);
+	public List<Report> readReports(SearchCriteria scri) {
+		return reportDao.getReports(scri);
 	}
 	
 	@Override
-	public int readListCnt() {
-		return reportDao.getListCnt();
+	public int readListCnt(SearchCriteria scri) {
+		return reportDao.getListCnt(scri);
 	}
 
 	@Override

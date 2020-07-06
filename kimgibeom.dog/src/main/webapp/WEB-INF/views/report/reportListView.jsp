@@ -10,7 +10,7 @@
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
 function reportSearch() { 
-	$('#search').click(() => {
+	$('#searchBtn').click(() => {
 		if(!$('#searchContent').val().trim()) {
 			swal({ 
 				title: '',
@@ -18,6 +18,9 @@ function reportSearch() {
 				type: 'warning',
 				confirmButtonText: '확인'
 			})	 
+		} else {
+			self.location = "reportListView" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + 
+			"&keyword=" + encodeURIComponent($('#searchContent').val());
 		}
 	});
 }
@@ -206,14 +209,16 @@ $(register);
 				<hr class='contHr'>
 				
 				<!-- 검색 -->
-				<div class='search'>
-					<select>
-						<option>아이디</option>
-						<option>글제목</option>
-					</select>
-					<input id='searchContent' type='text' placeholder=' 검색어를 입력해주세요.'/>
-					<input id='search' type='button' value='검색'/>
-				</div>
+				<form>
+					<div class='search'>
+						<select name="searchType">
+						  <option value="userId"<c:out value="${scri.searchType eq 'userId' ? 'selected' : ''}"/>>아이디</option>
+						  <option value="title"<c:out value="${scri.searchType eq 'title' ? 'selected' : ''}"/>>글제목</option>
+						</select>
+						<input id='searchContent' type='text' placeholder=' 검색어를 입력해주세요.'/>
+						<input id='searchBtn' type='button' value='검색'/>			
+					</div>
+				</form>
 
 				<div class='reportCont'></div>
 				
@@ -227,7 +232,7 @@ $(register);
 					<ul>
 						<li><a href=''><<</a></li>
 					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					    	<li><a href="reportListView${pageMaker.makeQuery(idx)}">${idx}</a></li>
+					    	<li><a href="reportListView${pageMaker.makeSearch(idx)}">${idx}</a></li>
 					    </c:forEach>
 					    <li><a href=''>>></a></li>
 					</ul>

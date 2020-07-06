@@ -13,14 +13,17 @@
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
 function reportSearch() { 
-	$('#search').click(() => {
+	$('#searchBtn').click(() => {
 		if(!$('#searchContent').val().trim()) {
-			swal({
+			swal({ 
 				title: '',
 				text: '검색어를 입력해주세요.',
 				type: 'warning',
 				confirmButtonText: '확인'
-			})	
+			})	 
+		} else {
+			self.location = "reportListView" + '${pageMaker.makeQuery(1)}' + "&searchType=" + $("select option:selected").val() + 
+			"&keyword=" + encodeURIComponent($('#searchContent').val());
 		}
 	});
 }
@@ -237,7 +240,7 @@ body {
 	color: #717171;
 }
 
-#content {
+#searchContent {
 	float: left;
 	margin-left: 10px;
 	width: 400px;
@@ -248,7 +251,7 @@ body {
 	background: #4b4276;
 }
 
-#spanSearch {
+#searchBtn {
 	color: #fff;
 }
 
@@ -307,27 +310,21 @@ th {
 			<div class='info'>
 				<div class='content'>
 					<h3>
-						<span class='glyphicon glyphicon-bullhorn'></span> <strong>
-							신고 게시판 관리</strong>
+						<span class='glyphicon glyphicon-bullhorn'></span> 
+						<strong>신고 게시판 관리</strong>
 					</h3>
 					<hr style='border: 1px solid #a0a0a0;'>
 
-					<form action='#'>
+					<form>
 						<div class='form-group'>
-							<select class='form-control'
-								style='width: 100px; height: 35px; float: left;'>
-								<option>아이디</option>
-								<option>제목</option>
+							<select name="searchType" class='form-control' style='width: 100px; height: 35px; float: left;'>
+							    <option value="userId"<c:out value="${scri.searchType eq 'userId' ? 'selected' : ''}"/>>아이디</option>
+							    <option value="title"<c:out value="${scri.searchType eq 'title' ? 'selected' : ''}"/>>제목</option>
 							</select>
-						</div>
-						<div class='form-group' id='content'>
-							<input type='text' id='searchContent' class='form-control'
-								placeholder='검색어를 입력해주세요.' />
-						</div>
-						<div class='form-group'>
+							<input id='searchContent' type='text' class='form-control' placeholder='검색어를 입력해주세요.' />
 							<button type='button' class='btn btn-default' id='search'>
-								<span id='spanSearch'>검색</span>
-							</button>
+								<span id='searchBtn'>검색</span>
+							</button>	
 						</div>
 					</form>
 					<br>
@@ -357,7 +354,7 @@ th {
 							<li><a href=''><<</a></li>
 							<c:forEach begin="${pageMaker.startPage}"
 								end="${pageMaker.endPage}" var="idx">
-								<li><a href="reportListView${pageMaker.makeQuery(idx)}">${idx}</a></li>
+								<li><a href="reportListView${pageMaker.makeSearch(idx)}">${idx}</a></li>
 							</c:forEach>
 							<li><a href=''>>></a></li>
 						</ul>

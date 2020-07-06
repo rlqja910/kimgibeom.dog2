@@ -21,6 +21,7 @@ import kimgibeom.dog.report.domain.Criteria;
 import kimgibeom.dog.report.domain.PageMaker;
 import kimgibeom.dog.report.domain.Report;
 import kimgibeom.dog.report.domain.ReportReply;
+import kimgibeom.dog.report.domain.SearchCriteria;
 import kimgibeom.dog.report.service.ReportReplyService;
 import kimgibeom.dog.report.service.ReportService;
 
@@ -37,12 +38,12 @@ public class ReportController {
 
 	// 게시물 목록
 	@RequestMapping("/reportListView")
-	public void readReports(Model model, Criteria cri) {
-		model.addAttribute("reports", reportService.readReports(cri));
+	public void readReports(Model model, SearchCriteria scri) {
+		model.addAttribute("reports", reportService.readReports(scri));
 
 		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(reportService.readListCnt());
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(reportService.readListCnt(scri));
 
 		model.addAttribute("pageMaker", pageMaker);
 	}

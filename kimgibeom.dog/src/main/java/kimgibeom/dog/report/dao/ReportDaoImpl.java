@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import kimgibeom.dog.report.dao.map.ReportMap;
 import kimgibeom.dog.report.domain.Criteria;
 import kimgibeom.dog.report.domain.Report;
+import kimgibeom.dog.report.domain.SearchCriteria;
 
 @Repository
 public class ReportDaoImpl implements ReportDao {
@@ -15,13 +16,13 @@ public class ReportDaoImpl implements ReportDao {
 	private ReportMap reportMap;
 
 	@Override
-	public List<Report> getReports(Criteria cri) {
-		return reportMap.getReports(cri);
+	public List<Report> getReports(SearchCriteria scri) {
+		return reportMap.getReports(scri);
 	}
 	
 	@Override
-	public int getListCnt() {
-		return reportMap.getListCnt();
+	public int getListCnt(SearchCriteria scri) {
+		return reportMap.getListCnt(scri);
 	}
 
 	@Override
