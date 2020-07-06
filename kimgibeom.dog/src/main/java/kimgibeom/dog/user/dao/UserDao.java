@@ -2,11 +2,16 @@ package kimgibeom.dog.user.dao;
 
 import java.util.List;
 
+import kimgibeom.dog.user.domain.UserSearch;
 import kimgibeom.dog.user.domain.User;
 
 public interface UserDao {
 	int addUser(User user);
+	
+	int getUserListCnt(UserSearch userSearch);
 
+	List<User> getUserList(UserSearch search);
+	
 	List<User> getUsers();
 
 	String getuserPw(String userId);

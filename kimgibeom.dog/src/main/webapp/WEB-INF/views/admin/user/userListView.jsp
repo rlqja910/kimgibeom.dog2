@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,11 +35,49 @@ function userDel(){
 }
 
 function userSearch(){
-	$('#search').click(() => {
-		if($('#searchContent').val().trim()) {
-			
-		}	
+	$('#searchType').click(() => {
+		let url = "userListView";
+		url = url + "?searchType=" + $("select option:selected").val();
+		url = url + "&keyword=" + $("#keyword").val();
+		
+		location.href = url;	
 	});
+}
+
+function fn_prev(page, range, rangeSize, keyword, searchType){
+	page = ((range - 2) * rangeSize) + 1;
+	range = range - 1;
+	
+	let url = "userListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	url = url + "&keyword=" + keyword;
+	url = url + "&searchType=" + $("#searchType").val();
+	
+	location.href = url;
+}
+
+function fn_pagination(page, range, rangeSize, keyword, searchType){
+	let url = "userListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	url = url + "&keyword=" + keyword;
+	url = url + "&searchType=" + $("#searchType").val();
+	
+	location.href = url;
+}
+
+function fn_next(page, range, rangeSize, keyword, searchType){
+	page = parseInt(range * rangeSize) + 1;
+	range = parseInt(range) + 1;
+	
+	let url = "userListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	url = url + "&keyword=" + keyword;
+	url = url + "&searchType=" + $("#searchType").val();
+	
+	location.href = url;
 }
 
 $(userDel);
@@ -138,7 +177,7 @@ body {
 	display: inline;
 }
 
-#search {
+#searchType {
 	background: #4b4276;
 }
 
@@ -196,16 +235,16 @@ th {
 						<div class='form-group'>
 							<select class='form-control'
 								style='width: 100px; height: 35px; float: left;'>
-								<option>아이디</option>
-								<option>이름</option>
+								<option value="userId">아이디</option>
+								<option value="userName">이름</option>
 							</select>
 						</div>
 						<div class='form-group' id='content'>
-							<input type='text' id='searchContent' class='form-control'
+							<input type='text' id='keyword' class='form-control'
 								placeholder='검색어를 입력해주세요.' />
 						</div>
 						<div class='form-group'>
-							<button type='button' class='btn btn-default' id='search'>
+							<button type='button' class='btn btn-default' id='searchType'>
 								<span id='spanSearch'>검색</span>
 							</button>
 						</div>
@@ -224,58 +263,30 @@ th {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><input type='checkbox' /></td>
-								<td>sohyun2</td>
-								<td>김소현</td>
-								<td>010-1251-8495</td>
-								<td>sohyun2@google.com</td>
-								<td>2016-06-02</td>
-								<td>
-									<button type='button' class='btn btn-default btn-xs'>
-										<a href='03.html'><span class='glyphicon glyphicon-pencil'></span></a>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td><input type='checkbox' /></td>
-								<td>arim051</td>
-								<td>김아림</td>
-								<td>010-1817-9123</td>
-								<td>arim051@naver.com</td>
-								<td>2016-06-05</td>
-								<td>
-									<button type='button' class='btn btn-default btn-xs'>
-										<a href='03.html'><span class='glyphicon glyphicon-pencil'></span></a>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td><input type='checkbox' /></td>
-								<td>sohyun232</td>
-								<td>김소현</td>
-								<td>010-8465-2656</td>
-								<td>sohyun2@google.com</td>
-								<td>2016-06-10</td>
-								<td>
-									<button type='button' class='btn btn-default btn-xs'>
-										<a href='03.html'><span class='glyphicon glyphicon-pencil'></span></a>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td><input type='checkbox' /></td>
-								<td>arim05123</td>
-								<td>김아림</td>
-								<td>010-1895-7442</td>
-								<td>arim051@naver.com</td>
-								<td>2016-06-13</td>
-								<td>
-									<button type='button' class='btn btn-default btn-xs'>
-										<a href='03.html'><span class='glyphicon glyphicon-pencil'></span></a>
-									</button>
-								</td>
-							</tr>
+							<c:choose>
+								<c:when test="${empty userList}">
+									<tr>
+										<td colspan="7">등록된 회원이 없습니다.</td>
+									<tr>
+								</c:when>
+								<c:when test="${!empty userList}">
+									<c:forEach var="userList" items="${userList}">
+										<tr>
+											<td><input type='checkbox' /></td>
+											<td>${userList.userId}</td>
+											<td>${userList.userName}</td>
+											<td>${userList.userPhone}</td>
+											<td>${userList.userEmail}</td>
+											<td>${userList.regDate}</td>
+											<td>
+												<button type='button' class='btn btn-default btn-xs'>
+													<a href='03.html'><span class='glyphicon glyphicon-pencil'></span></a>
+												</button>
+											</td>
+										</tr>
+									</c:forEach>
+								</c:when>
+							</c:choose>
 						</tbody>
 					</table>
 
@@ -292,13 +303,32 @@ th {
 
 					<div id="pagination">
 						<ul class="pagination">
-							<li><a href="#">&laquo;</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&raquo;</a></li>
+							<c:if test="${pagination.prev}">
+								<li>
+									<a href='#' onclick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}',
+																 '${search.keyword}', '${search.searchType}')">
+										&laquo;
+									</a>
+								</li>
+							</c:if>
+							
+							<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">		
+						    	<li class="<c:out value="${pagination.page == idx ? 'active' : ''}"/> ">
+						    		<a href="#" onclick="fn_pagination('${idx}', '${pagination.range}', '${pagination.rangeSize}',
+						    							  			   '${search.keyword}', '${search.searchType}')">
+						    			${idx}
+						    		</a>
+						    	</li>
+							</c:forEach>
+						    	
+						    <c:if test="${pagination.next}">
+						        <li>
+						        	<a href='#' onclick="fn_next('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}',
+						        								 '${search.keyword}', '${search.searchType}')">
+						        		&raquo;
+						        	</a>
+						        </li>
+						    </c:if>
 						</ul>
 					</div>
 				</div>

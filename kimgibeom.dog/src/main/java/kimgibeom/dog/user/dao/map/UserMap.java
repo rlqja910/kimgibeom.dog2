@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kimgibeom.dog.user.domain.UserSearch;
 import kimgibeom.dog.user.domain.User;
 
 public interface UserMap {
 	int addUser(User user);
+	
+	int getUserListCnt(UserSearch userSearch);
 
+	List<User> getUserList(UserSearch userSearch);
+	
 	List<User> getUsers();
 
 	String getuserPw(String userId);

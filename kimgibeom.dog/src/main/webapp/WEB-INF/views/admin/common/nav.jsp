@@ -48,7 +48,7 @@
 	 <li><a href='<c:url value='/admin'/>'> <span
          class='glyphicon glyphicon-home'></span>메인
    </a></li>
-   <li><a href='#'> <span
+   <li><a href='<c:url value='/admin/user/userListView'/>'> <span
          class='glyphicon glyphicon-user'></span>회원관리
    </a></li>
    <li><a href='<c:url value='/admin/dog/dogListView'/>'> <span

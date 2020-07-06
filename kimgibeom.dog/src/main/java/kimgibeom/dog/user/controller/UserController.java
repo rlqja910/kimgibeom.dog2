@@ -23,7 +23,6 @@ import kimgibeom.dog.user.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-
 	@Autowired
 	private JavaMailSender mailSender;
 

@@ -2,11 +2,15 @@ package kimgibeom.dog.user.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kimgibeom.dog.review.domain.Search;
 import kimgibeom.dog.user.dao.UserDao;
 import kimgibeom.dog.user.domain.User;
+import kimgibeom.dog.user.domain.UserPagination;
+import kimgibeom.dog.user.domain.UserSearch;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,9 +21,19 @@ public class UserServiceImpl implements UserService {
 	public int writeUser(User user) {
 		return userDao.addUser(user);
 	}
+	
+	@Override
+	public int readUserListCnt(UserSearch userSearch) {
+		return userDao.getUserListCnt(userSearch);
+	}
 
 	@Override
-	public List<User> readUsers() {
+	public List<User> readUserList(UserSearch UserSearch) {
+		return userDao.getUserList(UserSearch);
+	}
+	
+	@Override
+	public List<User> readUsers(){
 		return userDao.getUsers();
 	}
 
