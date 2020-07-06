@@ -157,7 +157,7 @@ body {
 				<div class='item'>
 					<div style='overflow: hidden;'>
 						<strong class='border'>신고 접수</strong> <a
-							href='admin/reportListView' class='plus'><span
+							href='admin/report/reportListView' class='plus'><span
 							class='glyphicon glyphicon-plus'></span> 더보기</a>
 					</div>
 					<hr style='border: 1px solid black; margin-top: 8px;'>
