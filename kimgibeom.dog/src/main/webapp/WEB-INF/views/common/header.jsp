@@ -206,7 +206,7 @@ function mobile_menu(){
 	</ul>	
 </div>
 <div class='headB'>
-	<div class='logo'><a href='<c:url value="/"/>'><img src='<c:url value="/attach/logo/logo.jpg" />' /></a></div>
+	<div class='logo'><a href='<c:url value="/"/>'><br><img src='<c:url value="/attach/logo/logo.jpg" />' /></a></div>
 	<ul>
 		<li><a href="<c:url value="/introduce/introduceView"/>">보호소 소개</a></li>
 		<li><a href='<c:url value="/dog/dogListView"/>'>무료분양</a></li>

@@ -352,7 +352,8 @@ function fn_reviewView(reviewNum){
 .swiper-container {
 	width: 100%;
 	height: 30%;
-	margin-top: 50px;
+	margin-top: 5%;
+	margin-bottom: 7%;
 }
 
 .swiper-slide {
@@ -490,7 +491,7 @@ function fn_reviewView(reviewNum){
 .reviewEmpty {
 	align: center; 
 	width: 100%; 
-	margin-top: 100px;
+	margin-top: 5%;
 }
 </style>
 </head>

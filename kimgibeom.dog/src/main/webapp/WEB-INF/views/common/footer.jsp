@@ -8,7 +8,7 @@
 }
 </style>
 <div class="fot">
-	<div>
+	<div style="margin-top: 1.25%;">
 		<img class='footLogo' src='<c:url value="/attach/logo/logo.jpg" />' />
 	</div>
 	<div>

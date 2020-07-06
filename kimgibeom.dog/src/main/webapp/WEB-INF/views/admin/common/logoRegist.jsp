@@ -203,7 +203,7 @@ img {
 								<th>로고 이미지</th>
 								<td><input type='file' id='attachFile' name='attachFile'
 									accept=".gif, .jpg, .png" />
-									<div></div> <img id='previewImg' /></td>
+									<div></div><br><img id='previewImg' /></td>
 							</tr>
 						</table>
 
