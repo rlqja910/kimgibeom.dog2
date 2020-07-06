@@ -138,10 +138,13 @@ function checkAuthority() {
 	// 페이징 번호
     let params = {}; 
     window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-    console.log(params.page);
     
     $('#reportList').click(() => {
     	location.href = "../reportListView?page=" + params.page;
+    })
+    
+    $('#reportUpdate').click(() => {
+    	location.href = "../reportModify/${report.reportNum}?page=" + params.page;
     })
 }
 
@@ -262,8 +265,7 @@ $(checkAuthority);
 					<div class='button'>
 						<input type='button' value='목록' id='reportList'/>
 						<input type='button' value='삭제' id='reportDel'/>
-						<input type='button' value='수정' id='reportUpdate' 
-							onClick='location.href="../reportModify/${report.reportNum}"'/>
+						<input type='button' value='수정' id='reportUpdate'/>
 					</div>
 					
 					<!-- 댓글 -->

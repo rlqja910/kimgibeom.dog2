@@ -121,9 +121,11 @@ public class ReportController {
 			report.setAttachName(fileName);
 		
 		reportService.updateReport(report);
-		
 		int reportNum = report.getReportNum();
-		return "redirect:reportView/" + reportNum;
+		
+		String page = request.getParameter("page");
+		
+		return "redirect:reportView/" + reportNum + "?page=" + page;
 	}
 
 	// 게시물 삭제

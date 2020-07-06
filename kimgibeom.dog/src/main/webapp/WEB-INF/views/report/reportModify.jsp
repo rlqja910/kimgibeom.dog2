@@ -38,6 +38,9 @@ function validateReport() {  // 수정 버튼 누르기 전 검증
 }
 
 function modifyReport() {
+    let params = {}; 
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+	
 	$('input[name="attachFile"]').click(() => {
 		$('font').eq(2).text('');
 		
@@ -75,6 +78,7 @@ function modifyReport() {
 					},
 					function(isConfirm) {
 						if(isConfirm) {
+							$('form').attr('action', '../reportModify?page=' + params.page);
 							$('form').submit();
 						}	
 					});
@@ -164,7 +168,7 @@ $(modifyReport);
 				<div class='contTitle'>유기견 신고</div>
 				<hr class='contHr'>
 				<div class='reportWrite'>
-					<form action='../reportModify' method='post' enctype='multipart/form-data'>
+					<form method='post' enctype='multipart/form-data'>
 						<table>
 							<tr>
 								<th>제목</th>
