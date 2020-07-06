@@ -40,6 +40,8 @@ function modifyReview(){
 	$("#modifyReview").click(() => {
 		let url = "reviewModify";
 		url = url + "?reviewNum=" + ${reviewView.reviewNum};
+		url = url + "&page=" + ${page};
+		url = url + "&range=" + ${range};
 		
 		location.href = url;
 	});
@@ -233,7 +235,7 @@ img {
 										<img src="<c:url value='/attach/review/${reviewView.attachName}'/>" />										
 									</div>
 									<br>
-									<div style="width:1502px; overflow:hidden; word-wrap:break-word;">
+									<div style="width:1502px; overflow:; word-wrap:break-word;">
 										${reviewView.content}
 									</div>
 								</td>
