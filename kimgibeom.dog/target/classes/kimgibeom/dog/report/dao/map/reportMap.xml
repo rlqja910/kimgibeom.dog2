@@ -44,7 +44,7 @@
 	
 	<update id='modifyReport' parameterType='report'>
 		update reports
-		set title = #{title}, content = #{content}
+		set title = #{title}, content = #{content}, attach_name = #{attachName}
 		where report_num = #{reportNum}
 	</update>
 	

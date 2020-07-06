@@ -1,59 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>유기견 보호소</title>
 <%@ include file="../common/scriptImport.jsp"%>
-
 <script>
-function enroll(){
-	$('#confirm').click(() => {
-		if($('#password').val() === ''){
-			swal({
-				title: '',
-				text: '비밀번호를 입력해주세요.',
-				type: 'warning',
-			},function(){
-				false;
-			});
-		}
-		else{
-			$.ajax({
-				url: 'pwCheck',
-				method: 'post',
-				data: {
-					userId: `${userId}`,
-					userPw: $('#password').val(),
-				},
-				success: (result) => {
-					if(result === true){
-						swal({
-							title: '',
-							text: '회원탈퇴가 완료되었습니다.',
-							type: 'success',
-						},function(){
-							location.href='<c:url value="/"/>';
-						});
-					}else {
-						swal({
-							title: '',
-							text: '비밀번호를 다시 확인해 주세요.',
-							type: 'warning'
-						},function(){
-							false;
-						});
-					}
-				}
-			})
-		}
-	});
-}
-
 $(()=>{
-	enroll();
+	$('#adoptCancel').click(()=>{
+		$.ajax({
+			success: () =>{
+				swal({
+					title:'',
+					text:'입양신청이 취소되었습니다',
+					type:'success', 
+				},
+				function(result){
+						location.href='02.html';
+				})
+			}
+			});
+		});
 });
 </script>
 <style>
@@ -122,7 +90,7 @@ $(()=>{
 	color: #fff;
 }
 
-/* 회원가입 */
+/* 분양 예약 조회 */
 .member>div:nth-child(1) {
 	text-align: center;
 }
@@ -152,7 +120,12 @@ $(()=>{
 
 .member table .text input {
 	height: 30px;
-	width: 60%;
+	width: 45%;
+}
+
+.member table .number input {
+	height: 30px;
+	width: 10%;
 }
 
 .member form {
@@ -176,19 +149,12 @@ $(()=>{
 	margin-top: 60px;
 }
 
-.member form .button .ok {
+.member form .button .cancel {
 	background-color: #f5bf25;
 	border: 1px solid #f5bf25;
-	width: 70px;
+	width: 90px;
 	color: #fff;
 	margin-left: 5px;
-}
-
-.member form .button .no {
-	width: 70px;
-	margin-left: 5px;
-	background-color: #fff;
-	border: 1px solid #999;
 }
 
 .member table tr {
@@ -196,15 +162,19 @@ $(()=>{
 }
 
 .member th {
+	text-align: center;
 	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
 	padding: 0 10px;
 	border-bottom: 1px solid #ccc;
+	height: 45px;
 	background-color: #eee;
 	color: #333;
-	width: 120px;
 }
 
 .member td {
+	text-align: center;
+	border-left: 1px solid #fff;
 	border-right: 1px solid #fff;
 	padding: 0 10px;
 	border-bottom: 1px solid #ccc;
@@ -226,8 +196,8 @@ $(()=>{
 	font-size: 12px;
 }
 
-.confirm {
-	background-color: #f5bf25 !important;
+.member .incomplete {
+	color: red;
 }
 
 /* 모바일 스타일 */
@@ -257,20 +227,19 @@ $(()=>{
 		margin-top: 5%;
 		margin-bottom: 10%;
 	}
-	.agree {
-		width: 100%;
-	}
 	.member table {
 		width: 100%;
-	}
-	table th {
-		width: 25%;
+		font-size: 12px;
 	}
 	.member table .text input {
 		width: 95%;
 	}
 	.member form .button input {
 		margin-top: 10%;
+	}
+	.member table .number input {
+		height: 30px;
+		width: 20%;
 	}
 }
 </style>
@@ -291,26 +260,51 @@ $(()=>{
 		<div class="content">
 			<div class='subMenu'>
 				<ul>
-					<li><a href='<c:url value='/user/mypage'/>'>회원정보 변경</a></li>
-					<li><a href='<c:url value='/adopt/adoptReservationView'/>'>입양
-							예약 조회</a></li>
-					<li><a href='<c:url value='/user/userWithdraw'/>'
-						class='menuOn'>회원탈퇴</a></li>
+					<li><a href='../user/mypage'>회원정보 변경</a></li>
+					<li><a href='adoptReservationView' class='menuOn'>입양 예약 조회</a></li>
+					<li><a href='../user/userWithdraw'>회원탈퇴</a></li>
 				</ul>
 			</div>
 			<div class="member">
 				<form action="#">
-					<div class='contTitle'>회원탈퇴</div>
+					<div class='contTitle'>입양 예약 조회</div>
 					<hr class='contHr'>
 					<table>
+						<colgroup>
+							<col width='10%'>
+							<col width='10%'>
+							<col width='20%'>
+							<col width='20%'>
+							<col width='20%'>
+							<col width='20%'>
+						</colgroup>
 						<tr class="text tableH">
-							<th><span>*</span> 비밀번호</th>
-							<td><input type="password" id='password' /></td>
+							<th>선택</th>
+							<th>번호</th>
+							<th>이름</th>
+							<th>전화번호</th>
+							<th>작성일</th>
+							<th>상태</th>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>1</td>
+							<td>김기범</td>
+							<td>010-2311-5461</td>
+							<td>2020-06-17</td>
+							<td>입양 완료</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>2</td>
+							<td>이창연</td>
+							<td>010-9841-5461</td>
+							<td>2020-06-17</td>
+							<td class='incomplete'>입양 미완료</td>
 						</tr>
 					</table>
 					<div class="button">
-						<input type='button' class="ok" value='확인 ' id="confirm">
-						<input type='button' class="no" formaction="#" value='취소'>
+						<input type='button' class="cancel" value='입양 취소' id='adoptCancel'>
 					</div>
 				</form>
 			</div>

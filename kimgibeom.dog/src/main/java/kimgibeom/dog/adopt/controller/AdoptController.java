@@ -55,4 +55,9 @@ public class AdoptController {
 			return false;
 		}
 	}
+
+	@RequestMapping("/adoptReservationView")
+	public void adoptReservationView() {
+
+	}
 }
