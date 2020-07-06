@@ -61,7 +61,7 @@ function modifyReport() {
 				$('input[name="attachFile"]').val('');
 				$('font').eq(2).text('gif, png, jpg, jpeg 파일만 첨부할 수 있습니다.');
 		  	} else isSubmit = true;
-	    } else isSubmit = false;
+	    } else isSubmit = true;
 		
 		if($('input[name="title"]').val().trim()) {
 			if (content && content.trim()) {
