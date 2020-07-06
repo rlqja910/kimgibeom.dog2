@@ -26,9 +26,6 @@ function reportSearch() {
 }
 
 function managePaging() {
-    let params = {};
-    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-
     // active 표시
 	if (params.page == 1 || typeof params.page == 'undefined') { // 첫 페이지
 		$('.page').find('a').first().removeAttr('href');
@@ -68,9 +65,10 @@ function managePaging() {
     }) 
 }
 
+let params = {};
+window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+
 function readReports() {
-    let params = {};
-    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
     if (typeof params.page == 'undefined') params.page = 1;
     
 	$('.reportCont').html(
