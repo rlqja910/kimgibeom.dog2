@@ -262,6 +262,8 @@ function findPw(){
 					'userId' : userId,
 					'inEmail' : email,
 					},
+				beforeSend: ()=> $('html').css("cursor","wait"),
+				complete: ()=> $('html').css("cursor","auto"),
 				success: (result) => {
 						if(result=='0'){
 							$('#errorEmail').text('아이디와 이메일이 일치하지 않습니다.');
