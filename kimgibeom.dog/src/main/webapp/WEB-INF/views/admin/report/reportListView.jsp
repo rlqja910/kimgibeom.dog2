@@ -30,6 +30,8 @@ function reportSearch() {
 
 let params = {};
 window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+if (typeof params.page == 'undefined')
+	params.page = 1;
 
 function managePaging() {
     // active 표시
@@ -133,7 +135,8 @@ function reportDel() {
 								closeOnConfirm: false
 							},
 							function(isConfirm) {
-								if(isConfirm) location.reload();
+								if(isConfirm)
+									location.href = 'reportListView?page=' + params.page;
 							});
 						}
 					});

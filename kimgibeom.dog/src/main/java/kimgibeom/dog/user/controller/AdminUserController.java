@@ -1,10 +1,13 @@
 package kimgibeom.dog.user.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kimgibeom.dog.user.domain.UserPagination;
 import kimgibeom.dog.user.domain.UserSearch;
@@ -38,5 +41,13 @@ public class AdminUserController {
 		model.addAttribute("userList", userService.readUserList(userSearch));
 		
 		return "admin/user/userListView";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/userDel")
+	public void userDel(@RequestParam(value="userIds[]") List<String> userIds) {
+		for (String userId: userIds) {
+			userService.withdrawUser(userId);
+		}
 	}
 }

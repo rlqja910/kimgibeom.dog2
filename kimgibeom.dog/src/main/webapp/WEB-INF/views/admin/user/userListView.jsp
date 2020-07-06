@@ -10,8 +10,21 @@
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
 function userDel(){
+	let params = {};
+	window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+	if (typeof params.page == 'undefined')
+		params.page = 1;
+	
+	let delUsers = [];
+	
 	$('#delete').click(() => {
 		if($('input:checkbox').is(':checked')) {
+			jQuery.ajaxSettings.tranditional = true;
+			
+			$('input:checked').each(function() {
+				delUsers.push($(this).parent().next().text().trim());
+			})
+			
 			swal({
 				title: '회원 삭제',
 				text: '회원을 삭제하시겠습니까?',
@@ -22,13 +35,25 @@ function userDel(){
 				closeOnConfirm: false
 			},
 			function(isConfirm) {
-				if(isConfirm) 
-					swal({
-						title: '',
-						text: '회원이 삭제되었습니다.',
-						type: 'success',
-						confirmButtonText: '확인'
-					});	
+				if(isConfirm) {
+					$.ajax({
+						url: 'userDel',
+						type: 'POST',
+						data: {'userIds': delUsers},
+						success: () => {
+							swal({
+								title: '',
+								text: '회원이 삭제되었습니다.',
+								type: 'success',
+								confirmButtonText: '확인'
+							},
+							function(isConfirm) {
+								if(isConfirm) 
+									location.href = 'userListView?page=' + params.page;
+							});
+						}
+					})
+				}
 			});
 		}
 	});
