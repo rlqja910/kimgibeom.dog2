@@ -18,13 +18,13 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 					return false;
 				}
 			}
-			if (urlFirstPath.equals("userWithdraw")) {
+			if (urlFirstPath.equals("userWithdraw")) { // 로그인 안되어있으면 회원탈퇴 페이지 접근불가
 				if (request.getSession().getAttribute("userId") == null) {
 					response.sendRedirect("/dog");
 					return false;
 				}
 			}
-			if (urlFirstPath.equals("reportRegister")) {
+			if (urlFirstPath.equals("reportRegister")) {// 로그인 안되어있으면 신고등록 페이지 접근불가
 				if (request.getSession().getAttribute("userId") == null) {
 					response.sendRedirect("/dog");
 					return false;
