@@ -38,8 +38,10 @@ function validateReport() {  // 수정 버튼 누르기 전 검증
 }
 
 function modifyReport() {
-	// 이미지 파일 변경 시 기존 이미지명과 파일 제거
 	$('input[name="attachFile"]').click(() => {
+		$('font').eq(2).text('');
+		
+		// 이미지 파일 변경 시 기존 이미지명과 파일 제거
 		$.ajax({
 			url: 'reportModify',
 			method: 'post',
@@ -63,18 +65,20 @@ function modifyReport() {
 		
 		if($('input[name="title"]').val().trim()) {
 			if (content && content.trim()) {
-				swal({
-					title:'',
-					text:'게시물이 수정되었습니다.',
-					type:'success',
-					confirmButtonText: '확인',
-					closeOnConfirm: false
-				},
-				function(isConfirm) {
-					if(isConfirm) {
-						$('form').submit();
-					}	
-				});
+				if (isSubmit) {
+					swal({
+						title:'',
+						text:'게시물이 수정되었습니다.',
+						type:'success',
+						confirmButtonText: '확인',
+						closeOnConfirm: false
+					},
+					function(isConfirm) {
+						if(isConfirm) {
+							$('form').submit();
+						}	
+					});
+				}
 			} else swal('', '내용을 입력하세요.', 'warning');
 		} else 	{	
 			swal({

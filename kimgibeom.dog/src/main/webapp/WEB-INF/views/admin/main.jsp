@@ -19,6 +19,10 @@ $(()=>{
 	if(${fn:length(abandonDogList)}===0){
 		$('#dogTable').append('<tr><td colspan=2 align=center>등록된 유기견이 없습니다.</td></tr>');
 	}
+	
+	if(${fn:length(reports)}===0){
+		$('#reportTable').append('<tr><td colspan=2 align=center>등록된 신고글이 없습니다.</td></tr>');
+	}
 });
 </script>
 
@@ -157,10 +161,13 @@ body {
 							class='glyphicon glyphicon-plus'></span> 더보기</a>
 					</div>
 					<hr style='border: 1px solid black; margin-top: 8px;'>
-					<table class='table table-hover'>
-						<tr>
-							<td colspan=2 align=center>등록된 신고 게시물이 없습니다.</td>
-						</tr>
+					<table class='table table-hover' id='reportTable'>
+						<c:forEach items="${reports}" var="report" end="9">
+							<tr>
+								<td>${report.title}</td>
+								<td>${report.regDate}</td>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 

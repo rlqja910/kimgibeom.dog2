@@ -40,6 +40,10 @@ function validateReport() { // 등록 버튼 누르기 전 검증
 function registReport() {
 	$('input[name="userId"]').val(`${userId}`);
 	
+	$('input[name="attachFile"]').click(() => {
+		$('font').eq(2).text('');
+	})
+	
 	$('#register').click(() => {
 		let content = CKEDITOR.instances.description.getData();
 		let isSubmit = false;
