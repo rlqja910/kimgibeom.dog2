@@ -65,7 +65,7 @@ function managePaging() {
     	} else if (params.page != ${pageMaker.tempEndPage} && isNext) { // 다음 페이지로 이동
     		$(this).attr('href', 'reportListView?page=' + next);
     	}
-    })
+    }) 
 }
 
 function readReports() {

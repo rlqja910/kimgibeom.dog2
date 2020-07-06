@@ -136,7 +136,7 @@ function checkAuthority() {
 	$('textarea[name="content"]').keyup();
 	
 	// 페이징 번호
-    let params = {};
+    let params = {}; 
     window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
     console.log(params.page);
     
