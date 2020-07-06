@@ -10,7 +10,7 @@
 <script src="${path}/ckeditor/ckeditor.js"></script>
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
-function validateReport() {  // 등록 버튼 누르기 전 검증
+function validateReport() {  // 수정 버튼 누르기 전 검증
 	// 제목 글자수 검증
 	$('input[name="title"]').keydown(() => {
 		if($('input[name="title"]').val().length >= 30) {
@@ -38,7 +38,16 @@ function validateReport() {  // 등록 버튼 누르기 전 검증
 }
 
 function modifyReport() {
-	$('input[name="reportNum"]').hide();
+	// 이미지 파일 변경 시 기존 이미지명과 파일 제거
+	$('input[name="attachFile"]').click(() => {
+		$.ajax({
+			url: 'reportModify',
+			method: 'post',
+			error: () => {
+				$('img').parent().remove();
+			}
+		})
+	})
 	
 	$('#modify').click(() => {
 		let content = CKEDITOR.instances.description.getData();
@@ -50,7 +59,7 @@ function modifyReport() {
 				$('input[name="attachFile"]').val('');
 				$('font').eq(2).text('gif, png, jpg, jpeg 파일만 첨부할 수 있습니다.');
 		  	} else isSubmit = true;
-	    } else isSubmit = true;
+	    } else isSubmit = false;
 		
 		if($('input[name="title"]').val().trim()) {
 			if (content && content.trim()) {
