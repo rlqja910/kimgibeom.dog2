@@ -27,4 +27,9 @@ public class AdoptDaoImpl implements AdoptDao {
 	public List<Adopt> getReservationUsersForDogNum(int dogNum) {
 		return adoptMap.getReservationUsersForDogNum(dogNum);
 	}
+
+	@Override
+	public List<Adopt> getReservationForUserId(String userId) {
+		return adoptMap.getReservationForUserId(userId);
+	}
 }

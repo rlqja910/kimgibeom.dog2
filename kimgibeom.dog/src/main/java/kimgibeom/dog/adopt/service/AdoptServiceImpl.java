@@ -31,4 +31,9 @@ public class AdoptServiceImpl implements AdoptService {
 	public List<Adopt> readReservationUsersForDogNum(int dogNum) {
 		return adoptDao.getReservationUsersForDogNum(dogNum);
 	}
+
+	@Override
+	public List<Adopt> readReservationForUserId(String userId) {
+		return adoptDao.getReservationForUserId(userId);
+	}
 }

@@ -10,4 +10,6 @@ public interface AdoptDao {
 	int addReservation(Adopt adopt);
 
 	List<Adopt> getReservationUsersForDogNum(int dogNum);
+
+	List<Adopt> getReservationForUserId(String userId);
 }

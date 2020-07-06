@@ -10,4 +10,6 @@ public interface AdoptMap {
 	int addReservation(Adopt adopt);
 
 	List<Adopt> getReservationUsersForDogNum(int dogNum);
+
+	List<Adopt> getReservationForUserId(String userId);
 }

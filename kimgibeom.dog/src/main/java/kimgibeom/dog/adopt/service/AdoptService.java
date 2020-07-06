@@ -10,4 +10,6 @@ public interface AdoptService {
 	boolean writeReservation(Adopt adopt);
 
 	List<Adopt> readReservationUsersForDogNum(int dogNum);
+
+	List<Adopt> readReservationForUserId(String userId);
 }

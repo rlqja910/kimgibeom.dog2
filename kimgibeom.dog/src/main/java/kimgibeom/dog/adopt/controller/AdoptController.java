@@ -1,5 +1,6 @@
 package kimgibeom.dog.adopt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import kimgibeom.dog.adopt.domain.Adopt;
 import kimgibeom.dog.adopt.service.AdoptService;
 import kimgibeom.dog.dog.domain.Dog;
 import kimgibeom.dog.user.domain.User;
+import net.sf.json.JSONArray;
 
 @Controller
 @RequestMapping("/adopt")
@@ -57,7 +59,75 @@ public class AdoptController {
 	}
 
 	@RequestMapping("/adoptReservationView")
-	public void adoptReservationView() {
+	public void adoptReservationView(HttpServletRequest request, Model model) {
+		String userId = (String) request.getSession().getAttribute("userId");
+		List<Adopt> userAdoptList = adoptService.readReservationForUserId(userId);
 
+		model.addAttribute("totalPageCnt", "null");
+		model.addAttribute("adoptsCnt", "null");
+		model.addAttribute("lastPageDataCnt", "null");
+		model.addAttribute("onlyOnePageData", "null");
+		model.addAttribute("isOnePage", "null");
+		model.addAttribute("pageData", "null");
+
+		System.out.println(userAdoptList.size() + "--------------------");
+		for (Adopt a : userAdoptList) {
+			System.out.println(a.getDog());
+			System.out.println(a.getUser().getUserName() + a.getUser().getUserPhone());
+			System.out.println(a.getAdoptRegDate());
+			System.out.println(a.getAdoptNum());
+		}
+
+		JSONArray jsonDogArray = new JSONArray();
+
+		int adoptsCnt = userAdoptList.size(); // 데이터 개수
+		model.addAttribute("adoptsCnt", adoptsCnt);
+
+		int pageCnt = 0;
+		if (adoptsCnt % 8 == 0) {
+			pageCnt = adoptsCnt / 8; // 총 페이지 개수 (마지막 페이지 번호)
+		} else {
+			pageCnt = adoptsCnt / 8 + 1;
+		}
+		// 총페이지 개수 model 저장-------------------------
+		model.addAttribute("totalPageCnt", pageCnt);
+
+		int lastPageDataCnt = adoptsCnt % 8;// 마지막 페이지 데이터 개수
+		if (lastPageDataCnt == 0) {
+			lastPageDataCnt = 8;
+		}
+		if (adoptsCnt == 0) {
+			lastPageDataCnt = 0;
+		}
+		model.addAttribute("lastPageDataCnt", lastPageDataCnt);
+
+		if (adoptsCnt > 0 && adoptsCnt <= 8) { // 데이터가 8개 이하면 페이지가 1페이지밖에 없으므로 기억해둔다.
+			model.addAttribute("isOnePage", "true");// 데이터가 8개 이하인지 boolean값 model
+													// 저장-------------------------
+			model.addAttribute("onlyOnePageData", jsonDogArray.fromObject(userAdoptList));// 데이터가 8개 이하면 dog값들 model
+			// 저장-------------------------
+		} else if (adoptsCnt == 0) {
+			model.addAttribute("isOnePage", "true");
+			model.addAttribute("pageData", "empty");
+		} else {
+			model.addAttribute("isOnePage", "false");// 데이터가 9개 이상인지 boolean값 model
+														// 저장-------------------------
+			List<Adopt> adoptList = new ArrayList<Adopt>();
+			for (int i = 1; i <= pageCnt; i++) { // 모든페이지 데이터를 저장한다.
+
+				if (i == pageCnt) { // 마지막 페이지 저장할때
+					int cnt = 0;
+					for (int j = 1; j <= lastPageDataCnt; j++) {
+						adoptList.add(userAdoptList.get((i - 1) * 8 + cnt++));
+					}
+				} else {
+					int cnt = 0;
+					for (int j = 1; j <= 8; j++) {// 마지막 페이지가 아닌 데이터들을 저장할때
+						adoptList.add(userAdoptList.get((i - 1) * 8 + cnt++));
+					}
+				}
+			}
+			model.addAttribute("pageData", jsonDogArray.fromObject(adoptList));// 모든페이지 데이터 저장
+		}
 	}
 }
