@@ -301,7 +301,7 @@ $(()=>{
 			<div class="member">
 				<form action="#">
 					<div class='contTitle'>회원탈퇴</div>
-					<hr class='contHr'>
+					<hr class='contHr'> 
 					<table>
 						<tr class="text tableH">
 							<th><span>*</span> 비밀번호</th>
