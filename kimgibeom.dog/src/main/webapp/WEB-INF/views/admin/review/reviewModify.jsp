@@ -28,6 +28,8 @@ function cencel(){
 	$("#cencel").click(() => {
 		let url = "reviewView";
 		url = url + "?reviewNum=" + ${reviewView.reviewNum};
+		url = url + "&page=" + ${page};
+		url = url + "&range=" + ${range};
 		
 		location.href = url;
 	});
@@ -219,6 +221,10 @@ img {
 						enctype="multipart/form-data">
 						<input type="hidden" name="reviewNumStr"
 							value='${reviewView.reviewNum}' />
+						<input type="hidden" name="pageStr"
+							value='${page}' />
+						<input type="hidden" name="rangeStr"
+							value='${range}' />
 						<table class='table'>
 							<tr>
 								<th>제목</th>

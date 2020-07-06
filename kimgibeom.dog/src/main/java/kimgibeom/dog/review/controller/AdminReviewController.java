@@ -65,6 +65,9 @@ public class AdminReviewController {
 		List<ReviewReply> replies = reviewReplyService.readReviewReplies(reviewNum);
 		int replySize = replies.size();
 		
+		System.out.println(page);
+		System.out.println(range);
+		
 		model.addAttribute("replySize", replySize);
 		model.addAttribute("page", page);
 		model.addAttribute("range", range);
@@ -99,20 +102,26 @@ public class AdminReviewController {
 	
 	@RequestMapping("/reviewModify")
 	public String moveReviewModify(@ModelAttribute("review") Review review, Model model, 
-											@RequestParam("reviewNum") int reviewNum) {
+								   @RequestParam("reviewNum") int reviewNum,
+								   @RequestParam(required=false, defaultValue="1") int page,
+								   @RequestParam(required=false, defaultValue="1") int range) {
 		review = reviewService.readReview(reviewNum);
 		
 		String attachName = review.getAttachName();
 		String originalName = attachName.substring(37);
 		
+		model.addAttribute("page", page);
+		model.addAttribute("range", range);
 		model.addAttribute("originalName", originalName);		
 		model.addAttribute("reviewView", review);
 		return "admin/review/reviewModify";
 	}
 	
 	@RequestMapping(value="/modifyReview", method=RequestMethod.POST)
-	public String modifyReview(String title, MultipartFile attachFile, String content, String reviewNumStr,
-			@ModelAttribute("review") Review review, HttpServletRequest request, RedirectAttributes rttr) {
+	public String modifyReview(String title, MultipartFile attachFile, String content, 
+							   String reviewNumStr, String pageStr, String rangeStr,
+							   @ModelAttribute("review") Review review,  
+							   HttpServletRequest request, RedirectAttributes rttr) {
 		String dir = request.getServletContext().getRealPath(attachDir); 
 		String attachName = attachFile.getOriginalFilename();
 		int reviewNum = Integer.parseInt(reviewNumStr);
@@ -121,6 +130,8 @@ public class AdminReviewController {
 			review = new Review(title, content);
 			review.setReviewNum(reviewNum);
 			rttr.addAttribute("reviewNum", reviewNum);
+			rttr.addAttribute("page", Integer.parseInt(pageStr));
+			rttr.addAttribute("range", Integer.parseInt(rangeStr));
 			reviewService.updateReviewWithOutImg(review);
 		}else {
 			UUID uuid = UUID.randomUUID();
@@ -132,6 +143,8 @@ public class AdminReviewController {
 			review = new Review(title, content, saveFileName);
 			review.setReviewNum(reviewNum);
 			rttr.addAttribute("reviewNum", reviewNum);
+			rttr.addAttribute("page", Integer.parseInt(pageStr));
+			rttr.addAttribute("range", Integer.parseInt(rangeStr));
 			reviewService.updateReview(review);
 		}
 

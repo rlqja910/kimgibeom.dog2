@@ -40,6 +40,8 @@ function modifyReview(){
 	$("#modifyReview").click(() => {
 		let url = "reviewModify";
 		url = url + "?reviewNum=" + ${reviewView.reviewNum};
+		url = url + "&page=" + ${page};
+		url = url + "&range=" + ${range};
 		
 		location.href = url;
 	});
