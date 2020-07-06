@@ -51,6 +51,14 @@ function validate() {
 		if (isFinite($(this).attr('src').split('/').pop()))
 			$(this).remove();
 	})
+	
+	// 페이징 번호
+    let params = {}; 
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+    
+    $('#reportList').click(() => {
+    	location.href = "../reportListView?page=" + params.page;
+    })
 }
 
 $(replyDel);
@@ -218,7 +226,7 @@ body {
 				<img src='<c:url value="/attach/report/${report.attachName}"/>' /><br>
 				<br>
 				<div class='reportContent'>${report.content}</div>
-				<a href='../reportListView'><button class='btn list'>목록</button></a><br>
+				<button id='reportList' class='btn list'>목록</button><br>
 				<br>
 				<hr>
 

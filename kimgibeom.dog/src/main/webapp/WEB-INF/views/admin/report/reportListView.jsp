@@ -28,10 +28,10 @@ function reportSearch() {
 	});
 }
 
+let params = {};
+window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+
 function managePaging() {
-    let params = {};
-    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-    
     // active 표시
 	if (params.page == 1 || typeof params.page == 'undefined') { // 첫 페이지
 		$('#pagination').find('a').first().removeAttr('href');
@@ -73,6 +73,7 @@ function managePaging() {
 
 function reportList() {
 	let date = new Date(); 
+	if (typeof params.page == 'undefined') params.page = 1;
 	
 	$('tbody').empty();
 	$('tbody').html(
@@ -81,7 +82,9 @@ function reportList() {
 			<td><input type='checkbox' value=${report.reportNum} name='reportNum'/></td>
 			<td>${report.reportNum}</td>
 			<td id='userId'>${report.userId}</td>
-			<td><a href='./reportView/${report.reportNum}' id='detailReport'>${report.title}</a></td>
+			<td>
+				<a id='detailReport' href='./reportView/${report.reportNum}?page=\${params.page}'>${report.title}</a>
+			</td>
 			<td>${report.regDate}</td>
 		</tr>
 		</c:forEach>`)
