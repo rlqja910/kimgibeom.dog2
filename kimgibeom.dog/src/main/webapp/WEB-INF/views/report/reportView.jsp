@@ -9,6 +9,11 @@
 <script src="../res/layoutsub.js"></script>
 <%@ include file="../common/scriptImport.jsp"%>
 <script>
+let params = {}; 
+window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+if (typeof params.page == 'undefined')
+	params.page = 1;
+
 function delReport() {
 	$('#reportDel').click(() => {
 		swal({
@@ -26,7 +31,7 @@ function delReport() {
 					url: '../remove',
 					data: {reportNum: $('table').attr('id')},
 					success: () => {
-						location.href = '../reportListView';
+						location.href = '../reportListView?page=' + params.page;
 					}
 				});
 			}	
@@ -136,9 +141,6 @@ function checkAuthority() {
 	$('textarea[name="content"]').keyup();
 	
 	// 페이징 번호
-    let params = {}; 
-    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-    
     $('#reportList').click(() => {
     	location.href = "../reportListView?page=" + params.page;
     })
