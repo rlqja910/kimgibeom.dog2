@@ -72,9 +72,8 @@ function readReply() {
 			</c:forEach>`
 		);
 		
-		if ($('.view').html() == ``) {
+		if ($('.view').html() == ``)
 			$('.view').html('<div class="viewEmpty">등록된 댓글이 없습니다.</div>')
-		}
 }
 
 function delReply() {
@@ -135,6 +134,15 @@ function checkAuthority() {
         $('.bytes').html(content.length + '/840');
     });
 	$('textarea[name="content"]').keyup();
+	
+	// 페이징 번호
+    let params = {};
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+    console.log(params.page);
+    
+    $('#reportList').click(() => {
+    	location.href = "../reportListView?page=" + params.page;
+    })
 }
 
 $(delReport);
@@ -252,10 +260,10 @@ $(checkAuthority);
 					
 					<!-- 목록 버튼 -->
 					<div class='button'>
-						<input type='button' value='목록' onClick='location.href="../reportListView"'/>
+						<input type='button' value='목록' id='reportList'/>
 						<input type='button' value='삭제' id='reportDel'/>
 						<input type='button' value='수정' id='reportUpdate' 
-						onClick='location.href="../reportModify/${report.reportNum}"'/>
+							onClick='location.href="../reportModify/${report.reportNum}"'/>
 					</div>
 					
 					<!-- 댓글 -->

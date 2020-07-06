@@ -69,9 +69,13 @@ function managePaging() {
 }
 
 function readReports() {
+    let params = {};
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+    if (typeof params.page == 'undefined') params.page = 1;
+    
 	$('.reportCont').html(
 		`<c:forEach var='report' items='${reports}'>
-			<a href='./reportView/${report.reportNum}'>
+			<a href='./reportView/${report.reportNum}?page=\${params.page}'>
 				<ul>
 					<li>
 						<div style="height:280px; width:99.7%; border:1px solid #ccc;">
@@ -232,7 +236,7 @@ $(register);
 					<ul>
 						<li><a href=''><<</a></li>
 					    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-					    	<li><a href="reportListView${pageMaker.makeSearch(idx)}">${idx}</a></li>
+					    	<li><a href="${pageMaker.makeSearch(idx)}">${idx}</a></li>
 					    </c:forEach>
 					    <li><a href=''>>></a></li>
 					</ul>
