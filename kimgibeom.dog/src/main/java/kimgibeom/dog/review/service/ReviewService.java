@@ -4,11 +4,14 @@ import java.util.List;
 
 import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
+import kimgibeom.dog.review.domain.Search;
 
 public interface ReviewService {
-	List<Review> readAdminReviews();
+	List<Review> readAdminReviews(Pagination pagination, Search search);
 	
 	List<Review> readUserReviews(Pagination pagination);
+	
+	List<Review> readReviews();
 	
 	Review readReview(int reviewNum);
 	
@@ -19,6 +22,8 @@ public interface ReviewService {
 	int updateReviewWithOutImg(Review review);
 	
 	int removeReview(int reviewNum);
+	
+	int readAdminReviewCnt(Search search);
 	
 	int readUserReviewCnt();
 }

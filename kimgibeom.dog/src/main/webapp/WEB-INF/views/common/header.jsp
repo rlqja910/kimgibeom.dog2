@@ -135,7 +135,7 @@ function mobile_menu(){
 
 	/* header */
 	.header header{width:80%; margin:0 auto;}
-	.header header .headA{padding-top:20px; overflow:hidden;}
+	.header header .headA{padding-top:20px; overflow:hidden; color:#fff;}
 	.header header .headA ul{float: right; color:#fff; overflow:hidden;}
 	.header header .headA ul li{text-align:right; font-size:12px; float:left;}
 	.header header .headA ul li:nth-child(2){margin-left:10px;}

@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kimgibeom.dog.dog.domain.Dog;
 import kimgibeom.dog.dog.service.DogService;
+import kimgibeom.dog.review.domain.ReviewReply;
+import kimgibeom.dog.review.service.ReviewReplyService;
+import kimgibeom.dog.review.service.ReviewService;
 
 @Controller
 @RequestMapping
 public class MainController {
 	@Autowired
 	private DogService dogService;
+	@Autowired
+	private ReviewService reviewService;
 
 	@RequestMapping("/admin") // admin 페이지 메인
 	public String adminMain(Model model) {
@@ -40,6 +45,8 @@ public class MainController {
 		model.addAttribute("todayDogCnt", todayDogCnt);
 		model.addAttribute("afterAdoptDogCnt", afterAdoptDogCnt);
 		model.addAttribute("mainDogList", dogService.readDogs());
+		
+		model.addAttribute("mainReviewList", reviewService.readReviews());
 
 		return "main";
 	}

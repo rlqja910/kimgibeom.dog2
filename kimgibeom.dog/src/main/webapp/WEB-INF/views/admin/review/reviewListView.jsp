@@ -67,22 +67,66 @@ function delReview(){
 	});
 }
 
-function fn_reviewView(reviewNum){
+function fn_reviewView(reviewNum, page, range){
 	let url = "reviewView";
 	url = url + "?reviewNum=" + reviewNum;
+	url = url + "&page=" + page;
+	url = url + "&range=" + range;
 
 	location.href = url;
 }
 
 function searchReview(){
-	$('#search').click(() => {
+	$("#search").click(() => {
+		let url = "reviewListView";
+		url = url + "?searchType=" + $("#searchType").val();
+		url = url + "&keyword=" + $("#keyword").val();
 		
+		location.href = url;
 	});
+}
+
+function fn_prev(page, range, rangeSize, keyword, searchType){
+	page = ((range - 2) * rangeSize) + 1;
+	range = range - 1;
+	
+	let url = "reviewListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	url = url + "&searchType=" + searchType;
+	url = url + "&keyword=" + keyword;
+	
+	location.href = url;
+	
+}
+
+function fn_pagination(page, range, rangeSize, keyword, searchType){
+	let url = "reviewListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	url = url + "&searchType=" + searchType;
+	url = url + "&keyword=" + keyword;
+	
+	location.href = url;
+}
+
+function fn_next(page, range, rangeSize, keyword, searchType){
+	page = parseInt(range * rangeSize) + 1;
+	range = parseInt(range) + 1;
+	
+	let url = "reviewListView";
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
+	url = url + "&searchType=" + searchType;
+	url = url + "&keyword=" + keyword;
+	
+	location.href = url;
 }
 
 $(() => {
 	addReview();
 	delReview();
+	searchReview();
 });
 </script>
 <style>
@@ -283,11 +327,9 @@ img {
 
 					<form>
 						<div>
-							<button class='form-control'
-								style='width: 100px; height: 35px; float: left;'>제목</button>
+							<button class='form-control' style='width: 100px; height: 35px; float: left;' id="searchType" name='searchType' value="제목">제목</button>
 							<div class='form-group' id='content'>
-								<input type='text' id='searchContent' class='form-control'
-									placeholder='검색어를 입력해주세요.' />
+								<input type='text' id='keyword' name='keyword' class='form-control' placeholder='검색어를 입력해주세요.' />
 							</div>
 							<div class='form-group'>
 								<button type='button' class='btn btn-default' id='search'>
@@ -306,11 +348,10 @@ img {
 									<c:forEach var="reviewList" items="${reviewList}">
 										<div class="imgbox">
 											<a href='#'
-												onclick="fn_reviewView(<c:out value='${reviewList.reviewNum}'/>)">
+												onclick="fn_reviewView('${reviewList.reviewNum}', '${pagination.page}', '${pagination.range}')">
 												<div class='img'>
 													<div>
-														<img
-															src="<c:url value='/attach/review/${reviewList.attachName}'/>" />
+														<img src="<c:url value='/attach/review/${reviewList.attachName}'/>" />
 													</div>
 												</div>
 											</a> <input type="checkbox" class="reviewCheck" name="checkNum"
@@ -333,6 +374,32 @@ img {
 
 					<div id="pagination">
 						<ul class="pagination">
+							<c:if test="${pagination.prev}">
+								<li>
+									<a href='#' onclick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}',
+																 '${search.keyword}', '${search.searchType}')">
+										&laquo;
+									</a>
+								</li>
+							</c:if>
+							
+							<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">		
+						    	<li class="<c:out value="${pagination.page == idx ? 'active' : ''}"/> ">
+						    		<a href="#" onclick="fn_pagination('${idx}', '${pagination.range}', '${pagination.rangeSize}',
+						    							  			   '${search.keyword}', '${search.searchType}')">
+						    			${idx}
+						    		</a>
+						    	</li>
+							</c:forEach>
+						    	
+						    <c:if test="${pagination.next}">
+						        <li>
+						        	<a href='#' onclick="fn_next('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}',
+						        								 '${search.keyword}', '${search.searchType}')">
+						        		&raquo;
+						        	</a>
+						        </li>
+						    </c:if>
 						</ul>
 					</div>
 				</div>

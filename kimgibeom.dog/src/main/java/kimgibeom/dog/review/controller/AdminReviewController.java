@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
+import kimgibeom.dog.review.domain.ReviewReply;
+import kimgibeom.dog.review.domain.Search;
 import kimgibeom.dog.review.service.ReviewReplyService;
 import kimgibeom.dog.review.service.ReviewService;
 
@@ -31,17 +34,42 @@ public class AdminReviewController {
 	@Value("${reviewAttachDir}") private String attachDir;
 	
 	@RequestMapping("/reviewListView")
-	public String readReviews(Model model, String saveFileName) {
+	public String readReviews(Model model, String saveFileName,
+							  @RequestParam(required=false, defaultValue="1") int page,
+							  @RequestParam(required=false, defaultValue="1") int range,
+							  @RequestParam(required=false) String keyword,
+							  @RequestParam(required=false, defaultValue="title") String searchType) {
+		Search search = new Search();
+		Pagination pagination = new Pagination();
+		
+		if(keyword == null) keyword = "";
+		
+		search.setSearchType(searchType);
+		search.setKeyword(keyword);
+				
+		int listCnt = reviewService.readAdminReviewCnt(search);
+		pagination.pageInfo(page, range, listCnt);
+		
 		model.addAttribute("saveFileName", saveFileName);
-		model.addAttribute("reviewList", reviewService.readAdminReviews());
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("search", search);
+		model.addAttribute("reviewList", reviewService.readAdminReviews(pagination, search));
 		
 		return "admin/review/reviewListView";
 	}
 	
 	@RequestMapping("/reviewView")
-	public String moveReviewView(Model model, @RequestParam("reviewNum") int reviewNum) {
+	public String moveReviewView(Model model, @RequestParam("reviewNum") int reviewNum,
+								 @RequestParam(required=false, defaultValue="1") int page,
+								 @RequestParam(required=false, defaultValue="1") int range) {
+		List<ReviewReply> replies = reviewReplyService.readReviewReplies(reviewNum);
+		int replySize = replies.size();
+		
+		model.addAttribute("replySize", replySize);
+		model.addAttribute("page", page);
+		model.addAttribute("range", range);
 		model.addAttribute("reviewView", reviewService.readReview(reviewNum));
-		model.addAttribute("replyList", reviewReplyService.readReviewReplies(reviewNum));
+		model.addAttribute("replyList", replies);
 		
 		return "admin/review/reviewView";
 	}

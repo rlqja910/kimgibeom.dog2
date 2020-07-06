@@ -72,10 +72,10 @@ function chkContent(){
 	$("textarea[name='content']").keyup();
 }
 
-function fn_reviewList(){
+function fn_reviewList(page, range){
 	let url = "reviewListView";
-	url = url + "?page=" + ${page};
-	url = url + "&range=" + ${range};
+	url = url + "?page=" + page;
+	url = url + "&range=" + range;
 	
 	location.href = url;
 }
@@ -357,12 +357,12 @@ p {
 
 					<!-- 목록 버튼 -->
 					<div class='button'>
-						<input type='button' value='목록' onclick="fn_reviewList()" />
+						<input type='button' value='목록' onclick="fn_reviewList('${page}', '${range}')" />
 					</div>
 
 					<!-- 답글 -->
 					<div class='writeCont'>
-						<p>댓글</p>
+						<p>댓글 ${replySize}</p>
 						<br>
 						<div class='write'>
 							<div>
@@ -382,9 +382,8 @@ p {
 									<c:forEach var="replyList" items="${replyList}">
 										<ul class="${replyList.userId}">
 											<li>${replyList.userId}<span>&nbsp;${replyList.regDate}</span>
-												<span class='viewDel'> <input
-													id="${replyList.replyNum}" class="delButton" type='button'
-													value='삭제' />
+											<span class='viewDel'> 
+												<input id="${replyList.replyNum}" class="delButton" type='button' value='삭제' />
 											</span>
 											</li>
 											<li style="style:100%; white-space:pre-wrap; word-wrap:break-word;">${replyList.content}</li>

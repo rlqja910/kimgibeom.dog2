@@ -306,7 +306,7 @@ big, small {
 						<c:when test="${!empty reviewList}">
 							<c:forEach var="reviewList" items="${reviewList}">
 								<a href='#'
-									onclick="fn_reviewView(<c:out value='${reviewList.reviewNum}'/>, '${pagination.page}','${pagination.range}')">
+									onclick="fn_reviewView(<c:out value='${reviewList.reviewNum}'/>, '${pagination.page}', '${pagination.range}')">
 									<ul>
 										<li>
 											<div style="height: 260px; width: 100%;">

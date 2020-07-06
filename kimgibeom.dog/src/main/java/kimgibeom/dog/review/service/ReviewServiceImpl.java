@@ -8,19 +8,25 @@ import org.springframework.stereotype.Service;
 import kimgibeom.dog.review.dao.ReviewDao;
 import kimgibeom.dog.review.domain.Pagination;
 import kimgibeom.dog.review.domain.Review;
+import kimgibeom.dog.review.domain.Search;
 
 @Service
 public class ReviewServiceImpl implements ReviewService{
 	@Autowired private ReviewDao reviewDao;
 	
 	@Override
-	public List<Review> readAdminReviews(){
-		return reviewDao.getAdminReviews();
+	public List<Review> readAdminReviews(Pagination pagination, Search search){
+		return reviewDao.getAdminReviews(pagination, search);
 	}
 	
 	@Override
 	public List<Review> readUserReviews(Pagination pagination){
 		return reviewDao.getUserReviews(pagination);
+	}
+	
+	@Override
+	public List<Review> readReviews(){
+		return reviewDao.getReviews();
 	}
 	
 	@Override
@@ -46,6 +52,11 @@ public class ReviewServiceImpl implements ReviewService{
 	@Override
 	public int removeReview(int reviewNum) {
 		return reviewDao.delReview(reviewNum);
+	}
+	
+	@Override
+	public int readAdminReviewCnt(Search search) {
+		return reviewDao.getAdminReviewCnt(search);
 	}
 	
 	@Override

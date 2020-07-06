@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <html lang="ko">
@@ -20,8 +20,14 @@
 			$('#abandonDogListUl').append('<hr><div align=center>등록된 유기견이 없습니다.</div>');
 		}
 	});
+	
+function fn_reviewView(reviewNum){
+	let url = "review/mainReviewView";
+	url = url + "?reviewNum=" + reviewNum;
+	
+	location.href = url;
+}
 </script>
-
 <style>
 /* header */
 .header {
@@ -345,7 +351,7 @@
 
 .swiper-container {
 	width: 100%;
-	height: 100%;
+	height: 30%;
 	margin-top: 50px;
 }
 
@@ -354,11 +360,13 @@
 	font-size: 18px;
 	background: #fff;
 	border: 1px solid #ccc;
-	padding: 8% 0;
+	float: left;
+	padding: 0 0;
 }
 
 .swiper-slide img {
 	width: 100%;
+	height: 100%;
 }
 
 /* 모바일 스타일 */
@@ -458,7 +466,18 @@
 
 	/* 리뷰 */
 	.swiper-slide {
-		padding: 12% 0;
+		padding: 0 0;
+	}
+	
+	.swiper-container {
+		width: 100%;
+		height: 20%;
+		margin-top: 50px;
+	}
+		
+	.swiper-slide img {
+		width: 100%;
+		height: 100%;
 	}
 }
 
@@ -466,6 +485,12 @@
 	.header {
 		background-size: 113%;
 	}
+}
+
+.reviewEmpty {
+	align: center; 
+	width: 100%; 
+	margin-top: 100px;
 }
 </style>
 </head>
@@ -578,34 +603,20 @@
 
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
-						<div class="swiper-slide">
-							<a href='review/02.html'> 데이터없음 <!-- <img src='./dog.jpg'> -->
-							</a>
-						</div>
+						<c:choose>
+							<c:when test="${empty mainReviewList}">
+								<p class="reviewEmpty">등록된 후기글이 없습니다.</p>
+							</c:when>
+							<c:when test="${!empty mainReviewList}">
+								<c:forEach var="mainReviewList" items="${mainReviewList}">
+									<div class="swiper-slide">
+										<a href='#' onclick="fn_reviewView(<c:out value='${mainReviewList.reviewNum}'/>)">
+											<img src="<c:url value='/attach/review/${mainReviewList.attachName}'/>" />
+										</a>
+									</div>
+								</c:forEach>
+							</c:when>
+						</c:choose>
 					</div>
 				</div>
 			</div>

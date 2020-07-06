@@ -47,7 +47,11 @@ function modifyReview(){
 
 function cencel(){
 	$("#cencel").click(() => {
-		location.href = "reviewListView";
+		let url = "reviewListView";
+		url = url + "?page=" + ${page};
+		url = url + "&range=" + ${range};
+		
+		location.href = url;
 	});
 }
 
@@ -245,7 +249,7 @@ img {
 				</div>
 
 				<h4>
-					<strong>댓글</strong>
+					<strong>댓글 ${replySize}</strong>
 				</h4>
 				<br>
 				<div>
@@ -259,8 +263,7 @@ img {
 									<span> <strong>${replyList.userId}</strong>
 										&nbsp;&nbsp;${replyList.regDate}
 									</span>
-									<button id="${replyList.replyNum}" type='button'
-										class='btn btn-danger delete'>삭제</button>
+									<button id="${replyList.replyNum}" type='button' class='btn btn-danger delete'>삭제</button>
 									<div class='replyContent' style="width:1502px; white-space:pre-line; word-wrap:break-word;">
 										${replyList.content}
 									</div>
