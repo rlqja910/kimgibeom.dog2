@@ -235,7 +235,7 @@ img {
 										<img src="<c:url value='/attach/review/${reviewView.attachName}'/>" />										
 									</div>
 									<br>
-									<div style="width:1502px; overflow:hidden; word-wrap:break-word;">
+									<div style="width:1502px; overflow:; word-wrap:break-word;">
 										${reviewView.content}
 									</div>
 								</td>
